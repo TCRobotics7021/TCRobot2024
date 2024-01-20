@@ -38,9 +38,10 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
                 new TeleopSwerve(
                         s_Swerve,
-                        () -> leftJoystick.getRawAxis(1),
-                        () -> leftJoystick.getRawAxis(0),
-                        () -> rightJoystick.getRawAxis(0),
+                        // changed to negative so 
+                        () -> -leftJoystick.getRawAxis(1),
+                        () -> -leftJoystick.getRawAxis(0),
+                        () -> -rightJoystick.getRawAxis(0),
                         () -> false));
                         //changed drivers to joysticks and axis numbered
                         //deleted robotcentric and joystick thingy
@@ -61,6 +62,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         new JoystickButton(leftJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        new JoystickButton(rightJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.setFieldPosition(0,0)));
     }
 
     /**
