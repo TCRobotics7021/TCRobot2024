@@ -29,7 +29,9 @@ public class RobotContainer {
     /* Driver Buttons */
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
+    
+    public static final PhotonVision s_PhotonVision =  new PhotonVision();
+    private final Swerve s_Swerve = new Swerve(s_PhotonVision);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
