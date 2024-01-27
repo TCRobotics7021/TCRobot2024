@@ -164,16 +164,12 @@ public class Swerve extends SubsystemBase {
                     var estStdDevs = s_PhotonVision.getEstimationStdDevs(estPose);
                     
                     addVisionMeasurement(
-                        est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+                        estPose, est.timestampSeconds, estStdDevs);
                         
                     SmartDashboard.putNumber("Est Pose X", estPose.getX());
-                    SmartDashboard.putNumber("Est Pose X", estPose.getY());
+                    SmartDashboard.putNumber("Est Pose Y", estPose.getY());
                   
-                });
-                if(s_PhotonVision.getLatestResult().hasTargets()){
-                    SmartDashboard.putNumber("test camera val X", s_PhotonVision.getLatestResult().getBestTarget().getBestCameraToTarget().getX());
-                    SmartDashboard.putNumber("test camera val Y", s_PhotonVision.getLatestResult().getBestTarget().getBestCameraToTarget().getY());
-                }
+        });
         
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());

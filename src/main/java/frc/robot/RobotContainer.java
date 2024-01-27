@@ -30,7 +30,7 @@ public class RobotContainer {
 
     /* Subsystems */
     
-    public static final PhotonVision s_PhotonVision =  new PhotonVision();
+    private static final PhotonVision s_PhotonVision =  new PhotonVision();
     private final Swerve s_Swerve = new Swerve(s_PhotonVision);
 
     /**
