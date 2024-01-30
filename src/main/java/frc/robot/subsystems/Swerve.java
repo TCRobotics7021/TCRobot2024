@@ -177,6 +177,43 @@ public class Swerve extends SubsystemBase {
       distance = Math.sqrt(distance);
       return distance;
     }
+
+    public double getAngleToSpeaker(){
+        var alliance = DriverStation.getAlliance();
+        double targetX;
+        double targetY;
+        double currentX;
+        double currentY;
+        double distance;
+        double currentAngle;
+        double targetAngle;
+        currentX = getPose().getX();
+        currentY = getPose().getY();
+         if (alliance.isPresent() && alliance.get() == Alliance.Red){
+            targetX = 16.5;
+            targetY = 5.5;
+            if(targetY-currentY>0){
+                targetAngle = 90-Math.toDegrees(Math.atan((targetX-currentX)/(targetY-currentY)));
+            } else if(targetY-currentY<0){
+                targetAngle = -90+Math.toDegrees(Math.atan((targetX-currentX)/(currentY-targetY)));
+            } else {
+                targetAngle = 0;
+            }
+        // placeholders
+      } else {
+            targetX = 0;
+            targetY = 5.5;
+             if(targetY-currentY>0){
+                targetAngle = 90+Math.toDegrees(Math.atan((currentX-targetX)/(targetY-currentY)));
+            } else if(targetY-currentY<0){
+                targetAngle = -90-Math.toDegrees(Math.atan((currentX-targetX)/(currentY-targetY)));
+            } else {
+                targetAngle = 180;
+            }
+        // targetY same as red
+      }
+      return(targetAngle);
+    }
     
 
     @Override
@@ -207,5 +244,6 @@ public class Swerve extends SubsystemBase {
     
         m_field.setRobotPose(swerveOdometry.getEstimatedPosition());  
         SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker());//??
+        SmartDashboard.putNumber("AngleToSpeaker", getAngleToSpeaker());//??
     }
 }
