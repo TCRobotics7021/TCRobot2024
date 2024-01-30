@@ -20,6 +20,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -151,6 +153,31 @@ public class Swerve extends SubsystemBase {
         swerveOdometry.resetPosition(getGyroYaw(),getModulePositions(), new Pose2d(xsetpoint,ysetpoint,getGyroYaw()) );
     }
 
+    public double getDistanceToSpeaker(){
+      var alliance = DriverStation.getAlliance();
+      double targetX;
+      double targetY;
+      double currentX;
+      double currentY;
+      double distance;
+      // no inverts
+      if (alliance.isPresent() && alliance.get() == Alliance.Red){
+        targetX = 16.5;
+        targetY = 5.5;
+        // placeholders
+      } else {
+        targetX = 0;
+        targetY = 5.5;
+        // targetY same as red
+      }
+      currentX = getPose().getX();
+      currentY = getPose().getY();
+      
+      distance = Math.pow((currentX - targetX) ,2) + Math.pow((currentY - targetY) ,2);
+      distance = Math.sqrt(distance);
+      return distance;
+    }
+    
 
     @Override
     public void periodic(){
@@ -179,6 +206,6 @@ public class Swerve extends SubsystemBase {
         }
     
         m_field.setRobotPose(swerveOdometry.getEstimatedPosition());  
-       
+        SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker());//??
     }
 }
