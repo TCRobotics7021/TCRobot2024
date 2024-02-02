@@ -22,6 +22,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -190,8 +191,8 @@ public class Swerve extends SubsystemBase {
         currentX = getPose().getX();
         currentY = getPose().getY();
          if (alliance.isPresent() && alliance.get() == Alliance.Red){
-            targetX = 16.5;
-            targetY = 5.5;
+            targetX = 16.542;
+            targetY = 5.56;
             if(targetY-currentY>0){
                 targetAngle = 90-Math.toDegrees(Math.atan((targetX-currentX)/(targetY-currentY)));
             } else if(targetY-currentY<0){
@@ -214,7 +215,44 @@ public class Swerve extends SubsystemBase {
       }
       return(targetAngle);
     }
-    
+    /*gmake function get rotation output 
+    take angle & return output(what we should send output of rotation between -1&1)
+    */
+    public double getRotationOutput(double targetAngle){
+        double currentAngle = swerveOdometry.getEstimatedPosition().getRotation().getDegrees();
+        double output;
+        double error;
+
+        error = targetAngle - currentAngle; 
+
+        if (error<-180) {
+            error = error + 360;
+        }
+        if (error>180) {
+            error = error - 360;
+        }
+        
+        output = error*Constants.AUTOROTATE_P;
+        if (output>Constants.AUTOROTATE_MAX) {
+            output = Constants.AUTOROTATE_MAX;
+        }
+         if (output<-Constants.AUTOROTATE_MAX) {
+            output = -Constants.AUTOROTATE_MAX;
+        }
+
+        if (Math.abs(error)>Constants.AUTOROTATE_TOL) {
+            if (output>0 && output<Constants.AUTOROTATE_MIN) {
+                output = Constants.AUTOROTATE_MIN;
+            }
+            if (output<0 && output>-Constants.AUTOROTATE_MIN) {
+                output = -Constants.AUTOROTATE_MIN;
+            }
+
+        }
+        SmartDashboard.putNumber("output", output);
+        SmartDashboard.putNumber("error", error);
+            return(output);
+    }
 
     @Override
     public void periodic(){
@@ -239,11 +277,15 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
-            SmartDashboard.putData("Field", m_field);
+            
         }
-    
-        m_field.setRobotPose(swerveOdometry.getEstimatedPosition());  
+
+        m_field.setRobotPose(swerveOdometry.getEstimatedPosition()); 
+        SmartDashboard.putData("Field", m_field);
+        
         SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker());//??
         SmartDashboard.putNumber("AngleToSpeaker", getAngleToSpeaker());//??
+        
+        
     }
 }

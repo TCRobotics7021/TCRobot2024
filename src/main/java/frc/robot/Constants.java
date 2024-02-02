@@ -61,6 +61,8 @@ public final class Constants {
         public static final double driveCurrentThresholdTime = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
 
+       
+
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
         public static final double openLoopRamp = 0.25;
@@ -189,4 +191,10 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
+        //angle PID controls to turn 
+        public static double AUTOROTATE_P = .006;
+        public static double AUTOROTATE_MAX = .5;
+        public static double AUTOROTATE_MIN = 0.05;
+        public static double AUTOROTATE_TOL = 2;
+
 }

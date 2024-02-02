@@ -43,8 +43,8 @@ public class PhotonVision extends SubsystemBase {
  
    Transform3d robotToCam = new Transform3d(new Translation3d(-.165, -.125, .485), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
   
-  private static final Vector<N3> kSingleTagStdDevs = VecBuilder.fill(.5,.5,Double.MAX_VALUE);
-  private static final Vector<N3> kMultiTagStdDevs = VecBuilder.fill(.2,.2,Double.MAX_VALUE);
+  private static final Vector<N3> kSingleTagStdDevs = VecBuilder.fill(1,1,Double.MAX_VALUE);
+  private static final Vector<N3> kMultiTagStdDevs = VecBuilder.fill(.5,.5,Double.MAX_VALUE);
   
   
   /** Creates a new PhotonVision. */

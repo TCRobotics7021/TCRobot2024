@@ -24,6 +24,7 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick leftJoystick = new Joystick(0);
     private final Joystick rightJoystick = new Joystick(1);
+    private final Joystick OP_Panel = new Joystick(2);
     /* Drive Controls */
 
     /* Driver Buttons */
@@ -31,7 +32,7 @@ public class RobotContainer {
     /* Subsystems */
     
     private static final PhotonVision s_PhotonVision =  new PhotonVision();
-    private final Swerve s_Swerve = new Swerve(s_PhotonVision);
+    public final static Swerve s_Swerve = new Swerve(s_PhotonVision);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,7 +45,10 @@ public class RobotContainer {
                         () -> -leftJoystick.getRawAxis(1),
                         () -> -leftJoystick.getRawAxis(0),
                         () -> -rightJoystick.getRawAxis(0),
-                        () -> false));
+                        () -> false,
+                        () -> rightJoystick.getRawButton(1)
+                        ));
+
                         //changed drivers to joysticks and axis numbered
                         //deleted robotcentric and joystick thingy
                         // removed the (-) symbols in front of leftJoystick.getRawAxis(1),() -> leftJoystick.getRawAxis(0),() -> rightJoystick.getRawAxis(2),
@@ -65,7 +69,15 @@ public class RobotContainer {
         /* Driver Buttons */
         new JoystickButton(leftJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         new JoystickButton(rightJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.setFieldPosition(0,0)));
-    }
+        new JoystickButton(OP_Panel, 5).whileTrue(new RotateToAngle(0));
+        new JoystickButton(OP_Panel, 6).whileTrue(new RotateToAngle(90));
+        new JoystickButton(OP_Panel, 7).whileTrue(new RotateToAngle(180));
+        new JoystickButton(OP_Panel, 8).whileTrue(new RotateToAngle(-90));
+        new JoystickButton(OP_Panel, 9).whileTrue(new RotateToSpeaker());
+    
+    
+    
+    }   
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
