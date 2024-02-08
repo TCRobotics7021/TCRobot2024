@@ -254,6 +254,24 @@ public class Swerve extends SubsystemBase {
             return(output);
     }
 
+
+    public boolean aimedAtSpeaker(){
+        double currentAngle = swerveOdometry.getEstimatedPosition().getRotation().getDegrees();
+        double targetAngle = getAngleToSpeaker();
+        double error;
+
+        error = targetAngle - currentAngle; 
+
+        if (error<-180) {
+            error = error + 360;
+        }
+        if (error>180) {
+            error = error - 360;
+        }
+        return(Math.abs(error)< 3);
+    }
+
+
     @Override
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions());

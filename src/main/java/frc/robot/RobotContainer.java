@@ -33,7 +33,8 @@ public class RobotContainer {
     
     private static final PhotonVision s_PhotonVision =  new PhotonVision();
     public final static Swerve s_Swerve = new Swerve(s_PhotonVision);
-
+    public final static Shooter s_Shooter = new Shooter();
+    public final static Intake s_Intake = new Intake();
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -46,7 +47,7 @@ public class RobotContainer {
                         () -> -leftJoystick.getRawAxis(0),
                         () -> -rightJoystick.getRawAxis(0),
                         () -> false,
-                        () -> rightJoystick.getRawButton(1)
+                        () -> rightJoystick.getRawButton(3)
                         ));
 
                         //changed drivers to joysticks and axis numbered
@@ -74,8 +75,9 @@ public class RobotContainer {
         new JoystickButton(OP_Panel, 7).whileTrue(new RotateToAngle(180));
         new JoystickButton(OP_Panel, 8).whileTrue(new RotateToAngle(-90));
         new JoystickButton(OP_Panel, 9).whileTrue(new RotateToSpeaker());
-    
-    
+        new JoystickButton(OP_Panel, 14).whileTrue(new ShootSpeed());
+        new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
+        new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker());
     
     }   
 
