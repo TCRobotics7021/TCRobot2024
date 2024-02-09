@@ -13,6 +13,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,8 +24,8 @@ import frc.robot.Constants;
 public class Shooter extends SubsystemBase {
  TalonFX m_ShooterTop = new TalonFX(17,"canivore");
  TalonFX m_ShooterBottom = new TalonFX(18,"canivore");
-//  TalonFX m_ShooterPitch = new TalonFX(500);
-//  CANcoder CancoderPitch = new CANcoder(96);
+  TalonFX m_ShooterPitch = new TalonFX(15, "canivore");
+  CANcoder CancoderPitch = new CANcoder(16, "canivore");
    private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
    private final NeutralOut brake = new NeutralOut();
    private final PositionVoltage VoltagePosition = new PositionVoltage(0, 0, true, 0, 0, false, false, false);
@@ -63,8 +64,8 @@ public class Shooter extends SubsystemBase {
     configsPitch.TorqueCurrent.PeakForwardTorqueCurrent = 130;
     configsPitch.TorqueCurrent.PeakReverseTorqueCurrent = 130;
   
-   // configsPitch.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
-    //configsPitch.Feedback.FeedbackRemoteSensorID = CancoderPitch.getDeviceID();
+    configsPitch.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+    configsPitch.Feedback.FeedbackRemoteSensorID = CancoderPitch.getDeviceID();
   
     
     StatusCode status1 = StatusCode.StatusCodeNotInitialized;
@@ -74,7 +75,7 @@ public class Shooter extends SubsystemBase {
      for (int i = 0; i < 5; ++i) {
       status1 = m_ShooterTop.getConfigurator().apply(configsShooter);
       status2 = m_ShooterBottom.getConfigurator().apply(configsShooter);
-      //status3 = m_ShooterPitch.getConfigurator().apply(configsPitch);
+      status3 = m_ShooterPitch.getConfigurator().apply(configsPitch);
       if (status1.isOK() && status2.isOK() && status3.isOK()) break;
     }
 
@@ -90,11 +91,16 @@ public class Shooter extends SubsystemBase {
 
     
     m_ShooterBottom.setInverted(true);
+    
+  }
+
+  public double getPitch(){
+    return (Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValueAsDouble()).getDegrees() + Constants.shooterPitchCancoderCal);
   }
   
-  // public void setPitch(double targetPitch){
-  //   m_ShooterPitch.setControl(VoltagePosition.withPosition(targetPitch));
-  // }
+  public void setPitch(double targetPitch){
+     m_ShooterPitch.setControl(VoltagePosition.withPosition(targetPitch - Constants.shooterPitchCancoderCal));
+   }
 
  
   public void coastPitch(){
@@ -135,6 +141,6 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Bottom Actual RPM", m_ShooterBottom.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putNumber("Shooter Top Actual RPM", m_ShooterTop.getVelocity().getValueAsDouble()*60);
-    //SmartDashboard.putNumber("Shooter Pitch Actual RPM", m_ShooterPitch.getVelocity().getValueAsDouble()*60);
+    SmartDashboard.putNumber("Shooter Pitch Angle", getPitch());
   }
 }

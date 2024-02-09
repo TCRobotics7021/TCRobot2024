@@ -77,7 +77,9 @@ public class RobotContainer {
         new JoystickButton(OP_Panel, 9).whileTrue(new RotateToSpeaker());
         new JoystickButton(OP_Panel, 14).whileTrue(new ShootSpeed());
         new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
-        new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker());
+        //new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker());
+        new JoystickButton(OP_Panel,15).whileTrue(new EjectIntake());
+        new JoystickButton(rightJoystick, 1).whileTrue(new TestShooting());
     
     }   
 

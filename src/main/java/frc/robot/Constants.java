@@ -14,10 +14,10 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
 
-    public static final double intakePercent = .33;
+    public static final double intakePercent = 1;
     public static final double feedPercent = 1;
     
-    public static final double shooterPitchCancoderCal = 0;
+    public static final double shooterPitchCancoderCal = 183;
     
     public static final double stickDeadband = 0.1;
 
@@ -26,7 +26,7 @@ public final class Constants {
         // changed pigeon code from 1 to 9
 
         public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
+        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L1);
         // changed L2 to L1
 
         /* Drivetrain Constants */
@@ -106,7 +106,7 @@ public final class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 11; //1 for rio bot 11 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(167.15);// 168.2 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-131.221);// 168.2 rio og
             // changed degree from 
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -117,7 +117,7 @@ public final class Constants {
             public static final int driveMotorID = 3;
             public static final int angleMotorID = 4;
             public static final int canCoderID = 12; //2 for rio bot 12 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(98.29);// 98.17 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(165.68);// 98.17 rio og
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -127,7 +127,7 @@ public final class Constants {
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 6;
             public static final int canCoderID = 13; //3 for rio bot 13 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-139.11);// 43.3 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(101.17);// 43.3 rio og
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -137,7 +137,7 @@ public final class Constants {
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 8;
             public static final int canCoderID = 14; //4 for rio bot 14 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-110.42)   ; // -71.63 og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-125.06)   ; // -71.63 og
 
             
 
