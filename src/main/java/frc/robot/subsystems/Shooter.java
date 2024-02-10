@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -52,54 +53,90 @@ public class Shooter extends SubsystemBase {
     
   
     TalonFXConfiguration configsPitch = new TalonFXConfiguration();
+    SoftwareLimitSwitchConfigs configsLimitSwitchPitch = new SoftwareLimitSwitchConfigs();
     configsPitch.Slot0.kP = 2.4; // An error of 0.5 rotations results in 1.2 volts output
+    configsPitch.Slot0.kI = 0;
     configsPitch.Slot0.kD = 0.1; // A change of 1 rotation per second results in 0.1 volts output
+
+    SmartDashboard.putNumber("Shooter Pitch P", configsPitch.Slot0.kP);
+    SmartDashboard.putNumber("Shooter Pitch I", configsPitch.Slot0.kI);
+    SmartDashboard.putNumber("Shooter Pitch D", configsPitch.Slot0.kD);
+
+
     // Peak output of 8 volts
     configsPitch.Voltage.PeakForwardVoltage = 8;
     configsPitch.Voltage.PeakReverseVoltage = -8;
     
-    configsPitch.Slot1.kP = 40; // An error of 1 rotations results in 40 amps output
-    configsPitch.Slot1.kD = 2; // A change of 1 rotation per second results in 2 amps output
-    // Peak output of 130 amps
+
     configsPitch.TorqueCurrent.PeakForwardTorqueCurrent = 130;
     configsPitch.TorqueCurrent.PeakReverseTorqueCurrent = 130;
   
     configsPitch.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
     configsPitch.Feedback.FeedbackRemoteSensorID = CancoderPitch.getDeviceID();
-  
-    
-    StatusCode status1 = StatusCode.StatusCodeNotInitialized;
-     StatusCode status2 = StatusCode.StatusCodeNotInitialized;
-     StatusCode status3 = StatusCode.StatusCodeNotInitialized;
-    
-     for (int i = 0; i < 5; ++i) {
-      status1 = m_ShooterTop.getConfigurator().apply(configsShooter);
-      status2 = m_ShooterBottom.getConfigurator().apply(configsShooter);
-      status3 = m_ShooterPitch.getConfigurator().apply(configsPitch);
-      if (status1.isOK() && status2.isOK() && status3.isOK()) break;
-    }
 
-    if(!status1.isOK()) {
-      System.out.println("Could not apply configs to m_ShooterTop, error code: " + status1.toString());
-    } 
-    if(!status2.isOK()) {
-      System.out.println("Could not apply configs to m_ShooterBottom, error code: " + status2.toString());
-    }     
-    if(!status3.isOK()) {
-      System.out.println("Could not apply configs to m_ShooterPitch, error code: " + status3.toString());
-    }   
+    configsLimitSwitchPitch.ForwardSoftLimitEnable = true;
+    configsLimitSwitchPitch.ReverseSoftLimitEnable = true;
+    configsLimitSwitchPitch.ForwardSoftLimitThreshold = Constants.pitchMaxAngle.getRotations();
+    configsLimitSwitchPitch.ReverseSoftLimitThreshold = Constants.pitchMinAngle.getRotations();
+  
+    applyConfigs(m_ShooterTop, configsShooter, "m_ShooterTop");
+    applyConfigs(m_ShooterBottom, configsShooter, "m_ShooterBottom");
+    applyConfigs(m_ShooterPitch, configsPitch, "m_ShooterPitch");
+    applyConfigs(m_ShooterPitch, configsLimitSwitchPitch, "m_ShooterPitch (SoftLimitSwitch)");
 
     
     m_ShooterBottom.setInverted(true);
     
   }
 
+
+  public void reapplyConfigs() {
+    TalonFXConfiguration configsPitch = new TalonFXConfiguration();
+    configsPitch.Slot0.kP = SmartDashboard.getNumber("Shooter Pitch P", 0); // An error of 0.5 rotations results in 1.2 volts output
+    configsPitch.Slot0.kI = SmartDashboard.getNumber("Shooter Pitch I", 0);
+    configsPitch.Slot0.kD = SmartDashboard.getNumber("Shooter Pitch D", 0); // A change of 1 rotation per second results in 0.1 volts output
+    applyConfigs(m_ShooterPitch, configsPitch, "m_ShooterPitch");
+    
+    
+  }
+
+  public void applyConfigs(TalonFX motor, TalonFXConfiguration configs, String motorName) {
+    StatusCode status1 = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      status1 = motor.getConfigurator().apply(configs);
+      if (status1.isOK()) break;
+    }
+      if(!status1.isOK()) {
+      System.out.println("Could not apply Configs to " + motorName + ":" + status1.toString());
+    } else {
+      System.out.println("Configs successfully applied to " + motorName);
+    }
+
+  } 
+ public void applyConfigs(TalonFX motor, SoftwareLimitSwitchConfigs configs, String motorName) {
+    StatusCode status1 = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      status1 = motor.getConfigurator().apply(configs);
+      if (status1.isOK()) break;
+    }
+      if(!status1.isOK()) {
+      System.out.println("Could not apply Configs to " + motorName + ":" + status1.toString());
+    } else {
+      System.out.println("Configs successfully applied to " + motorName);
+    }
+
+  } 
+
   public double getPitch(){
     return (Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValueAsDouble()).getDegrees() + Constants.shooterPitchCancoderCal);
   }
+
+  public double getAbsolutePitch(){
+    return (Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValueAsDouble()).getDegrees());
+  }
   
   public void setPitch(double targetPitch){
-     m_ShooterPitch.setControl(VoltagePosition.withPosition(targetPitch - Constants.shooterPitchCancoderCal));
+     m_ShooterPitch.setControl(VoltagePosition.withPosition(Rotation2d.fromDegrees(targetPitch - Constants.shooterPitchCancoderCal).getRotations()));
    }
 
  
@@ -142,5 +179,6 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Bottom Actual RPM", m_ShooterBottom.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putNumber("Shooter Top Actual RPM", m_ShooterTop.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putNumber("Shooter Pitch Angle", getPitch());
+    SmartDashboard.putNumber("Shooter Absolute Pitch Angle", getAbsolutePitch());
   }
 }

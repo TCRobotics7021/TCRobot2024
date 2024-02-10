@@ -21,6 +21,10 @@ public final class Constants {
     
     public static final double stickDeadband = 0.1;
 
+    //Shooter Pitch
+    public static final Rotation2d pitchMaxAngle = Rotation2d.fromDegrees(50);
+    public static final Rotation2d pitchMinAngle = Rotation2d.fromDegrees(20);
+
     public static final class Swerve {
         public static final int pigeonID = 9;
         // changed pigeon code from 1 to 9
