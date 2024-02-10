@@ -238,8 +238,6 @@ public class Swerve extends SubsystemBase {
         double targetY;
         double currentX;
         double currentY;
-        double distance;
-        double currentAngle;
         double targetAngle;
         currentX = getPose().getX();
         currentY = getPose().getY();
