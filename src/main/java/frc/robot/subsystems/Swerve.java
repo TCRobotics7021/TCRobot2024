@@ -352,8 +352,8 @@ public class Swerve extends SubsystemBase {
         m_field.setRobotPose(swerveOdometry.getEstimatedPosition()); 
         SmartDashboard.putData("Field", m_field);
         
-        SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker());//??
-        SmartDashboard.putNumber("AngleToSpeaker", getAngleToSpeaker());//??
+        SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker());
+        SmartDashboard.putNumber("AngleToSpeaker", getAngleToSpeaker());
         
         
     }

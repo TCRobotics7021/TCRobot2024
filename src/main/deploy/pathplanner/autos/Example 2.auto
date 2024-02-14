@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.8267774427286747,
-      "y": 5.55472336015897
+      "x": 0.6749032301483401,
+      "y": 6.969716047694203
     },
     "rotation": 180.0
   },
@@ -14,19 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_IntakeNote"
+            "pathName": "Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path 3"
+            "pathName": "Path 4"
           }
         }
       ]

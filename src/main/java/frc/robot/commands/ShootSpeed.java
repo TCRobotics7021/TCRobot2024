@@ -18,7 +18,8 @@ public class ShootSpeed extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-     RobotContainer.s_Shooter.setRPM(SmartDashboard.getNumber("Set Top RPM", 0)/60, SmartDashboard.getNumber("Set Bottom RPM", 0)/60);
+     RobotContainer.s_Shooter.setRPM(SmartDashboard.getNumber("Set Top RPM", 0), 
+                                     SmartDashboard.getNumber("Set Bottom RPM", 0));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

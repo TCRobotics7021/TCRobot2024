@@ -67,7 +67,7 @@ public class RobotContainer {
 
 
         NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
-                        
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker().withTimeout(3));                
         // Configure the button bindings
         configureButtonBindings();
         
@@ -77,6 +77,9 @@ public class RobotContainer {
        autoChooser.setDefaultOption("Default", new PathPlannerAuto("Example 1"));
        //autoChooser.addOption("", getAutonomousCommand());
       //  SmartDashboard.putData("Auto Chooser", autoChooser);
+      //autoChooser.setDefaultOption("Default", new PathPlannerAuto("Example 2"));
+      //not sure if this right or work
+      // some weird ask brett or walker bouts it
     }
 
     
@@ -101,12 +104,12 @@ public class RobotContainer {
         new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
         //new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker());
         new JoystickButton(OP_Panel,15).whileTrue(new EjectIntake());
-        new JoystickButton(rightJoystick, 1).whileTrue(new TestShooting());
+        new JoystickButton(rightJoystick, 1).whileTrue(new ShooterCalibration());
         new JoystickButton(OP_Panel,10).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
-        new JoystickButton(OP_Panel,5).onTrue(new InstantCommand(() -> s_Shooter.setPitch(20)));
-        new JoystickButton(OP_Panel,6).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
-        new JoystickButton(OP_Panel,7).onTrue(new InstantCommand(() -> s_Shooter.setPitch(40)));
-        new JoystickButton(OP_Panel,8).onTrue(new InstantCommand(() -> s_Shooter.setPitch(50)));
+        new JoystickButton(OP_Panel,5).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
+        new JoystickButton(OP_Panel,6).onTrue(new InstantCommand(() -> s_Shooter.setPitch(15)));
+        new JoystickButton(OP_Panel,7).onTrue(new InstantCommand(() -> s_Shooter.setPitch(20)));
+        new JoystickButton(OP_Panel,8).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
     }   
 
     /**

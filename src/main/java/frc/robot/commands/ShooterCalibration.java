@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class ShootNoteIntoSpeaker extends Command {
+public class ShooterCalibration extends Command {
   /** Creates a new ShootNoteIntoSpeaker. */
   
   
@@ -19,7 +19,7 @@ public class ShootNoteIntoSpeaker extends Command {
   double targetPitch;
   double DistanceToSpeaker;
 
-  public ShootNoteIntoSpeaker() {
+  public ShooterCalibration() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter);
   }
@@ -31,26 +31,14 @@ public class ShootNoteIntoSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   //Aiming
-    targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker();
-    rotationVal = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
-    
-     RobotContainer.s_Swerve.drive(
-            new Translation2d(0, 0).times(Constants.Swerve.maxSpeed), 
-            rotationVal * Constants.Swerve.maxAngularVelocity, 
-           true,
-            true
-        );
     //Shooting
     RobotContainer.s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed); 
 
-    //Pitch
-    DistanceToSpeaker =RobotContainer.s_Swerve.getDistanceToSpeaker();
-    targetPitch = RobotContainer.s_Shooter.shooterPitchFromDistance(DistanceToSpeaker);
+    //Pitch test
+    targetPitch = SmartDashboard.getNumber("target pitch", 20);
     RobotContainer.s_Shooter.setPitch(targetPitch);   
 
-    if (RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed ) 
-          && RobotContainer.s_Swerve.aimedAtSpeaker() 
+    if (RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed )
           && RobotContainer.s_Shooter.pitchAtTarget(targetPitch)){
             
         RobotContainer.s_Intake.setPercent(Constants.feedPercent);

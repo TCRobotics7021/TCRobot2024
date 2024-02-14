@@ -16,14 +16,25 @@ public final class Constants {
 
     public static final double intakePercent = 1;
     public static final double feedPercent = 1;
+
+    public static final double ShooterSpeed = 3000;
+    public static final double targetSpeedTolerance = 100;
+   
     
-    public static final double shooterPitchCancoderCal = 183;
-    
+     //Shooter Pitch
+    public static final Rotation2d pitchMaxAngle = Rotation2d.fromDegrees(34);
+    public static final Rotation2d pitchMinAngle = Rotation2d.fromDegrees(0);   
+    public static final double shooterPitchCancoderCal = -107;
+    public static final double ShooterPitchCalc_A = 1;
+    public static final double ShooterPitchCalc_B = 1;    
+    public static final double ShooterPitchCalc_C = 1;    
+    public static final double ShooterPitchCalc_D = 1;
+
+
+
     public static final double stickDeadband = 0.1;
 
-    //Shooter Pitch
-    public static final Rotation2d pitchMaxAngle = Rotation2d.fromDegrees(50);
-    public static final Rotation2d pitchMinAngle = Rotation2d.fromDegrees(20);
+
 
     public static final class Swerve {
         public static final int pigeonID = 9;
@@ -34,9 +45,9 @@ public final class Constants {
         // changed L2 to L1
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(26.50); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = .53; //TODO: This must be tuned to specific robot
         // Center to Center distance of left and right modules in meters.
-        public static final double wheelBase = Units.inchesToMeters(22.50); //TODO: This must be tuned to specific robot
+        public static final double wheelBase = .47; //TODO: This must be tuned to specific robot
         // Center to Center distance of front and rear module wheels in meters.
 
         public static final double wheelCircumference = chosenModule.wheelCircumference;
