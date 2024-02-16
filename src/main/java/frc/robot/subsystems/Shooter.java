@@ -8,6 +8,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -29,7 +30,8 @@ public class Shooter extends SubsystemBase {
   CANcoder CancoderPitch = new CANcoder(16, "canivore");
   double temp_target = 20;
    private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
-   private final NeutralOut brake = new NeutralOut();
+   private final NeutralOut coast = new NeutralOut();
+      private final StaticBrake brake = new StaticBrake();
    private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
 
 
@@ -133,9 +135,18 @@ public class Shooter extends SubsystemBase {
     //  SmartDashboard.putNumber("Pitch Cal Rot",Constants.shooterPitchCancoderCal.getRotations());
     //  SmartDashboard.putNumber("Pitch Total Target Rot",rot_pos);
    }
-   public void setPitchPercent(){
+   public void pitchPcontroller(){
+        if(temp_target > Constants.pitchMaxAngle){
+          temp_target = Constants.pitchMaxAngle;
+        }
+        if(temp_target < Constants.pitchMinAngle){
+          temp_target = Constants.pitchMinAngle;
+        }
         double error = temp_target - getPitch().getDegrees();
         double output = error * .01;
+        if(pitchAtTarget(temp_target)){
+          m_ShooterPitch.setControl(brake);
+        }
         m_ShooterPitch.set(output);
    }
 
@@ -159,7 +170,7 @@ public class Shooter extends SubsystemBase {
   }
  
   public void coastPitch(){
-   // m_ShooterPitch.setControl(brake);
+    m_ShooterPitch.setControl(coast);
     
   }
 
@@ -178,8 +189,8 @@ public class Shooter extends SubsystemBase {
 
   }
   public void coast() {
-    m_ShooterTop.setControl(brake);
-    m_ShooterBottom.setControl(brake);
+    m_ShooterTop.setControl(coast);
+    m_ShooterBottom.setControl(coast);
   }
 
   public void setPercent(double shooterPercent) {
@@ -202,7 +213,7 @@ public class Shooter extends SubsystemBase {
       double currentPitch = getPitch().getDegrees();
       double error = currentPitch - targetPitch; 
 
-      return(Math.abs(error)< 3);
+      return(Math.abs(error)< Constants.pitch_tol);
   }
   
 
@@ -210,7 +221,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
 
-    setPitchPercent();
+    pitchPcontroller();
 
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Bottom Actual RPM", m_ShooterBottom.getVelocity().getValueAsDouble()*60);

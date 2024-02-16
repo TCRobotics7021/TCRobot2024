@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -11,15 +12,19 @@ import frc.robot.RobotContainer;
 public class IntakeNote extends Command {
   /** Creates a new IntakeNote. */
 
+  Timer delay = new Timer();
+
   boolean finished;
   public IntakeNote() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.s_Intake);
+    addRequirements(RobotContainer.s_Intake,RobotContainer.s_Shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    delay.reset();
+    delay.stop();
     finished = false;
   }
 
@@ -27,9 +32,15 @@ public class IntakeNote extends Command {
   @Override
   public void execute() {
     if (RobotContainer.s_Intake.sensorIsBlocked() == true){
-      finished = true;
+      delay.start();
+      
     } else {
+      delay.reset();
       RobotContainer.s_Intake.setPercent(Constants.intakePercent);
+    }
+
+    if(delay.get()>.05){
+      finished = true;
     }
   }
 

@@ -14,23 +14,28 @@ import frc.robot.RobotContainer;
 public class ShootNoteIntoSpeaker extends Command {
   /** Creates a new ShootNoteIntoSpeaker. */
   
-  
+  boolean finished;
   double targetAngle;
   double rotationVal;
   double targetPitch;
   double DistanceToSpeaker;
-  Timer delay = new Timer();
+  Timer startdelay = new Timer();
+  Timer stopdelay = new Timer();
 
   public ShootNoteIntoSpeaker() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter);
-    delay.reset();
-    delay.stop();
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    startdelay.reset();
+    startdelay.stop();
+    stopdelay.reset();
+    stopdelay.stop();
+    finished = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -57,13 +62,26 @@ public class ShootNoteIntoSpeaker extends Command {
           && RobotContainer.s_Swerve.aimedAtSpeaker() 
           && RobotContainer.s_Shooter.pitchAtTarget(targetPitch)){
             
-        RobotContainer.s_Intake.setPercent(Constants.feedPercent);
+        startdelay.start();
    }else{
-    delay.reset();
+    startdelay.reset();
    }
-   if(delay.get() > 1){
+
+   if(startdelay.get() > 1){
     RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }
+
+   if(RobotContainer.s_Intake.sensorIsBlocked() == false){
+      stopdelay.start();
+   }else{
+      stopdelay.reset();
+   }
+
+   if(stopdelay.get() > 1){
+    finished = true;
+   }
+
+
   }
 
   // Called once the command ends or is interrupted.
@@ -82,6 +100,6 @@ public class ShootNoteIntoSpeaker extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

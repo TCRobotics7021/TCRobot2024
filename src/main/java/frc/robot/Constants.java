@@ -21,11 +21,14 @@ public final class Constants {
     public static final double targetSpeedTolerance = 100;
    
     public static final double aim_adjust = 3;
+
+    
     
      //Shooter Pitch
-    public static final Rotation2d pitchMaxAngle = Rotation2d.fromDegrees(34);
-    public static final Rotation2d pitchMinAngle = Rotation2d.fromDegrees(0);   
+    public static final double pitchMaxAngle = 60;
+    public static final double pitchMinAngle = 0;   
     public static final Rotation2d shooterPitchCancoderCal = Rotation2d.fromDegrees(111);
+    public static final double pitch_tol = 3;
     public static final double ShooterPitchCalc_A = .305;
     public static final double ShooterPitchCalc_B = 2.26;    
     public static final double ShooterPitchCalc_C = -35.8;    
