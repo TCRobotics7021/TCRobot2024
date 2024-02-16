@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.683645082254536,
-        "y": 6.873579542883553
+        "x": 2.9026396514331485,
+        "y": 5.55472336015897
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.683645082254536,
-        "y": 6.873579542883553
+        "x": 2.9143338058755885,
+        "y": 6.256372626705367
       },
       "isLocked": false,
       "linkedName": "End of Path 1"
     },
     {
       "anchor": {
-        "x": 3.9434193968103033,
-        "y": 5.99910122897169
+        "x": 2.9026396514331485,
+        "y": 6.852774503269805
       },
       "prevControl": {
-        "x": 2.9434193968103033,
-        "y": 5.99910122897169
+        "x": 2.9377221147604686,
+        "y": 6.244678472262928
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,7 +45,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 177.13759477388834,
+    "rotation": -90.0,
     "rotateFast": false
   },
   "reversed": false,

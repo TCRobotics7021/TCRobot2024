@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
  // TalonFX m_Intake = new TalonFX(55);
   public Intake() {
     SmartDashboard.putNumber("Set Intake RPM", 0);
-    m_Intake.setInverted(true);
+    m_Intake.setInverted(false);
   }
   /* 
   public void setSpeed(double intakeSpeed) {

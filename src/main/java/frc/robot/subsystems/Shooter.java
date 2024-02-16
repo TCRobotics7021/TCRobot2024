@@ -18,7 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -27,9 +27,10 @@ public class Shooter extends SubsystemBase {
  TalonFX m_ShooterBottom = new TalonFX(18,"canivore");
   TalonFX m_ShooterPitch = new TalonFX(15, "canivore");
   CANcoder CancoderPitch = new CANcoder(16, "canivore");
+  double temp_target = 20;
    private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
    private final NeutralOut brake = new NeutralOut();
-   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, true, 0, 0, false, false, false);
+   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
 
 
   public Shooter(){
@@ -55,7 +56,7 @@ public class Shooter extends SubsystemBase {
   
     TalonFXConfiguration configsPitch = new TalonFXConfiguration();
     //SoftwareLimitSwitchConfigs configsLimitSwitchPitch = new SoftwareLimitSwitchConfigs();
-    configsPitch.Slot0.kP = 2.4; // An error of 0.5 rotations results in 1.2 volts output
+    configsPitch.Slot0.kP = 5; // An error of 0.5 rotations results in 1.2 volts output
     configsPitch.Slot0.kI = 0;
     configsPitch.Slot0.kD = 0.1; // A change of 1 rotation per second results in 0.1 volts output
 
@@ -74,7 +75,7 @@ public class Shooter extends SubsystemBase {
   
     configsPitch.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     configsPitch.Feedback.FeedbackRemoteSensorID = CancoderPitch.getDeviceID();
-
+    configsPitch.Feedback.SensorToMechanismRatio = 1;
     // configsLimitSwitchPitch.ForwardSoftLimitEnable = true;
     // configsLimitSwitchPitch.ReverseSoftLimitEnable = true;
     // configsLimitSwitchPitch.ForwardSoftLimitThreshold = Constants.pitchMaxAngle.getRotations();
@@ -84,10 +85,11 @@ public class Shooter extends SubsystemBase {
     applyConfigs(m_ShooterBottom, configsShooter, "m_ShooterBottom");
     applyConfigs(m_ShooterPitch, configsPitch, "m_ShooterPitch");
     //applyConfigs(m_ShooterPitch, configsLimitSwitchPitch, "m_ShooterPitch (SoftLimitSwitch)");
-
+    resetToAbsolute();
     
-    m_ShooterBottom.setInverted(true);
-    
+    m_ShooterBottom.setInverted(false);
+    m_ShooterPitch.setInverted(true);
+ 
   }
 
 
@@ -114,34 +116,47 @@ public class Shooter extends SubsystemBase {
     }
 
   } 
-//  public void applyConfigs(TalonFX motor, SoftwareLimitSwitchConfigs configs, String motorName) {
-//     StatusCode status1 = StatusCode.StatusCodeNotInitialized;
-//     for (int i = 0; i < 5; ++i) {
-//       status1 = motor.getConfigurator().apply(configs);
-//       if (status1.isOK()) break;
-//     }
-//       if(!status1.isOK()) {
-//       System.out.println("Could not apply Configs to " + motorName + ":" + status1.toString());
-//     } else {
-//       System.out.println("Configs successfully applied to " + motorName);
-//     }
 
-//   } 
 
-  public double getPitch(){
-    return (Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValueAsDouble()).getDegrees() + Constants.shooterPitchCancoderCal);
+  public Rotation2d getPitch(){
+    //return (Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValueAsDouble()).getDegrees() + Constants.shooterPitchCancoderCal);
+    return Rotation2d.fromRotations(m_ShooterPitch.getPosition().getValue() + Constants.shooterPitchCancoderCal.getRotations());
+  
   }
 
-  public double getAbsolutePitch(){
-    return (Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValueAsDouble()).getDegrees());
-  }
   
   public void setPitch(double targetPitch){
-    double rot_pos = Rotation2d.fromDegrees(targetPitch - Constants.shooterPitchCancoderCal).getRotations();
-     m_ShooterPitch.setControl(VoltagePosition.withPosition(rot_pos));
-     SmartDashboard.putNumber("Pitch T",rot_pos);
+    temp_target = targetPitch;
+    // double rot_pos = Rotation2d.fromDegrees(targetPitch).getRotations() - Constants.shooterPitchCancoderCal.getRotations();
+    //  m_ShooterPitch.setControl(VoltagePosition.withPosition(rot_pos));
+    //  SmartDashboard.putNumber("Pitch T Rot",Rotation2d.fromDegrees(targetPitch).getRotations());
+    //  SmartDashboard.putNumber("Pitch Cal Rot",Constants.shooterPitchCancoderCal.getRotations());
+    //  SmartDashboard.putNumber("Pitch Total Target Rot",rot_pos);
+   }
+   public void setPitchPercent(){
+        double error = temp_target - getPitch().getDegrees();
+        double output = error * .01;
+        m_ShooterPitch.set(output);
    }
 
+
+  public Rotation2d getCANcoder(){
+    return Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValue());
+    
+    
+  }
+  public void resetToAbsolute(){
+    // StatusCode status1 = StatusCode.StatusCodeNotInitialized;
+    // double absolutePosition = getCANcoder().getRotations() - Constants.shooterPitchCancoderCal.getRotations();
+    // status1 = m_ShooterPitch.setPosition(absolutePosition);
+    // if(!status1.isOK()) {
+    //   System.out.println("Could not apply pitch position " + ":" + status1.toString());
+    // } else {
+    //   System.out.println("Configs successfully applied pitch position ");
+    // }
+    
+    //CancoderPitch.setPosition(Constants.shooterPitchCancoderCal.getRotations());
+  }
  
   public void coastPitch(){
    // m_ShooterPitch.setControl(brake);
@@ -184,7 +199,7 @@ public class Shooter extends SubsystemBase {
 
 
     public boolean pitchAtTarget(double targetPitch){
-      double currentPitch = getPitch();
+      double currentPitch = getPitch().getDegrees();
       double error = currentPitch - targetPitch; 
 
       return(Math.abs(error)< 3);
@@ -194,11 +209,14 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    setPitchPercent();
+
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Bottom Actual RPM", m_ShooterBottom.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putNumber("Shooter Top Actual RPM", m_ShooterTop.getVelocity().getValueAsDouble()*60);
-    SmartDashboard.putNumber("Shooter Pitch Angle", getPitch());
-    SmartDashboard.putNumber("Shooter Absolute Pitch Angle", getAbsolutePitch());
-    
+    SmartDashboard.putNumber("Shooter Pitch Angle", getPitch().getDegrees());
+    SmartDashboard.putNumber("Shooter Absolute Pitch Angle", getCANcoder().getDegrees());
+       //resetToAbsolute();
   }
 }

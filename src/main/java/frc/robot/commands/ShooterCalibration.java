@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -18,6 +19,7 @@ public class ShooterCalibration extends Command {
   double rotationVal;
   double targetPitch;
   double DistanceToSpeaker;
+    Timer delay = new Timer();
 
   public ShooterCalibration() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,7 +28,10 @@ public class ShooterCalibration extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    delay.reset();
+    delay.stop();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -40,8 +45,13 @@ public class ShooterCalibration extends Command {
 
     if (RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed )
           && RobotContainer.s_Shooter.pitchAtTarget(targetPitch)){
-            
-        RobotContainer.s_Intake.setPercent(Constants.feedPercent);
+            delay.start();
+        
+   }else{
+    delay.reset();
+   }
+   if(delay.get() > 1){
+    RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }
   }
 

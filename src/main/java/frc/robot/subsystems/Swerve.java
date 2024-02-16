@@ -264,7 +264,7 @@ public class Swerve extends SubsystemBase {
             }
         // targetY same as red
       }
-      return(targetAngle);
+      return(targetAngle+Constants.aim_adjust);
     }
     /*gmake function get rotation output 
     take angle & return output(what we should send output of rotation between -1&1)

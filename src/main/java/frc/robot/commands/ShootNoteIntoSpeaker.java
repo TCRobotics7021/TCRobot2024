@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -18,10 +19,13 @@ public class ShootNoteIntoSpeaker extends Command {
   double rotationVal;
   double targetPitch;
   double DistanceToSpeaker;
+  Timer delay = new Timer();
 
   public ShootNoteIntoSpeaker() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter);
+    delay.reset();
+    delay.stop();
   }
 
   // Called when the command is initially scheduled.
@@ -54,6 +58,11 @@ public class ShootNoteIntoSpeaker extends Command {
           && RobotContainer.s_Shooter.pitchAtTarget(targetPitch)){
             
         RobotContainer.s_Intake.setPercent(Constants.feedPercent);
+   }else{
+    delay.reset();
+   }
+   if(delay.get() > 1){
+    RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }
   }
 
