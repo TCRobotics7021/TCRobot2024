@@ -56,3 +56,4 @@ public class IntakeNote extends Command {
     return finished;
   }
 }
+  

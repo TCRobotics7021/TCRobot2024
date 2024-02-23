@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.44,
-      "y": 5.55
+      "x": 1.4291761916857164,
+      "y": 7.0
     },
     "rotation": 180.0
   },
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Ex 1 p_1"
+            "pathName": "Middle p_1"
           }
         },
         {
@@ -38,19 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Ex 1 p_3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Ex 1 p_2"
+            "pathName": "Middle p_2"
           }
         },
         {

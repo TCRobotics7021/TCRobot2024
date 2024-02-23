@@ -43,6 +43,7 @@ public class RobotContainer {
     public final static Swerve s_Swerve = new Swerve(s_PhotonVision);
     public final static Shooter s_Shooter = new Shooter();
     public final static Intake s_Intake = new Intake();
+    public final static Limelight s_Limelight = new Limelight();
 
     
     /**
@@ -67,7 +68,8 @@ public class RobotContainer {
 
 
         NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
-        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker());    
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker());   
+        NamedCommands.registerCommand("c_ShooterMotorsOn", new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed))); 
 
         
         
@@ -78,10 +80,15 @@ public class RobotContainer {
         
 
       //Chooser Options for Path Planner  
-       autoChooser.setDefaultOption("Default", new PathPlannerAuto("Example 1"));
-       autoChooser.addOption("auto 2", new PathPlannerAuto("Example 2"));
-      //  SmartDashboard.putData("Auto Chooser", autoChooser);
-      //autoChooser.setDefaultOption("Default", new PathPlannerAuto("Example 2"));
+      // autoChooser.setDefaultOption("Default", new PathPlannerAuto("Example 1"));
+      autoChooser.setDefaultOption("Default", new PathPlannerAuto("Default"));
+       autoChooser.addOption("auto 2", new PathPlannerAuto("Example 2")); //is this needed????
+       autoChooser.addOption("Shoot Only", new PathPlannerAuto("Shoot Thing Yay"));
+    //    autoChooser.addOption("Middle Shoot", new PathPlannerAuto("Middle shpoot"));
+    //    autoChooser.addOption("Middle Shoot", new PathPlannerAuto("Middle shoot"));
+    //    autoChooser.addOption("Middle Shoot Ony", new PathPlannerAuto("Wall Shoot Out"));
+    //    autoChooser.addOption("Wall Shoot Out", new PathPlannerAuto("Post Shoot"));
+       SmartDashboard.putData("Post Shoot", autoChooser);
       //not sure if this right or work
       // some weird ask brett or walker bouts it
     }
@@ -110,10 +117,18 @@ public class RobotContainer {
 
         new JoystickButton(OP_Panel,10).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
        // new JoystickButton(OP_Panel,5).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
-       new JoystickButton(OP_Panel,5).onTrue(new InstantCommand(() -> s_Shooter.resetToAbsolute()));
-        new JoystickButton(OP_Panel,6).onTrue(new InstantCommand(() -> s_Shooter.setPitch(15)));
-        new JoystickButton(OP_Panel,7).onTrue(new InstantCommand(() -> s_Shooter.setPitch(20)));
-        new JoystickButton(OP_Panel,8).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
+        //new JoystickButton(OP_Panel,5).whileTrue(new ShooterCalibration());;
+        //use for finding pitch constants
+        // new JoystickButton(OP_Panel,6).onTrue(new InstantCommand(() -> s_Shooter.setPitch(15)));
+        // new JoystickButton(OP_Panel,7).onTrue(new InstantCommand(() -> s_Shooter.setPitch(20)));
+        // new JoystickButton(OP_Panel,8).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
+        new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
+        //P controller calibration
+        // new JoystickButton(OP_Panel, 5).whileTrue(new RotateToAngle(0));
+        // new JoystickButton(OP_Panel, 6).whileTrue(new RotateToAngle(90));
+        // new JoystickButton(OP_Panel, 7).whileTrue(new RotateToAngle(180));
+        // new JoystickButton(OP_Panel, 8).whileTrue(new RotateToAngle(270));
+        new JoystickButton(OP_Panel, 5).whileTrue(new AutoNotePickUpStrafe());
 
     }   
 

@@ -29,6 +29,7 @@ public class Shooter extends SubsystemBase {
   TalonFX m_ShooterPitch = new TalonFX(15, "canivore");
   CANcoder CancoderPitch = new CANcoder(16, "canivore");
   double temp_target = 20;
+  public double distanceToTarget = 1;
    private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
    private final NeutralOut coast = new NeutralOut();
       private final StaticBrake brake = new StaticBrake();
@@ -143,8 +144,10 @@ public class Shooter extends SubsystemBase {
           temp_target = Constants.pitchMinAngle;
         }
         double error = temp_target - getPitch().getDegrees();
-        double output = error * .01;
-        if(pitchAtTarget(temp_target)){
+        double output = error * .05;//make constant
+
+        
+        if(Math.abs(error)< Constants.robotAngle_tol){
           m_ShooterPitch.setControl(brake);
         }
         m_ShooterPitch.set(output);
@@ -197,14 +200,14 @@ public class Shooter extends SubsystemBase {
     m_ShooterTop.set(shooterPercent);
     m_ShooterBottom.set(-shooterPercent);
   }
-
+    //insert quadratic formula here
   public double shooterPitchFromDistance(double DistanceToSpeaker) {
     double pitch = Constants.ShooterPitchCalc_A * Math.pow(DistanceToSpeaker, 3) 
                     + Constants.ShooterPitchCalc_B * Math.pow(DistanceToSpeaker, 2) 
                     + Constants.ShooterPitchCalc_C * DistanceToSpeaker
                     + Constants.ShooterPitchCalc_D;
     
-    //insert quadratic formula here
+
     return (pitch);
   }
 
@@ -221,7 +224,14 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
 
-    pitchPcontroller();
+    if (distanceToTarget < 6) {
+      temp_target = shooterPitchFromDistance(distanceToTarget);
+    }
+    pitchPcontroller();   
+
+    SmartDashboard.putBoolean("shooter at RPM", atSpeed(Constants.ShooterSpeed, Constants.ShooterSpeed));
+    SmartDashboard.putBoolean("Pitch at Pos", pitchAtTarget(temp_target));
+
 
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Bottom Actual RPM", m_ShooterBottom.getVelocity().getValueAsDouble()*60);

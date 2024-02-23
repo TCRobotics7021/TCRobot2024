@@ -47,6 +47,7 @@ public class ShootNoteIntoSpeaker extends Command {
      RobotContainer.s_Swerve.drive(
             new Translation2d(0, 0).times(Constants.Swerve.maxSpeed), 
             rotationVal * Constants.Swerve.maxAngularVelocity, 
+           //og is true
            true,
             true
         );
@@ -67,7 +68,7 @@ public class ShootNoteIntoSpeaker extends Command {
     startdelay.reset();
    }
 
-   if(startdelay.get() > 1){
+   if(startdelay.get() > .25){
     RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }
 
@@ -77,7 +78,7 @@ public class ShootNoteIntoSpeaker extends Command {
       stopdelay.reset();
    }
 
-   if(stopdelay.get() > 1){
+   if(stopdelay.get() > .5){
     finished = true;
    }
 

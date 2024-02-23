@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
    private final PositionVoltage VoltageIntake = new PositionVoltage(0, 0, true, 0, 0, false, false, false);
 
   /** Creates a new Intake. */
- // TalonFX m_Intake = new TalonFX(55);
+
   public Intake() {
     SmartDashboard.putNumber("Set Intake RPM", 0);
     m_Intake.setInverted(false);

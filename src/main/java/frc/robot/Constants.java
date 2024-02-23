@@ -14,13 +14,21 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
 
-    public static final double intakePercent = .7;
+    //Auto Note Pickup
+    public static final double rotateP = 0.01;
+    public static final double strafeP = 0.01;
+    public static final double translatePRotateStrat = 0.0178;
+    public static final double translatePStrafeStrat = 0.005;
+
+
+    //Intake
+    public static final double intakePercent = 1;
     public static final double feedPercent = 1;
 
     public static final double ShooterSpeed = 4500;
     public static final double targetSpeedTolerance = 100;
    
-    public static final double aim_adjust = 3;
+    public static final double aim_adjust = 13;
 
     
     
@@ -28,11 +36,13 @@ public final class Constants {
     public static final double pitchMaxAngle = 60;
     public static final double pitchMinAngle = 0;   
     public static final Rotation2d shooterPitchCancoderCal = Rotation2d.fromDegrees(111);
+    //pitch tolerace/adjuster //was at 3 now at .5
     public static final double pitch_tol = 3;
-    public static final double ShooterPitchCalc_A = .305;
-    public static final double ShooterPitchCalc_B = 2.26;    
-    public static final double ShooterPitchCalc_C = -35.8;    
-    public static final double ShooterPitchCalc_D = 112;
+    public static final double robotAngle_tol = 1;
+    public static final double ShooterPitchCalc_A = .272;
+    public static final double ShooterPitchCalc_B = -1;    
+    public static final double ShooterPitchCalc_C = -10.4;    
+    public static final double ShooterPitchCalc_D = 65.9;
 
 
 
@@ -217,10 +227,10 @@ public final class Constants {
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
         //angle PID controls to turn 
-        public static double AUTOROTATE_P = .006;
+        public static double AUTOROTATE_P = .007;
         public static double AUTOROTATE_MAX = .5;
-        public static double AUTOROTATE_MIN = 0.05;
-        public static double AUTOROTATE_TOL = 2;
+        public static double AUTOROTATE_MIN = 0.07;
+        public static double AUTOROTATE_TOL = 3;
 
 
 }

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.44,
-      "y": 5.55
+      "x": 1.4525645005705963,
+      "y": 4.128036518181299
     },
     "rotation": 180.0
   },
@@ -26,31 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Ex 1 p_1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Ex 1 p_3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Ex 1 p_2"
+            "pathName": "Post Shoot"
           }
         },
         {

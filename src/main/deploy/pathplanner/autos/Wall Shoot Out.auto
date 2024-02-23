@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.44,
-      "y": 5.55
+      "x": 1.4057878828008366,
+      "y": 6.946327738809324
     },
-    "rotation": 180.0
+    "rotation": 179.61881362438575
   },
   "command": {
     "type": "sequential",
@@ -26,31 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Ex 1 p_1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Ex 1 p_3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Ex 1 p_2"
+            "pathName": "Wall Shoot Out"
           }
         },
         {

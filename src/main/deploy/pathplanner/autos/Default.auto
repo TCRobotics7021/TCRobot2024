@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.44,
-      "y": 5.55
+      "x": 1.3576779647621067,
+      "y": 4.1046482092964185
     },
-    "rotation": 180.0
+    "rotation": -178.91907581333936
   },
   "command": {
     "type": "sequential",
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Ex 1 p_1"
+            "pathName": "De p_1"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Ex 1 p_3"
+            "pathName": "De p_2"
           }
         },
         {
@@ -50,13 +50,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Ex 1 p_2"
+            "pathName": "De p_3"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "De p_4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "De p_5"
           }
         }
       ]

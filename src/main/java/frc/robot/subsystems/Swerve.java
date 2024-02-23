@@ -90,8 +90,10 @@ public class Swerve extends SubsystemBase {
                 // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
                 var alliance = DriverStation.getAlliance();
+             
                 if (alliance.isPresent()) {
                     return alliance.get() == DriverStation.Alliance.Red;
+                   
                 }
                 return false;
                 },
@@ -215,8 +217,11 @@ public class Swerve extends SubsystemBase {
       double currentY;
       double distance;
       // no inverts
+      //
+   
       if (alliance.isPresent() && alliance.get() == Alliance.Red){
         targetX = 16.5;
+        
         targetY = 5.5;
         // placeholders
       } else {
@@ -325,6 +330,10 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
+        SmartDashboard.putBoolean("Aimed at Speaker", aimedAtSpeaker());
+
+        RobotContainer.s_Shooter.distanceToTarget = getDistanceToSpeaker();
+
         swerveOdometry.update(getGyroYaw(), getModulePositions());
         
         var visionEst = s_PhotonVision.getEstimatedGlobalPose();

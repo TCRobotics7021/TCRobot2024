@@ -2,19 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2,
-      "y": 2
+      "x": 1.2303755661642377,
+      "y": 3.5784112593866215
     },
-    "rotation": 0
+    "rotation": 124.18612248637504
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Path 3"
+            "name": "c_ShootNoteIntoSpeaker"
           }
         }
       ]

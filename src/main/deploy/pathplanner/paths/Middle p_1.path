@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.8501657516135543,
+        "y": 7.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2009903848867527,
+        "y": 6.3616200166873265
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8792513425482693,
+        "y": 7.0
+      },
+      "prevControl": {
+        "x": 2.458261782620432,
+        "y": 6.607197259978566
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "End of New New New New New New Path"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.6,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "c_IntakeNote"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -144.2591132808546,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "a_Middle shpoot",
+  "previewStartingState": {
+    "rotation": -145.3317778813606,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
