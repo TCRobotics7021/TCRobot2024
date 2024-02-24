@@ -41,12 +41,12 @@ public class PhotonVision extends SubsystemBase {
  // public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
    public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
  
-   Transform3d robotToCam = new Transform3d(new Translation3d(0.0, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+   Transform3d robotToCam = new Transform3d(new Translation3d(.2, 0, .36), new Rotation3d(0,Math.toRadians(-27),0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
   
-  private static final Vector<N3> kSingleTagStdDevs = VecBuilder.fill(.1,.1,Units.degreesToRadians(10));
-  private static final Vector<N3> kMultiTagStdDevs = VecBuilder.fill(.05,.05,Units.degreesToRadians(5));
+  private static final Vector<N3> kSingleTagStdDevs = VecBuilder.fill(1,1,Double.MAX_VALUE);
+  private static final Vector<N3> kMultiTagStdDevs = VecBuilder.fill(.5,.5,Double.MAX_VALUE);
   
-   
+  
   /** Creates a new PhotonVision. */
  public PhotonVision() {
     camera = new PhotonCamera("photon");
@@ -104,9 +104,9 @@ public class PhotonVision extends SubsystemBase {
         // Decrease std devs if multiple targets are visible
         if (numTags > 1) estStdDevs = kMultiTagStdDevs;
         // Increase std devs based on (average) distance
-        if (numTags == 1 && avgDist > 4)
+        if (numTags == 1 && avgDist > 2.5 || avgDist > 4)
             estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
-        else estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+        else estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 10));
 
         return estStdDevs;
     }

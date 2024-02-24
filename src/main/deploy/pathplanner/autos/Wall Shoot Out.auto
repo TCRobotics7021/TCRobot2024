@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4057878828008366,
+      "y": 6.946327738809324
+    },
+    "rotation": 179.61881362438575
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Wall Shoot Out"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

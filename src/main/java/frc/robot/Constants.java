@@ -8,25 +8,86 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
+
+    //Auto Rotate PID Values
+    public static final double autoRotate_P = .01;
+    public static final double autoRotate_I = 0;
+    public static final double autoRotate_D = 0.0003;
+    public static final double autoRotate_ks = 0.02;
+
+    public static final double AUTOROTATE_MAX = .75;
+    public static final double AUTOROTATE_MIN = -0.75;
+    public static final double AUTOROTATE_TOL = 3;
+
+    //Auto Pitch PID Values
+    public static final double pitch_tol = 1;
+    public static final double autoPitch_P = 0.045;
+    public static final double autoPitch_I = 0;
+    public static final double autoPitch_D = 0;
+    public static final double autoPitch_ks = 0.011;
+
+    public static final double pitchMaxOutput = .75;
+    public static final double pitchMinOutput = -.75;   
+    public static final double pitchMaxAngle = 60;
+    public static final double pitchMinAngle = 0;
+    public static final Rotation2d shooterPitchCancoderCal = Rotation2d.fromDegrees(111);
+
+    //Shooter PID 
+    public static final double AutoShooter_P = .5;
+    public static final double AutoShooter_I = 1.5;
+    public static final double AutoShooter_D = 0.0;
+   
+
+    //Auto Note Pickup
+    public static final double rotateP = 0.01;
+    public static final double strafeP = 0.01;
+    public static final double translatePRotateStrat = 0.0178;
+    public static final double translatePStrafeStrat = 0.005;
+
+
+    //Intake
+    public static final double intakePercent = 1;
+    public static final double feedPercent = 1;
+
+    public static final double ShooterSpeed = 4500;
+    public static final double IdleSpeed = 3000;
+
+    public static final double targetSpeedTolerance = 100;
+   
+    public static final double aim_adjust = 13;
+
+    
+    
+
+    //pitch tolerace/adjuster //was at 3 now at .5
+    public static final double robotAngle_tol = .5;
+    public static final double ShooterPitchCalc_A = -.768;
+    public static final double ShooterPitchCalc_B = 10.7;    
+    public static final double ShooterPitchCalc_C = -50.3;    
+    public static final double ShooterPitchCalc_D = 106;
+
+
+
     public static final double stickDeadband = 0.1;
+
+
 
     public static final class Swerve {
         public static final int pigeonID = 9;
         // changed pigeon code from 1 to 9
 
         public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
+        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L1);
         // changed L2 to L1
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(26.50); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = .53; //TODO: This must be tuned to specific robot
         // Center to Center distance of left and right modules in meters.
-        public static final double wheelBase = Units.inchesToMeters(22.50); //TODO: This must be tuned to specific robot
+        public static final double wheelBase = .47; //TODO: This must be tuned to specific robot
         // Center to Center distance of front and rear module wheels in meters.
 
         public static final double wheelCircumference = chosenModule.wheelCircumference;
@@ -60,6 +121,8 @@ public final class Constants {
         public static final int driveCurrentThreshold = 60;
         public static final double driveCurrentThresholdTime = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
+
+       
 
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
@@ -97,8 +160,8 @@ public final class Constants {
         public static final class Mod0 { //TODO: This must be tuned to specific robot
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 2;
-            public static final int canCoderID = 1; //1 for rio bot 11 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(168.2);// 168.2 rio og
+            public static final int canCoderID = 11; //1 for rio bot 11 for andy bot
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-131.221);// 168.2 rio og
             // changed degree from 
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -108,8 +171,8 @@ public final class Constants {
         public static final class Mod1 { //TODO: This must be tuned to specific robot
             public static final int driveMotorID = 3;
             public static final int angleMotorID = 4;
-            public static final int canCoderID = 2; //2 for rio bot 12 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(98.17);// 98.17 rio og
+            public static final int canCoderID = 12; //2 for rio bot 12 for andy bot
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(165.68);// 98.17 rio og
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -118,8 +181,8 @@ public final class Constants {
         public static final class Mod2 { //TODO: This must be tuned to specific robot
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 6;
-            public static final int canCoderID = 3; //3 for rio bot 13 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(43.3);// 43.3 rio og
+            public static final int canCoderID = 13; //3 for rio bot 13 for andy bot
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(101.17);// 43.3 rio og
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -128,8 +191,46 @@ public final class Constants {
         public static final class Mod3 { //TODO: This must be tuned to specific robot
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 8;
-            public static final int canCoderID = 4; //4 for rio bot 14 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-71.63  )   ; // -71.63 og
+            public static final int canCoderID = 14; //4 for rio bot 14 for andy bot
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-125.06)   ; // -71.63 og
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -151,4 +252,7 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
+
+
+
 }

@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4291761916857164,
+      "y": 7.0
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle p_1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle p_2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

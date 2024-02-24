@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.359011265031077,
+      "y": 5.566417514601411
+    },
+    "rotation": -179.19543394540523
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
