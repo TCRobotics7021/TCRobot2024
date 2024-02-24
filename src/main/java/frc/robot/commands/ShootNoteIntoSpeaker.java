@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class ShootNoteIntoSpeaker extends Command {
@@ -35,6 +36,8 @@ public class ShootNoteIntoSpeaker extends Command {
     stopdelay.reset();
     stopdelay.stop();
     finished = false;
+    RobotContainer.s_Swerve.resetAutoRotatePID();
+    RobotContainer.s_Shooter.resetAutoPitchPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,7 +71,7 @@ public class ShootNoteIntoSpeaker extends Command {
     startdelay.reset();
    }
 
-   if(startdelay.get() > .25){
+   if(startdelay.get() > .00){
     RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }
 
@@ -95,7 +98,8 @@ public class ShootNoteIntoSpeaker extends Command {
             true
         );
            RobotContainer.s_Intake.coast();
-           RobotContainer.s_Shooter.coast();
+           //RobotContainer.s_Shooter.coast();
+           RobotContainer.s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed);
   }
 
   // Returns true when the command should end.

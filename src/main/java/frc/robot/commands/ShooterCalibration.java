@@ -31,6 +31,7 @@ public class ShooterCalibration extends Command {
   public void initialize() {
     delay.reset();
     delay.stop();
+    RobotContainer.s_Shooter.resetAutoPitchPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

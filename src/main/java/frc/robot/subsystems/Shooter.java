@@ -15,6 +15,9 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,7 +37,7 @@ public class Shooter extends SubsystemBase {
    private final NeutralOut coast = new NeutralOut();
       private final StaticBrake brake = new StaticBrake();
    private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
-
+    private PIDController autoPitchPID;
 
   public Shooter(){
     SmartDashboard.putNumber("Set Top RPM", 3000);
@@ -42,52 +45,32 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("target pitch", 20); //test
    
         TalonFXConfiguration configsShooter = new TalonFXConfiguration();
+        
+    autoPitchPID = new PIDController(Constants.autoPitch_P, Constants.autoPitch_I, Constants.autoPitch_D);
+    SmartDashboard.putNumber("Auto Pitch P", Constants.autoPitch_P);
+    SmartDashboard.putNumber("Auto Pitch I", Constants.autoPitch_I);
+    SmartDashboard.putNumber("Auto Pitch D", Constants.autoPitch_D);
 
-
+    SmartDashboard.putNumber("Pitch ks test",0);
 
     /* Voltage-based velocity requires  feed forward to account for the back-emf of the motor */
-    configsShooter.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output
-    configsShooter.Slot0.kI = 0.5; // An error of 1 rotation per second increases output by 0.5V every second
-    configsShooter.Slot0.kD = 0.0001; // A change of 1 rotation per second squared results in 0.01 volts output
+    configsShooter.Slot0.kP = Constants.AutoShooter_P; // An error of 1 rotation per second results in 2V output
+    configsShooter.Slot0.kI = Constants.AutoShooter_I; // An error of 1 rotation per second increases output by 0.5V every second
+    configsShooter.Slot0.kD = Constants.AutoShooter_D; // A change of 1 rotation per second squared results in 0.01 volts output
     configsShooter.Slot0.kV = 0.12; // Falcon 500 is  500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    SmartDashboard.putNumber("AutoShooter_P", Constants.AutoShooter_P);
+    SmartDashboard.putNumber("AutoShooter_I", Constants.AutoShooter_I);
+    SmartDashboard.putNumber("AutoShooter_D", Constants.AutoShooter_D);
+
     // Peak output of 8 volts
     configsShooter.Voltage.PeakForwardVoltage = 100;
     configsShooter.Voltage.PeakReverseVoltage = -100;
 
 
-    
-  
-    TalonFXConfiguration configsPitch = new TalonFXConfiguration();
-    //SoftwareLimitSwitchConfigs configsLimitSwitchPitch = new SoftwareLimitSwitchConfigs();
-    configsPitch.Slot0.kP = 5; // An error of 0.5 rotations results in 1.2 volts output
-    configsPitch.Slot0.kI = 0;
-    configsPitch.Slot0.kD = 0.1; // A change of 1 rotation per second results in 0.1 volts output
-
-    SmartDashboard.putNumber("Shooter Pitch P", configsPitch.Slot0.kP);
-    SmartDashboard.putNumber("Shooter Pitch I", configsPitch.Slot0.kI);
-    SmartDashboard.putNumber("Shooter Pitch D", configsPitch.Slot0.kD);
-
-
     // Peak output of 8 volts
-    configsPitch.Voltage.PeakForwardVoltage = 8;
-    configsPitch.Voltage.PeakReverseVoltage = -8;
-    
-
-    configsPitch.TorqueCurrent.PeakForwardTorqueCurrent = 130;
-    configsPitch.TorqueCurrent.PeakReverseTorqueCurrent = 130;
-  
-    configsPitch.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    configsPitch.Feedback.FeedbackRemoteSensorID = CancoderPitch.getDeviceID();
-    configsPitch.Feedback.SensorToMechanismRatio = 1;
-    // configsLimitSwitchPitch.ForwardSoftLimitEnable = true;
-    // configsLimitSwitchPitch.ReverseSoftLimitEnable = true;
-    // configsLimitSwitchPitch.ForwardSoftLimitThreshold = Constants.pitchMaxAngle.getRotations();
-    // configsLimitSwitchPitch.ReverseSoftLimitThreshold = Constants.pitchMinAngle.getRotations();
   
     applyConfigs(m_ShooterTop, configsShooter, "m_ShooterTop");
     applyConfigs(m_ShooterBottom, configsShooter, "m_ShooterBottom");
-    applyConfigs(m_ShooterPitch, configsPitch, "m_ShooterPitch");
-    //applyConfigs(m_ShooterPitch, configsLimitSwitchPitch, "m_ShooterPitch (SoftLimitSwitch)");
     resetToAbsolute();
     
     m_ShooterBottom.setInverted(false);
@@ -97,13 +80,12 @@ public class Shooter extends SubsystemBase {
 
 
   public void reapplyConfigs() {
-    TalonFXConfiguration configsPitch = new TalonFXConfiguration();
-    configsPitch.Slot0.kP = SmartDashboard.getNumber("Shooter Pitch P", 0); // An error of 0.5 rotations results in 1.2 volts output
-    configsPitch.Slot0.kI = SmartDashboard.getNumber("Shooter Pitch I", 0);
-    configsPitch.Slot0.kD = SmartDashboard.getNumber("Shooter Pitch D", 0); // A change of 1 rotation per second results in 0.1 volts output
-    applyConfigs(m_ShooterPitch, configsPitch, "m_ShooterPitch");
-    
-    
+    TalonFXConfiguration configsShooter = new TalonFXConfiguration();
+    configsShooter.Slot0.kP = SmartDashboard.getNumber("AutoShooter_P", 0); // An error of 0.5 rotations results in 1.2 volts output
+    configsShooter.Slot0.kI = SmartDashboard.getNumber("AutoShooter_I", 0);
+    configsShooter.Slot0.kD = SmartDashboard.getNumber("AutoShooter_D", 0); // A change of 1 rotation per second results in 0.1 volts output
+    applyConfigs(m_ShooterTop, configsShooter, "m_ShooterTop");
+    applyConfigs(m_ShooterBottom, configsShooter, "m_ShooterBottom");
   }
 
   public void applyConfigs(TalonFX motor, TalonFXConfiguration configs, String motorName) {
@@ -143,16 +125,54 @@ public class Shooter extends SubsystemBase {
         if(temp_target < Constants.pitchMinAngle){
           temp_target = Constants.pitchMinAngle;
         }
-        double error = temp_target - getPitch().getDegrees();
-        double output = error * .05;//make constant
 
         
-        if(Math.abs(error)< Constants.robotAngle_tol){
-          m_ShooterPitch.setControl(brake);
-        }
-        m_ShooterPitch.set(output);
-   }
+        double error = temp_target - getPitch().getDegrees();
+        double output = autoPitchPID.calculate(getPitch().getDegrees(), temp_target);
+        output = MathUtil.clamp(output, Constants.pitchMinOutput, Constants.pitchMaxOutput);
 
+        
+        
+
+
+        if(error > Constants.robotAngle_tol){
+          output = output + Constants.autoRotate_ks;
+        }
+       if(error <  -Constants.robotAngle_tol){
+          output = output - Constants.autoRotate_ks;
+        }
+
+
+        //output = SmartDashboard.getNumber("Pitch ks test",0); //comment out when done with test
+
+        if(Math.abs(error)<= Constants.robotAngle_tol){
+          m_ShooterPitch.setControl(brake);
+          output = 0;
+        }else{
+          m_ShooterPitch.set(output);
+        }
+
+        
+
+        SmartDashboard.putNumber("Auto Pitch Output", output);
+        SmartDashboard.putNumber("Auto Pitch Error", error);
+
+        
+      
+   }
+ 
+   public void resetAutoPitchPID(){
+    autoPitchPID.reset();
+}
+
+public void setAutoPitchConstants(){
+  autoPitchPID.setP(SmartDashboard.getNumber("Auto Pitch P", Constants.autoPitch_P));
+  autoPitchPID.setI(SmartDashboard.getNumber("Auto Pitch I", Constants.autoPitch_I));
+  autoPitchPID.setD(SmartDashboard.getNumber("Auto Pitch D", Constants.autoPitch_D));
+  System.out.println("Pitch P Set to " +  autoPitchPID.getP());
+  System.out.println("Pitch I Set to " +  autoPitchPID.getI());
+  System.out.println("Pitch D Set to " +  autoPitchPID.getD());
+}
 
   public Rotation2d getCANcoder(){
     return Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValue());
@@ -224,9 +244,9 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if (distanceToTarget < 6) {
-      temp_target = shooterPitchFromDistance(distanceToTarget);
-    }
+    // if (distanceToTarget < 6) {
+    //   temp_target = shooterPitchFromDistance(distanceToTarget);
+    // }
     pitchPcontroller();   
 
     SmartDashboard.putBoolean("shooter at RPM", atSpeed(Constants.ShooterSpeed, Constants.ShooterSpeed));

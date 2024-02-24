@@ -11,6 +11,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
@@ -49,6 +50,7 @@ public class TeleopSwerve extends Command {
         }
         /* Drive */
          var alliance = DriverStation.getAlliance();
+         SmartDashboard.putNumber("Swerve Rotation Value", rotationVal);
         if (alliance.isPresent() && alliance.get() == Alliance.Red) {
             s_Swerve.drive(
             new Translation2d(-translationVal, -strafeVal).times(Constants.Swerve.maxSpeed), 

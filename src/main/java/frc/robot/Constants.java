@@ -8,11 +8,39 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
+
+    //Auto Rotate PID Values
+    public static final double autoRotate_P = .01;
+    public static final double autoRotate_I = 0;
+    public static final double autoRotate_D = 0.0003;
+    public static final double autoRotate_ks = 0.02;
+
+    public static final double AUTOROTATE_MAX = .75;
+    public static final double AUTOROTATE_MIN = -0.75;
+    public static final double AUTOROTATE_TOL = 3;
+
+    //Auto Pitch PID Values
+    public static final double pitch_tol = 1;
+    public static final double autoPitch_P = 0.045;
+    public static final double autoPitch_I = 0;
+    public static final double autoPitch_D = 0;
+    public static final double autoPitch_ks = 0.011;
+
+    public static final double pitchMaxOutput = .75;
+    public static final double pitchMinOutput = -.75;   
+    public static final double pitchMaxAngle = 60;
+    public static final double pitchMinAngle = 0;
+    public static final Rotation2d shooterPitchCancoderCal = Rotation2d.fromDegrees(111);
+
+    //Shooter PID 
+    public static final double AutoShooter_P = .5;
+    public static final double AutoShooter_I = 1.5;
+    public static final double AutoShooter_D = 0.0;
+   
 
     //Auto Note Pickup
     public static final double rotateP = 0.01;
@@ -26,23 +54,21 @@ public final class Constants {
     public static final double feedPercent = 1;
 
     public static final double ShooterSpeed = 4500;
+    public static final double IdleSpeed = 3000;
+
     public static final double targetSpeedTolerance = 100;
    
     public static final double aim_adjust = 13;
 
     
     
-     //Shooter Pitch
-    public static final double pitchMaxAngle = 60;
-    public static final double pitchMinAngle = 0;   
-    public static final Rotation2d shooterPitchCancoderCal = Rotation2d.fromDegrees(111);
+
     //pitch tolerace/adjuster //was at 3 now at .5
-    public static final double pitch_tol = 3;
-    public static final double robotAngle_tol = 1;
-    public static final double ShooterPitchCalc_A = .272;
-    public static final double ShooterPitchCalc_B = -1;    
-    public static final double ShooterPitchCalc_C = -10.4;    
-    public static final double ShooterPitchCalc_D = 65.9;
+    public static final double robotAngle_tol = .5;
+    public static final double ShooterPitchCalc_A = -.768;
+    public static final double ShooterPitchCalc_B = 10.7;    
+    public static final double ShooterPitchCalc_C = -50.3;    
+    public static final double ShooterPitchCalc_D = 106;
 
 
 
@@ -226,11 +252,7 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
-        //angle PID controls to turn 
-        public static double AUTOROTATE_P = .007;
-        public static double AUTOROTATE_MAX = .5;
-        public static double AUTOROTATE_MIN = 0.07;
-        public static double AUTOROTATE_TOL = 3;
+
 
 
 }

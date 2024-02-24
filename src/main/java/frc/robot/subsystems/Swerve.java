@@ -15,8 +15,12 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -38,11 +42,15 @@ public class Swerve extends SubsystemBase {
     private Pigeon2 gyro;
     private final Field2d m_field = new Field2d();
     private PhotonVision s_PhotonVision;
+    private PIDController autoRotatePID;
 
     public Swerve(PhotonVision pv) {
 
 
-
+        autoRotatePID = new PIDController(Constants.autoRotate_P, Constants.autoRotate_I, Constants.autoRotate_D);
+        SmartDashboard.putNumber("Auto Rotate P", Constants.autoRotate_P);
+        SmartDashboard.putNumber("Auto Rotate I", Constants.autoRotate_I);
+        SmartDashboard.putNumber("Auto Rotate D", Constants.autoRotate_D);
 
         s_PhotonVision = pv;
 
@@ -287,28 +295,33 @@ public class Swerve extends SubsystemBase {
         if (error>180) {
             error = error - 360;
         }
-        
-        output = error*Constants.AUTOROTATE_P;
-        if (output>Constants.AUTOROTATE_MAX) {
-            output = Constants.AUTOROTATE_MAX;
+        SmartDashboard.putNumber("Heading", currentAngle);
+        output = autoRotatePID.calculate(-error,0);
+        if(error > 1){
+            output = output + Constants.autoRotate_ks;
         }
-         if (output<-Constants.AUTOROTATE_MAX) {
-            output = -Constants.AUTOROTATE_MAX;
+         if(error <  -1){
+            output = output - Constants.autoRotate_ks;
         }
-
-        if (Math.abs(error)>Constants.AUTOROTATE_TOL) {
-            if (output>0 && output<Constants.AUTOROTATE_MIN) {
-                output = Constants.AUTOROTATE_MIN;
-            }
-            if (output<0 && output>-Constants.AUTOROTATE_MIN) {
-                output = -Constants.AUTOROTATE_MIN;
-            }
-
-        }
-        SmartDashboard.putNumber("output", output);
-        SmartDashboard.putNumber("error", error);
+        output = MathUtil.clamp(output, Constants.AUTOROTATE_MIN, Constants.AUTOROTATE_MAX);
+        SmartDashboard.putNumber("Auto Rotate Output", output);
+        SmartDashboard.putNumber("Auto Rotate Error", error);
             return(output);
     }
+
+    public void resetAutoRotatePID(){
+        autoRotatePID.reset();
+    }
+
+    public void setAutoRotateConstants(){
+        autoRotatePID.setP(SmartDashboard.getNumber("Auto Rotate P", Constants.autoRotate_P));
+        autoRotatePID.setI(SmartDashboard.getNumber("Auto Rotate I", Constants.autoRotate_I));
+        autoRotatePID.setD(SmartDashboard.getNumber("Auto Rotate D", Constants.autoRotate_D));
+        System.out.println("Auto Rotate P Set to " +  autoRotatePID.getP());
+        System.out.println("Auto Rotate I Set to " +  autoRotatePID.getI());
+        System.out.println("Auto Rotate D Set to " +  autoRotatePID.getD());
+    }
+
 
 
     public boolean aimedAtSpeaker(){
@@ -324,7 +337,7 @@ public class Swerve extends SubsystemBase {
         if (error>180) {
             error = error - 360;
         }
-        return(Math.abs(error)< 3);
+        return(Math.abs(error)< Constants.AUTOROTATE_TOL);
     }
 
 

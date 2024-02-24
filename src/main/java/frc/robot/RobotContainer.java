@@ -31,7 +31,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
     /* Controllers */
     private final Joystick leftJoystick = new Joystick(0);
-    private final Joystick rightJoystick = new Joystick(1);
+    public final Joystick rightJoystick = new Joystick(1);
     private final Joystick OP_Panel = new Joystick(2);
     /* Drive Controls */
 
@@ -106,6 +106,9 @@ public class RobotContainer {
         /* Driver Buttons */
         new JoystickButton(leftJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         new JoystickButton(rightJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.setFieldPosition(0,0)));
+        new JoystickButton(leftJoystick, 10).onTrue(new InstantCommand(() -> s_Swerve.setAutoRotateConstants()));
+        new JoystickButton(leftJoystick, 11).onTrue(new InstantCommand(() -> s_Shooter.setAutoPitchConstants()));
+        new JoystickButton(leftJoystick, 12).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
         //new JoystickButton(OP_Panel, 14).whileTrue(new ShootSpeed());
 
         new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
@@ -117,18 +120,25 @@ public class RobotContainer {
 
         new JoystickButton(OP_Panel,10).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
        // new JoystickButton(OP_Panel,5).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
-        //new JoystickButton(OP_Panel,5).whileTrue(new ShooterCalibration());;
+        new JoystickButton(OP_Panel,5).whileTrue(new ShooterCalibration());;
         //use for finding pitch constants
-        // new JoystickButton(OP_Panel,6).onTrue(new InstantCommand(() -> s_Shooter.setPitch(15)));
-        // new JoystickButton(OP_Panel,7).onTrue(new InstantCommand(() -> s_Shooter.setPitch(20)));
-        // new JoystickButton(OP_Panel,8).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
+ 
         new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
-        //P controller calibration
-        // new JoystickButton(OP_Panel, 5).whileTrue(new RotateToAngle(0));
+        new JoystickButton(OP_Panel,2).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed)));
+        new JoystickButton(OP_Panel,3).onTrue(new InstantCommand(() -> s_Shooter.setRPM(0,0)));
+        //Auto Rotate Calibration
+        // new JoystickButton(OP_Panel, 5).whileTrue(new RotateToAngle(10));
         // new JoystickButton(OP_Panel, 6).whileTrue(new RotateToAngle(90));
-        // new JoystickButton(OP_Panel, 7).whileTrue(new RotateToAngle(180));
+        // new JoystickButton(OP_Panel, 7).whileTrue(new RotateToAngle(170));
         // new JoystickButton(OP_Panel, 8).whileTrue(new RotateToAngle(270));
-        new JoystickButton(OP_Panel, 5).whileTrue(new AutoNotePickUpStrafe());
+
+        //Auto Pitch Calibration
+        
+        // new JoystickButton(OP_Panel,6).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
+        // new JoystickButton(OP_Panel,7).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
+        // new JoystickButton(OP_Panel,8).onTrue(new InstantCommand(() -> s_Shooter.setPitch(55)));
+
+        //new JoystickButton(OP_Panel, 5).whileTrue(new AutoNotePickUpStrafe());
 
     }   
 
