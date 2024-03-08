@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4291761916857164,
-      "y": 7.0
+      "x": 1.2654580294915574,
+      "y": 6.981410202136645
     },
     "rotation": 180.0
   },
@@ -14,7 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShooterMotorsOn"
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D_1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_IntakeNote"
           }
         },
         {
@@ -26,19 +38,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle p_1"
+            "pathName": "D_2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_AutoNotePickUpStrafe"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Middle p_2"
+            "pathName": "D_3"
           }
         },
         {

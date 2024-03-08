@@ -44,7 +44,7 @@ public class RobotContainer {
     public final static Shooter s_Shooter = new Shooter();
     public final static Intake s_Intake = new Intake();
     public final static Limelight s_Limelight = new Limelight();
-
+    public final static Climber s_Climber = new Climber();
     
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -70,7 +70,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
         NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker());   
         NamedCommands.registerCommand("c_ShooterMotorsOn", new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed))); 
-
+        NamedCommands.registerCommand("c_AutoNotePickUpStrafe", new AutoNotePickUpStrafe()); 
         
         
 
@@ -80,15 +80,11 @@ public class RobotContainer {
         
 
       //Chooser Options for Path Planner  
-      // autoChooser.setDefaultOption("Default", new PathPlannerAuto("Example 1"));
-      autoChooser.setDefaultOption("Default", new PathPlannerAuto("Default"));
-       autoChooser.addOption("auto 2", new PathPlannerAuto("Example 2")); //is this needed????
-       autoChooser.addOption("Shoot Only", new PathPlannerAuto("Shoot Thing Yay"));
-    //    autoChooser.addOption("Middle Shoot", new PathPlannerAuto("Middle shpoot"));
-    //    autoChooser.addOption("Middle Shoot", new PathPlannerAuto("Middle shoot"));
-    //    autoChooser.addOption("Middle Shoot Ony", new PathPlannerAuto("Wall Shoot Out"));
-    //    autoChooser.addOption("Wall Shoot Out", new PathPlannerAuto("Post Shoot"));
-       SmartDashboard.putData("Post Shoot", autoChooser);
+      autoChooser.setDefaultOption("A_S1_1_2_3_67", new PathPlannerAuto("A_S1_1_2_3_67")); //A_1_45_2_3(add middle grab early)
+      autoChooser.addOption("B_S3_3_2_1_45", new PathPlannerAuto("B_S3_3_2_1_45"));
+     // autoChooser.addOption("C_3_2_1_45", new PathPlannerAuto("C_3_2_1_45")); //C_3_2_45_1(add middle grab early)
+    //  autoChooser.addOption("D_1_45", new PathPlannerAuto("D_1_45"));
+      SmartDashboard.putData("Autonomous Program", autoChooser);
       //not sure if this right or work
       // some weird ask brett or walker bouts it
     }
@@ -105,7 +101,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         new JoystickButton(leftJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        new JoystickButton(rightJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.setFieldPosition(0,0)));
+        //new JoystickButton(rightJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.setFieldPosition(0,0)));
         new JoystickButton(leftJoystick, 10).onTrue(new InstantCommand(() -> s_Swerve.setAutoRotateConstants()));
         new JoystickButton(leftJoystick, 11).onTrue(new InstantCommand(() -> s_Shooter.setAutoPitchConstants()));
         new JoystickButton(leftJoystick, 12).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
@@ -120,7 +116,7 @@ public class RobotContainer {
 
         new JoystickButton(OP_Panel,10).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
        // new JoystickButton(OP_Panel,5).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
-        new JoystickButton(OP_Panel,5).whileTrue(new ShooterCalibration());;
+        //new JoystickButton(OP_Panel,5).whileTrue(new ShooterCalibration());;
         //use for finding pitch constants
  
         new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
@@ -138,7 +134,11 @@ public class RobotContainer {
         // new JoystickButton(OP_Panel,7).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
         // new JoystickButton(OP_Panel,8).onTrue(new InstantCommand(() -> s_Shooter.setPitch(55)));
 
-        //new JoystickButton(OP_Panel, 5).whileTrue(new AutoNotePickUpStrafe());
+        //turn back on
+         new JoystickButton(OP_Panel, 5).onTrue(new AutoNotePickUpStrafe());
+         new JoystickButton(OP_Panel, 6).onTrue(new AutoIntakeAndShoot());
+        // new JoystickButton(OP_Panel, 6).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
+        // new JoystickButton(OP_Panel, 7).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
 
     }   
 

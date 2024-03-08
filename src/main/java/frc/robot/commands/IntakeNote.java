@@ -17,7 +17,7 @@ public class IntakeNote extends Command {
   boolean finished;
   public IntakeNote() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.s_Intake,RobotContainer.s_Shooter);
+    addRequirements(RobotContainer.s_Intake, RobotContainer.s_Shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +39,7 @@ public class IntakeNote extends Command {
       RobotContainer.s_Intake.setPercent(Constants.intakePercent);
     }
 
-    if(delay.get()>.05){
+    if(delay.get()>.1){
       finished = true;
     }
   }

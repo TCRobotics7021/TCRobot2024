@@ -41,7 +41,7 @@ public class PhotonVision extends SubsystemBase {
  // public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
    public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
  
-   Transform3d robotToCam = new Transform3d(new Translation3d(.2, 0, .36), new Rotation3d(0,Math.toRadians(-27),0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+   Transform3d robotToCam = new Transform3d(new Translation3d(0, 0, .66), new Rotation3d(0,Math.toRadians(-20),0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
   
   private static final Vector<N3> kSingleTagStdDevs = VecBuilder.fill(1,1,Double.MAX_VALUE);
   private static final Vector<N3> kMultiTagStdDevs = VecBuilder.fill(.5,.5,Double.MAX_VALUE);

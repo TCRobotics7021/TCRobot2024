@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3576779647621067,
-      "y": 4.1046482092964185
+      "x": 1.331756761706364,
+      "y": 4.116342363738859
     },
-    "rotation": -178.91907581333936
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShooterMotorsOn"
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B_1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_IntakeNote"
           }
         },
         {
@@ -26,7 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "De p_1"
+            "pathName": "B_2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_IntakeNote"
           }
         },
         {
@@ -38,7 +56,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "De p_2"
+            "pathName": "B_3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_IntakeNote"
           }
         },
         {
@@ -50,25 +74,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "De p_3"
+            "pathName": "B_4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B_5"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "De p_4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "De p_5"
           }
         }
       ]
