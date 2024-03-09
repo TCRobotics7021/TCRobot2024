@@ -5,8 +5,10 @@
   "pathFolders": [
     "A",
     "B",
+    "C",
     "D",
-    "C"
+    "E",
+    "F"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

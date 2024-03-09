@@ -26,7 +26,7 @@ public final class Constants {
     public static final double AUTOROTATE_TOL = 3;
 
     //Auto Pitch PID Values
-    public static final double pitch_tol = 1;
+    public static final double pitch_tol = .5;
     public static final double autoPitch_P = 0.045;
     public static final double autoPitch_I = 0;
     public static final double autoPitch_D = 0;
@@ -70,10 +70,10 @@ public final class Constants {
 
     //pitch tolerace/adjuster //was at 3 now at .5
     public static final double robotAngle_tol = .5;
-    public static final double ShooterPitchCalc_A = -.768;
-    public static final double ShooterPitchCalc_B = 10.7;    
-    public static final double ShooterPitchCalc_C = -50.3;    
-    public static final double ShooterPitchCalc_D = 106;
+    public static final double ShooterPitchCalc_A = -.928;
+    public static final double ShooterPitchCalc_B = 11.5;    
+    public static final double ShooterPitchCalc_C = -50.1;    
+    public static final double ShooterPitchCalc_D = 101;
 
 
 

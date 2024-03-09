@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2654580294915574,
-      "y": 6.981410202136645
+      "x": 1.3940937283583965,
+      "y": 5.578111669043852
     },
     "rotation": 180.0
   },
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "D_1"
+            "pathName": "E_1"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "D_2"
+            "pathName": "E_2"
           }
         },
         {
@@ -50,7 +50,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "D_3"
+            "pathName": "E_3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E_4 "
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E_5"
           }
         },
         {

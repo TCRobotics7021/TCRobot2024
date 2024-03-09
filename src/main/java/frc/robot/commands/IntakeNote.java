@@ -39,7 +39,7 @@ public class IntakeNote extends Command {
       RobotContainer.s_Intake.setPercent(Constants.intakePercent);
     }
 
-    if(delay.get()>.1){
+    if(delay.get()>.01){
       finished = true;
     }
   }
