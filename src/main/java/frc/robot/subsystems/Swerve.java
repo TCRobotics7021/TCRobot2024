@@ -228,13 +228,12 @@ public class Swerve extends SubsystemBase {
       //
    
       if (alliance.isPresent() && alliance.get() == Alliance.Red){
-        targetX = 16.5;
-        
-        targetY = 5.5;
+        targetX = Constants.redSpeakerLocationX;
+        targetY = Constants.redSpeakerLocationY;
         // placeholders
       } else {
-        targetX = 0;
-        targetY = 5.5;
+        targetX = Constants.blueSpeakerLocationX;
+        targetY = Constants.blueSpeakerLocationY;
         // targetY same as red
       }
       currentX = getPose().getX();
@@ -255,8 +254,8 @@ public class Swerve extends SubsystemBase {
         currentX = getPose().getX();
         currentY = getPose().getY();
          if (alliance.isPresent() && alliance.get() == Alliance.Red){
-            targetX = 16.542;
-            targetY = 5.56;
+            targetX = Constants.redSpeakerLocationX;
+            targetY = Constants.redSpeakerLocationY;
             if(targetY-currentY>0){
                 targetAngle = 90-Math.toDegrees(Math.atan((targetX-currentX)/(targetY-currentY)));
             } else if(targetY-currentY<0){
@@ -266,8 +265,8 @@ public class Swerve extends SubsystemBase {
             }
         // placeholders
       } else {
-            targetX = 0;
-            targetY = 5.5;
+            targetX = Constants.blueSpeakerLocationX;
+            targetY = Constants.blueSpeakerLocationY;
              if(targetY-currentY>0){
                 targetAngle = 90+Math.toDegrees(Math.atan((currentX-targetX)/(targetY-currentY)));
             } else if(targetY-currentY<0){
@@ -340,6 +339,29 @@ public class Swerve extends SubsystemBase {
         return(Math.abs(error)< Constants.AUTOROTATE_TOL);
     }
 
+    public Pose2d calculatingMovingTarget(double targetX, double targetY) {
+        ChassisSpeeds chassis = getRobotRelativeSpeeds();
+        double robotX = getPose().getX();
+        double robotY = getPose().getY();
+        double shotVelocity = Constants.shotVelocity;
+        double robotVelocityX = chassis.vxMetersPerSecond * getHeading().getCos() - chassis.vyMetersPerSecond * getHeading().getSin();
+        double robotVelocityY = chassis.vyMetersPerSecond * getHeading().getCos() + chassis.vxMetersPerSecond * getHeading().getSin();
+        double targetXPOS = 0;
+        double targetYPOS = 0;
+        double targetHeight = 0;
+        double targetMinusRobotX = targetXPOS - robotX;
+        double targetMinusRobotY = targetYPOS - robotY;
+        double targetDistance = Math.sqrt(Math.pow(targetMinusRobotX, 2) + Math.pow(targetMinusRobotY, 2));
+        double flightDistance = Math.sqrt(Math.pow(targetHeight, 2) + Math.pow(targetDistance, 2));
+        double time = flightDistance/shotVelocity;
+        double aimXPos = targetXPOS - robotVelocityX * time;
+        double aimYPos = targetXPOS - robotVelocityY * time;
+        Pose2d aimPos = new Pose2d(aimXPos, aimYPos, new Rotation2d(0));
+
+        return aimPos;
+
+    }
+  
 
     @Override
     public void periodic(){

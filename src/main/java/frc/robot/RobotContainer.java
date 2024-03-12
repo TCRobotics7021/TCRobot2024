@@ -39,7 +39,7 @@ public class RobotContainer {
 
     /* Subsystems */
     
-    private static final PhotonVision s_PhotonVision =  new PhotonVision();
+    public static final PhotonVision s_PhotonVision =  new PhotonVision();
     public final static Swerve s_Swerve = new Swerve(s_PhotonVision);
     public final static Shooter s_Shooter = new Shooter();
     public final static Intake s_Intake = new Intake();
@@ -68,7 +68,7 @@ public class RobotContainer {
 
 
         NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
-        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker());   
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(  () -> false));   
         NamedCommands.registerCommand("c_ShooterMotorsOn", new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed))); 
         NamedCommands.registerCommand("c_AutoNotePickUpStrafe", new AutoNotePickUpStrafe()); 
         
@@ -112,15 +112,12 @@ public class RobotContainer {
         new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
         //new JoystickButton(leftJoystick,1).whileTrue(new EjectIntake());
 
-         new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker()); //for match
+         new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker(() -> OP_Panel.getRawButton(4))); //for match
         //new JoystickButton(rightJoystick, 1).whileTrue(new ShooterCalibration()); //for calibration
 
         new JoystickButton(rightJoystick,13).whileTrue(new ShooterCalibration());
         //use for finding pitch constants
  
-        new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
-        new JoystickButton(OP_Panel,2).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed)));
-        new JoystickButton(OP_Panel,3).onTrue(new InstantCommand(() -> s_Shooter.setRPM(0,0)));
         //Auto Rotate Calibration
         new JoystickButton(leftJoystick, 7).whileTrue(new RotateToAngle(0));
         new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
@@ -133,11 +130,19 @@ public class RobotContainer {
         new JoystickButton(leftJoystick,12).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
         new JoystickButton(leftJoystick,13).onTrue(new InstantCommand(() -> s_Shooter.setPitch(55)));
 
+        
+        // new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
+        // new JoystickButton(OP_Panel,2).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed)));
+        // new JoystickButton(OP_Panel,3).onTrue(new InstantCommand(() -> s_Shooter.setRPM(0,0)));
+        
+        new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
+        new JoystickButton(OP_Panel,2).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed)));
+        new JoystickButton(OP_Panel,3).onTrue(new InstantCommand(() -> s_Shooter.setRPM(0,0)));
         //turn back on
         //  new JoystickButton(OP_Panel, 5).onTrue(new AutoNotePickUpStrafe());
         //  new JoystickButton(OP_Panel, 6).onTrue(new AutoIntakeAndShoot());
-        // new JoystickButton(OP_Panel, 6).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
-        // new JoystickButton(OP_Panel, 7).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
+        new JoystickButton(OP_Panel, 14).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
+        new JoystickButton(OP_Panel, 15).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
 
     }   
 

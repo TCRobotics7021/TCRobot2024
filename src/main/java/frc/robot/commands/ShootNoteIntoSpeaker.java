@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,10 +24,16 @@ public class ShootNoteIntoSpeaker extends Command {
   double DistanceToSpeaker;
   Timer startdelay = new Timer();
   Timer stopdelay = new Timer();
+  private BooleanSupplier AprilTagToggle;
+  private BooleanSupplier LockPitch;
+  private BooleanSupplier LockRotation;
 
-  public ShootNoteIntoSpeaker() {
+  public ShootNoteIntoSpeaker(BooleanSupplier AprilTagToggle) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter);
+    this.AprilTagToggle = AprilTagToggle;
+    this.LockPitch = LockPitch;
+    this.LockRotation = LockRotation;
+    addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_PhotonVision);
   }
 
   // Called when the command is initially scheduled.
@@ -62,9 +70,10 @@ public class ShootNoteIntoSpeaker extends Command {
     targetPitch = RobotContainer.s_Shooter.shooterPitchFromDistance(DistanceToSpeaker);
     RobotContainer.s_Shooter.setPitch(targetPitch);   
 
-    if (RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed ) 
+    if ((RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed ) 
           && RobotContainer.s_Swerve.aimedAtSpeaker() 
-          && RobotContainer.s_Shooter.pitchAtTarget(targetPitch)){
+          && RobotContainer.s_Shooter.pitchAtTarget(targetPitch) 
+          && ((RobotContainer.s_PhotonVision.isAprilTagVisible() && AprilTagToggle.getAsBoolean()) || !AprilTagToggle.getAsBoolean())){
             
         startdelay.start();
    }else{

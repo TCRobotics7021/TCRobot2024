@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -18,6 +20,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,8 +41,9 @@ public class Shooter extends SubsystemBase {
       private final StaticBrake brake = new StaticBrake();
    private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
     private PIDController autoPitchPID;
+  private BooleanSupplier ManualPitch;
 
-  public Shooter(){
+  public Shooter( ){
     SmartDashboard.putNumber("Set Top RPM", 3000);
     SmartDashboard.putNumber("Set Bottom RPM", 3000);
     SmartDashboard.putNumber("target pitch", 20); //test
@@ -124,16 +128,10 @@ public class Shooter extends SubsystemBase {
         }
         if(temp_target < Constants.pitchMinAngle){
           temp_target = Constants.pitchMinAngle;
-        }
-
-        
+        }        
         double error = temp_target - getPitch().getDegrees();
         double output = autoPitchPID.calculate(getPitch().getDegrees(), temp_target);
         output = MathUtil.clamp(output, Constants.pitchMinOutput, Constants.pitchMaxOutput);
-
-        
-        
-
 
         if(error > Constants.robotAngle_tol){
           output = output + Constants.autoRotate_ks;
@@ -142,17 +140,15 @@ public class Shooter extends SubsystemBase {
           output = output - Constants.autoRotate_ks;
         }
 
-
         //output = SmartDashboard.getNumber("Pitch ks test",0); //comment out when done with test
 
-        if(Math.abs(error)<= Constants.robotAngle_tol){
+        if(Math.abs(error)<= Constants.robotAngle_tol || ManualPitch.getAsBoolean()){
           m_ShooterPitch.setControl(brake);
           output = 0;
         }else{
           m_ShooterPitch.set(output);
         }
 
-        
 
         SmartDashboard.putNumber("Auto Pitch Output", output);
         SmartDashboard.putNumber("Auto Pitch Error", error);
@@ -231,13 +227,16 @@ public void setAutoPitchConstants(){
     return (pitch);
   }
 
-
+ 
     public boolean pitchAtTarget(double targetPitch){
       double currentPitch = getPitch().getDegrees();
       double error = currentPitch - targetPitch; 
 
       return(Math.abs(error)< Constants.pitch_tol);
   }
+
+
+
   
 
 

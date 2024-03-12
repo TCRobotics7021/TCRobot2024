@@ -4,6 +4,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -13,7 +14,14 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
 
+    //Moving Target Calcs
+    public static final double shotVelocity = 12.7;
 
+    //Target locations
+    public static final double redSpeakerLocationX = 16.314; //was 16.542
+    public static final double redSpeakerLocationY = 5.56;
+    public static final double blueSpeakerLocationX = 0.228;
+    public static final double blueSpeakerLocationY = 5.56;
     
     //Auto Rotate PID Values
     public static final double autoRotate_P = .01;
@@ -66,14 +74,17 @@ public final class Constants {
     //Climber
     public static final double ClimberKg = 0;
     public static final double ClimberJogPercent = .1;
-    
+
+    //AmpLift
+    public static final double AmpLiftKg = 0;
+    public static final double AmpLiftJogPercent = .1;
 
     //pitch tolerace/adjuster //was at 3 now at .5
     public static final double robotAngle_tol = .5;
-    public static final double ShooterPitchCalc_A = -.928;
-    public static final double ShooterPitchCalc_B = 11.5;    
-    public static final double ShooterPitchCalc_C = -50.1;    
-    public static final double ShooterPitchCalc_D = 101;
+    public static final double ShooterPitchCalc_A = -0.514;
+    public static final double ShooterPitchCalc_B = 6.73;    
+    public static final double ShooterPitchCalc_C = -31;    
+    public static final double ShooterPitchCalc_D = 77.4;
 
 
 
