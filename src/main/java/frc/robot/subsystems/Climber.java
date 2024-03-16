@@ -21,9 +21,10 @@ public class Climber extends SubsystemBase {
   double liftKg = Constants.ClimberKg;
   private final StaticBrake brake = new StaticBrake();
   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
+  private final PositionVoltage VoltagePositionClimb = new PositionVoltage(0, 10, false, 0, 1, false, false, false);
   
-  DigitalInput upperLimit = new DigitalInput(2);
-  DigitalInput lowerLimit = new DigitalInput(3);
+  //DigitalInput upperLimit = new DigitalInput(2);
+  DigitalInput lowerLimit = new DigitalInput(2);
 
   public Climber() {
     SmartDashboard.putNumber("Climberconfigs_P", Constants.Climberconfigs_P); // An error of 0.5 rotations results in 1.2 volts output
@@ -40,6 +41,8 @@ public class Climber extends SubsystemBase {
     configsClimber.Slot0.kS = Constants.Climberconfigs_kS;
     configsClimber.Voltage.PeakForwardVoltage = 2;
     configsClimber.Voltage.PeakReverseVoltage = -2;
+     configsClimber.Slot1.kG = Constants.Climberconfigs_kG_Climb;
+    configsClimber.Slot1.kS = Constants.Climberconfigs_kS_Climb;
     
     applyConfigs(m_Climber, configsClimber, " m_Climber");
   }
@@ -79,10 +82,17 @@ public void reapplyConfigs() {
     }
   }
 
+  public void setPositionClimb(double setPosition){
+    
+    if (Constants.ClimberMAXPos > setPosition && setPosition > Constants.ClimberMINPos) {
+      m_Climber.setControl(VoltagePositionClimb.withPosition(setPosition * Constants.ClimberRotPerDist));
+    }
+  }
+
   public void setPosition(double setPosition){
     
     if (Constants.ClimberMAXPos > setPosition && setPosition > Constants.ClimberMINPos) {
-      m_Climber.setControl(VoltagePosition.withPosition(setPosition * Constants.ClimberConversionFactor));
+      m_Climber.setControl(VoltagePosition.withPosition(setPosition * Constants.ClimberRotPerDist));
     }
   }
 
@@ -91,16 +101,16 @@ public void reapplyConfigs() {
   }
 
   public double getPosition(){
-    return getRotations()/Constants.ClimberConversionFactor;
+    return getRotations()/Constants.ClimberRotPerDist;
   }
 
   public void calibratePos(double setPoint){
-    m_Climber.setPosition(setPoint*Constants.ClimberConversionFactor);
+    m_Climber.setPosition(setPoint*Constants.ClimberRotPerDist);
   }
 
   public boolean atUpperLimit(){
-    
-    return !upperLimit.get();
+    return false;
+   // return !upperLimit.get();
   }
 
   public boolean atLowerLimit(){

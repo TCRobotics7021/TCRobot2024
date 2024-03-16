@@ -5,38 +5,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class PitchSetPOS extends Command {
-  /** Creates a new PitchSetPOS. */
-  double setPitch;
+public class ClimberSetPOS_Climb extends Command {
+   double setPosition;
   boolean finished;
-  public PitchSetPOS(double setPitch) {
+  
+  public ClimberSetPOS_Climb(double setPosition) {
     // Use addRequirements() here to declare subsystem dependencies.
-     addRequirements(RobotContainer.s_Shooter);
-     this.setPitch = setPitch;
-     
+    this.setPosition = setPosition;
+    addRequirements(RobotContainer.s_Climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     finished = false;
-    RobotContainer.s_Shooter.setPitch(setPitch);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-   finished = RobotContainer.s_Shooter.pitchAtTarget(setPitch);
+    RobotContainer.s_Climber.setPosition(setPosition);
+
+  if (Math.abs(setPosition - RobotContainer.s_Climber.getPosition()) < Constants.ClimberTolerance){
+    finished = true;
+  }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    RobotContainer.s_Climber.setBrake();
   }
 
   // Returns true when the command should end.

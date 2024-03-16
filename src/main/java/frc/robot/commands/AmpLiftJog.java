@@ -27,13 +27,13 @@ public class AmpLiftJog extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.s_AmpLift.setPercent(setPercent);
+    RobotContainer.s_AmpLift.setPercentLift(setPercent);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.s_AmpLift.setBrake();
+    RobotContainer.s_AmpLift.setBrakeLift();
     //RobotContainer.s_Lift.setPercent(0);
   }
 

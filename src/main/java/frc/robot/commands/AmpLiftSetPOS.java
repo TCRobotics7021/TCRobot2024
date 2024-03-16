@@ -13,7 +13,7 @@ public class AmpLiftSetPOS extends Command {
   double setPosition;
   boolean finished;
 
-  public AmpLiftSetPOS() {
+  public AmpLiftSetPOS(double setPosition) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.s_AmpLift);
     this.setPosition = setPosition;

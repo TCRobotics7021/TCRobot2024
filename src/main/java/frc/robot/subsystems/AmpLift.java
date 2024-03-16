@@ -6,8 +6,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.StaticBrake;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -17,15 +19,22 @@ import frc.robot.Constants;
 
 public class AmpLift extends SubsystemBase {
   /** Creates a new AmpLift. */
+
+  //Amp Shoot Things
+  TalonFX m_AmpRoller = new TalonFX(23, "canivore");
+  private final NeutralOut coast = new NeutralOut();
+  
+
   
   TalonFX m_AmpLift = new TalonFX(22, "canivore");
   double liftKg = Constants.AmpLiftKg;
   private final StaticBrake AmpLiftbrake = new StaticBrake();
   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
   
-  DigitalInput upperLimit = new DigitalInput(2);
-  DigitalInput lowerLimit = new DigitalInput(3);
-  //AmpLift
+ // DigitalInput upperLimit = new DigitalInput(5);
+  DigitalInput lowerLimit = new DigitalInput(4);
+
+
   public AmpLift() {
     SmartDashboard.putNumber("AmpLiftconfigs_P", Constants.AmpLiftconfigs_P); // An error of 0.5 rotations results in 1.2 volts output
     SmartDashboard.putNumber("AmpLiftconfigs_I", Constants.AmpLiftconfigs_I);
@@ -42,9 +51,21 @@ public class AmpLift extends SubsystemBase {
     configsAmpLift.Voltage.PeakForwardVoltage = 2;
     configsAmpLift.Voltage.PeakReverseVoltage = -2;
     
+    
     applyConfigs(m_AmpLift, configsAmpLift, " m_AmpLift");
 
     m_AmpLift.setInverted(false);
+ 
+    m_AmpRoller.setInverted(false);
+  }
+
+
+  public void setPercentRollers(double setPercent) {
+    if(setPercent == 0){
+      m_AmpRoller.setControl(AmpLiftbrake);
+    } else {
+      m_AmpLift.set(setPercent);
+    } 
   }
 
   public void reapplyConfigs() {
@@ -72,11 +93,11 @@ public class AmpLift extends SubsystemBase {
 
   } 
 
-  public void setPercent(double setPercent) {
+  public void setPercentLift(double setPercent) {
     if (setPercent < 0 && (atLowerLimit()||getPosition()<Constants.AmpLiftMINPos)) {
-      setBrake();
+      setBrakeLift();
     } else if (setPercent > 0 && (atUpperLimit()||getPosition()>Constants.AmpLiftMAXPos)){
-      setBrake();
+      setBrakeLift();
     } else {
       m_AmpLift.set(setPercent);
     }
@@ -85,7 +106,7 @@ public class AmpLift extends SubsystemBase {
   public void setPosition(double setPosition){
     
     if (Constants.AmpLiftMAXPos > setPosition && setPosition > Constants.AmpLiftMINPos) {
-      m_AmpLift.setControl(VoltagePosition.withPosition(setPosition * Constants.AmpLiftConversionFactor));
+      m_AmpLift.setControl(VoltagePosition.withPosition(setPosition * Constants.AmpLiftRotPerDist));
     }
   }
 
@@ -94,16 +115,16 @@ public class AmpLift extends SubsystemBase {
   }
 
   public double getPosition(){
-    return getRotations()/Constants.AmpLiftConversionFactor;
+    return getRotations()/Constants.AmpLiftRotPerDist;
   }
 
   public void calibratePos(double setPoint){
-    m_AmpLift.setPosition(setPoint*Constants.AmpLiftConversionFactor);
+    m_AmpLift.setPosition(setPoint*Constants.AmpLiftRotPerDist);
   }
 
   public boolean atUpperLimit(){
-    
-    return !upperLimit.get();
+    return false;
+   // return !upperLimit.get();
   }
 
   public boolean atLowerLimit(){
@@ -114,11 +135,12 @@ public class AmpLift extends SubsystemBase {
     //m_AmpLift.set(AmpLiftKg);
   }
 
-  public void setBrake() {
+  public void setBrakeLift () {
     m_AmpLift.setControl(AmpLiftbrake);
-  
+
 
   }
+
 
 
   @Override
@@ -132,7 +154,7 @@ public class AmpLift extends SubsystemBase {
   }
   SmartDashboard.putNumber("AmpLift Current Rotations", getRotations());
   SmartDashboard.putNumber("AmpLift Current POS", getPosition());
-  SmartDashboard.putBoolean("AmpLift Upper Limit", atUpperLimit());
+  //SmartDashboard.putBoolean("AmpLift Upper Limit", atUpperLimit());
   SmartDashboard.putBoolean("AmpLift Lower Limit ", atLowerLimit());
   }
 }
