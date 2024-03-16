@@ -34,7 +34,6 @@ public class Intake extends SubsystemBase {
   }
 */
 
-
   public void coast() {
       m_Intake.setControl(brake);
     }

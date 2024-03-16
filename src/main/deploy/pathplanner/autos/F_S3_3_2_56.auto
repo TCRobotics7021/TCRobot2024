@@ -1,0 +1,85 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4291761916857164,
+      "y": 4.116342363738859
+    },
+    "rotation": 178.65211271980138
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F_1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F_2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F_3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F_4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

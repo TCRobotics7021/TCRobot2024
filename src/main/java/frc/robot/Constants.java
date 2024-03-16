@@ -4,6 +4,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -13,18 +14,31 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
 
+
+
+    //Moving Target Calcs
+    public static final double shotVelocity = 12.7;
+
+    //Target locations
+    public static final double redSpeakerLocationX = 16.314; //was 16.542
+    public static final double redSpeakerLocationY = 5.56;
+    public static final double blueSpeakerLocationX = 0.228;
+    public static final double blueSpeakerLocationY = 5.56;
+    
     //Auto Rotate PID Values
     public static final double autoRotate_P = .01;
     public static final double autoRotate_I = 0;
-    public static final double autoRotate_D = 0.0003;
-    public static final double autoRotate_ks = 0.02;
+    public static final double autoRotate_D = 0.00065;
+    public static final double autoRotate_ks = 0.028;
 
     public static final double AUTOROTATE_MAX = .75;
     public static final double AUTOROTATE_MIN = -0.75;
     public static final double AUTOROTATE_TOL = 3;
 
     //Auto Pitch PID Values
-    public static final double pitch_tol = 1;
+    public static final double defaultPitch = 50; //toggle if Pitch aint workin
+    public static final double pitchJogSpeed = .2;
+    public static final double pitch_tol = .5;
     public static final double autoPitch_P = 0.045;
     public static final double autoPitch_I = 0;
     public static final double autoPitch_D = 0;
@@ -60,15 +74,81 @@ public final class Constants {
    
     public static final double aim_adjust = 13;
 
+
+    //Climber
+    public static final double ClimberKg = 0;
+    public static final double ClimberJogPercent = .2;
+    public static final double Climberconfigs_P = .6;
+    public static final double Climberconfigs_I = 0;
+    public static final double Climberconfigs_D = 0;
+    public static final double Climberconfigs_kG = 0;
+    public static final double Climberconfigs_kS = 0.05;
+    public static final double Climberconfigs_kG_Climb = 0;
+    public static final double Climberconfigs_kS_Climb = 0;
     
-    
+    public static final double ClimberRotPerDist = .6726;
+    public static final double ClimberMAXPos = 845;
+    public static final double ClimberMINPos = 339;
+    public static final double ClimberUpperLimitPos = 845;
+    public static final double ClimberLowerLimitPos = 339;
+    public static final double ClimberTolerance = 3;
+    public static final double ClimberExtend = 844;
+    public static final double ClimberRetracted = 340;
+
+    //AmpLift
+    public static final double AmpLiftKg = 0;
+    public static final double AmpLiftJogPercent = .1;
+    public static final double AmpLiftconfigs_P = 5;
+    public static final double AmpLiftconfigs_I = 0;
+    public static final double AmpLiftconfigs_D = 0;
+    public static final double AmpLiftconfigs_kG = 0;
+    public static final double AmpLiftconfigs_kS = .4;
+
+    public static final double AmpLiftRotPerDist = .08733;
+    public static final double AmpLiftMAXPos = 870;
+    public static final double AmpLiftMINPos = 245;
+    public static final double AmpLiftUpperLimitPos = 870;
+    public static final double AmpLiftLowerLimitPos = 245;
+    public static final double AmpLiftTolerance = 3;
+
+    //AmpShoot
+    public static final double AmpRollerShootPercent = 1;
+    public static final double AmpRollerShootTimout = 1;
+
+
+    //Hand Off
+    public static final double IntakeHandOffPercent = .5;
+    public static final double ShooterHandOffPercent = .2;
+    public static final double AmpLiftHandOffPercent = 1;
+    public static final double PitchPOS_Handoff = 5;
+
+    //Lob Shot
+    public static final double LobShotPitch = 50;
+    public static final double LobShotRPM = 4000;
+    public static final double LobShotblueRot = 165;
+    public static final double LobShotredRot = 45;
+
+    //Post Shot
+    public static final double PostShotPitch = 27;
+    public static final double PostShotRPM = 4500;
+    public static final double PostShotblueRot = -173.8;
+    public static final double PostShotredRot = 10;
+
+
+
+
+    //Amp Lift POS Sequentials
+    public static final double AmpLiftPOS_HandOff = 257;
+    public static final double AmpLiftPOS_Amp = 715;
+    public static final double AmpLiftPOS_Trap = 860;
+    public static final double AmpLiftPOS_Retracted = 295;
 
     //pitch tolerace/adjuster //was at 3 now at .5
     public static final double robotAngle_tol = .5;
-    public static final double ShooterPitchCalc_A = -.768;
-    public static final double ShooterPitchCalc_B = 10.7;    
-    public static final double ShooterPitchCalc_C = -50.3;    
-    public static final double ShooterPitchCalc_D = 106;
+    public static final double ShooterPitchCalc_A = -0.514;
+    public static final double ShooterPitchCalc_B = 6.73;    
+    public static final double ShooterPitchCalc_C = -31;    
+    public static final double ShooterPitchCalc_D = 77.4;
 
 
 
@@ -81,7 +161,7 @@ public final class Constants {
         // changed pigeon code from 1 to 9
 
         public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L1);
+        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
         // changed L2 to L1
 
         /* Drivetrain Constants */
@@ -161,7 +241,7 @@ public final class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 11; //1 for rio bot 11 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-131.221);// 168.2 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-128.40);// 168.2 rio og
             // changed degree from 
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -172,7 +252,7 @@ public final class Constants {
             public static final int driveMotorID = 3;
             public static final int angleMotorID = 4;
             public static final int canCoderID = 12; //2 for rio bot 12 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(165.68);// 98.17 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(166.38);// 98.17 rio og
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -182,7 +262,7 @@ public final class Constants {
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 6;
             public static final int canCoderID = 13; //3 for rio bot 13 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(101.17);// 43.3 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(97.29);// 43.3 rio og
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -192,7 +272,7 @@ public final class Constants {
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 8;
             public static final int canCoderID = 14; //4 for rio bot 14 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-125.06)   ; // -71.63 og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-122.696)   ; // -71.63 og
 
             
 

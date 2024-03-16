@@ -4,42 +4,30 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.AmpLift;
 
-public class IntakeNote extends Command {
-  /** Creates a new IntakeNote. */
-
-  Timer delay = new Timer();
-
+public class AmpLiftHome extends Command {
   boolean finished;
-  public IntakeNote() {
+  public AmpLiftHome() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.s_Intake, RobotContainer.s_Shooter);
+    addRequirements(RobotContainer.s_AmpLift);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    delay.reset();
-    delay.stop();
+    RobotContainer.s_AmpLift.calibratePos(Constants.AmpLiftMAXPos);
     finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.s_Intake.sensorIsBlocked() == true){
-      delay.start();
-      
-    } else {
-      delay.reset();
-      RobotContainer.s_Intake.setPercent(Constants.intakePercent);
-    }
-
-    if(delay.get()>.01){
+    RobotContainer.s_AmpLift.setPercentLift(-Constants.AmpLiftJogPercent);
+    if (RobotContainer.s_AmpLift.atLowerLimit()){
       finished = true;
     }
   }
@@ -47,7 +35,7 @@ public class IntakeNote extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.s_Intake.coast();
+    RobotContainer.s_AmpLift.setBrakeLift();
   }
 
   // Returns true when the command should end.
@@ -56,4 +44,3 @@ public class IntakeNote extends Command {
     return finished;
   }
 }
-  

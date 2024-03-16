@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -18,7 +20,9 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -32,14 +36,17 @@ public class Shooter extends SubsystemBase {
   TalonFX m_ShooterPitch = new TalonFX(15, "canivore");
   CANcoder CancoderPitch = new CANcoder(16, "canivore");
   double temp_target = 20;
+  DigitalInput di_HandoffSensor = new DigitalInput(3);
   public double distanceToTarget = 1;
    private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
    private final NeutralOut coast = new NeutralOut();
       private final StaticBrake brake = new StaticBrake();
-   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
+   
     private PIDController autoPitchPID;
+  private Boolean ManualPitch;
 
   public Shooter(){
+    ManualPitch =false;
     SmartDashboard.putNumber("Set Top RPM", 3000);
     SmartDashboard.putNumber("Set Bottom RPM", 3000);
     SmartDashboard.putNumber("target pitch", 20); //test
@@ -76,6 +83,10 @@ public class Shooter extends SubsystemBase {
     m_ShooterBottom.setInverted(false);
     m_ShooterPitch.setInverted(true);
  
+  }
+
+  public boolean isHandOffSensorBlocked() {
+    return di_HandoffSensor.get();
   }
 
 
@@ -118,22 +129,24 @@ public class Shooter extends SubsystemBase {
     //  SmartDashboard.putNumber("Pitch Cal Rot",Constants.shooterPitchCancoderCal.getRotations());
     //  SmartDashboard.putNumber("Pitch Total Target Rot",rot_pos);
    }
+
+   public void setPitchPercent(double setSpeed){
+    m_ShooterPitch.set(setSpeed);
+   }
+   public void setPitchBrake(){
+     m_ShooterPitch.setControl(brake);
+   }
+
    public void pitchPcontroller(){
         if(temp_target > Constants.pitchMaxAngle){
           temp_target = Constants.pitchMaxAngle;
         }
         if(temp_target < Constants.pitchMinAngle){
           temp_target = Constants.pitchMinAngle;
-        }
-
-        
+        }        
         double error = temp_target - getPitch().getDegrees();
         double output = autoPitchPID.calculate(getPitch().getDegrees(), temp_target);
         output = MathUtil.clamp(output, Constants.pitchMinOutput, Constants.pitchMaxOutput);
-
-        
-        
-
 
         if(error > Constants.robotAngle_tol){
           output = output + Constants.autoRotate_ks;
@@ -142,22 +155,19 @@ public class Shooter extends SubsystemBase {
           output = output - Constants.autoRotate_ks;
         }
 
-
         //output = SmartDashboard.getNumber("Pitch ks test",0); //comment out when done with test
+        if(ManualPitch){
 
-        if(Math.abs(error)<= Constants.robotAngle_tol){
+        } else if(Math.abs(error)<= Constants.robotAngle_tol){
           m_ShooterPitch.setControl(brake);
           output = 0;
         }else{
           m_ShooterPitch.set(output);
         }
 
-        
 
         SmartDashboard.putNumber("Auto Pitch Output", output);
         SmartDashboard.putNumber("Auto Pitch Error", error);
-
-        
       
    }
  
@@ -191,6 +201,11 @@ public void setAutoPitchConstants(){
     
     //CancoderPitch.setPosition(Constants.shooterPitchCancoderCal.getRotations());
   }
+
+  public void setPitchManualMode(boolean Manual){
+    ManualPitch = Manual;
+     m_ShooterPitch.setControl(brake);
+  }
  
   public void coastPitch(){
     m_ShooterPitch.setControl(coast);
@@ -218,7 +233,7 @@ public void setAutoPitchConstants(){
 
   public void setPercent(double shooterPercent) {
     m_ShooterTop.set(shooterPercent);
-    m_ShooterBottom.set(-shooterPercent);
+    m_ShooterBottom.set(shooterPercent);
   }
     //insert quadratic formula here
   public double shooterPitchFromDistance(double DistanceToSpeaker) {
@@ -231,13 +246,16 @@ public void setAutoPitchConstants(){
     return (pitch);
   }
 
-
+ 
     public boolean pitchAtTarget(double targetPitch){
       double currentPitch = getPitch().getDegrees();
       double error = currentPitch - targetPitch; 
 
       return(Math.abs(error)< Constants.pitch_tol);
   }
+
+
+
   
 
 
@@ -258,6 +276,7 @@ public void setAutoPitchConstants(){
     SmartDashboard.putNumber("Shooter Top Actual RPM", m_ShooterTop.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putNumber("Shooter Pitch Angle", getPitch().getDegrees());
     SmartDashboard.putNumber("Shooter Absolute Pitch Angle", getCANcoder().getDegrees());
+    SmartDashboard.putBoolean("Hand-Off Sensor", isHandOffSensorBlocked());
        //resetToAbsolute();
   }
 }

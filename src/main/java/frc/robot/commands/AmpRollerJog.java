@@ -4,56 +4,41 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class IntakeNote extends Command {
-  /** Creates a new IntakeNote. */
-
-  Timer delay = new Timer();
-
-  boolean finished;
-  public IntakeNote() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.s_Intake, RobotContainer.s_Shooter);
+public class AmpRollerJog extends Command {
+double setPercent;
+ boolean finished;
+  /** Creates a new JogAndSetPOS. */
+  public AmpRollerJog(double setPercent) {
+    addRequirements(RobotContainer.s_AmpLift);
+    this.setPercent = setPercent;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    delay.reset();
-    delay.stop();
     finished = false;
+   
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.s_Intake.sensorIsBlocked() == true){
-      delay.start();
-      
-    } else {
-      delay.reset();
-      RobotContainer.s_Intake.setPercent(Constants.intakePercent);
-    }
-
-    if(delay.get()>.01){
-      finished = true;
-    }
+    RobotContainer.s_AmpLift.setPercentRollers(setPercent);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.s_Intake.coast();
+    RobotContainer.s_AmpLift.setPercentRollers(0);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    return false;
   }
 }
-  

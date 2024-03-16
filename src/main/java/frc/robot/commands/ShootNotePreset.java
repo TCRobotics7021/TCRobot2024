@@ -6,36 +6,38 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.RobotCentric;
+
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
-public class ShootNoteIntoSpeaker extends Command {
-  /** Creates a new ShootNoteIntoSpeaker. */
-  
-  boolean finished;
+public class ShootNotePreset extends Command {
+ boolean finished;
   double targetAngle;
   double rotationVal;
   double targetPitch;
   double DistanceToSpeaker;
+  double pitch;
+  double RPM;
+  double redRot;
+  double blueRot;
   Timer startdelay = new Timer();
   Timer stopdelay = new Timer();
-  private BooleanSupplier AprilTagToggle;
-  private BooleanSupplier ManualAim;
-  private BooleanSupplier ManualPitch;
-  private BooleanSupplier RobotCentric;
 
-  public ShootNoteIntoSpeaker(BooleanSupplier AprilTagToggle, BooleanSupplier ManualAim, BooleanSupplier ManualPitch, BooleanSupplier RobotCentric) {
+
+
+
+  public ShootNotePreset(double pitch, double RPM, double redRot, double blueRot) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.AprilTagToggle = AprilTagToggle;
-    this.ManualAim = ManualAim;  
-    this.ManualPitch = ManualPitch;
-    this.RobotCentric = RobotCentric;
-    addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_PhotonVision);
+    addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter);
+    this.pitch = pitch;
+    this.RPM = RPM;
+    this.redRot = redRot;
+    this.blueRot = blueRot;
   }
 
   // Called when the command is initially scheduled.
@@ -46,8 +48,6 @@ public class ShootNoteIntoSpeaker extends Command {
     stopdelay.reset();
     stopdelay.stop();
     finished = false;
-    RobotContainer.s_Swerve.resetAutoRotatePID();
-    RobotContainer.s_Shooter.resetAutoPitchPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -55,12 +55,13 @@ public class ShootNoteIntoSpeaker extends Command {
   public void execute() {
 
    //Aiming
-    if (!ManualAim.getAsBoolean() && !RobotCentric.getAsBoolean()){
-      targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker();
+      var alliance = DriverStation.getAlliance();
+      if (alliance.get() == DriverStation.Alliance.Red) {
+        targetAngle = redRot;
+      } else {
+        targetAngle = blueRot;
+      }
       rotationVal = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
-    } else {
-      rotationVal = 0;
-    }
    
     
      RobotContainer.s_Swerve.drive(
@@ -70,29 +71,24 @@ public class ShootNoteIntoSpeaker extends Command {
            true,
             true
         );
-    //Shooting
-    RobotContainer.s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed); 
+
 
     //Pitch
-    if (!ManualAim.getAsBoolean() && !RobotCentric.getAsBoolean()){
-    DistanceToSpeaker =RobotContainer.s_Swerve.getDistanceToSpeaker();
-    targetPitch = RobotContainer.s_Shooter.shooterPitchFromDistance(DistanceToSpeaker);
-    } else {
-      targetPitch = Constants.defaultPitch;
-    }
-    RobotContainer.s_Shooter.setPitch(targetPitch);   
 
-    if ((RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed) 
-          && (RobotContainer.s_Swerve.aimedAtSpeaker() || ManualAim.getAsBoolean() || RobotCentric.getAsBoolean())
-          && (RobotContainer.s_Shooter.pitchAtTarget(targetPitch) || ManualPitch.getAsBoolean()))
-          && ((RobotContainer.s_PhotonVision.isAprilTagVisible() && AprilTagToggle.getAsBoolean()) || !AprilTagToggle.getAsBoolean())){
+    RobotContainer.s_Shooter.setPitch(pitch);
+    RobotContainer.s_Shooter.setRPM(RPM, RPM);
+
+    if ((RobotContainer.s_Shooter.atSpeed(RPM, RPM) 
+          && (RobotContainer.s_Swerve.atRotation(targetAngle))
+          && (RobotContainer.s_Shooter.pitchAtTarget(pitch))
+          )){
             
         startdelay.start();
    }else{
     startdelay.reset();
    }
 
-   if(startdelay.get() > .5){
+   if(startdelay.get() > .00){
     RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }
 

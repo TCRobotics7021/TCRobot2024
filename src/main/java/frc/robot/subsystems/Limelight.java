@@ -34,7 +34,7 @@ public class Limelight extends SubsystemBase {
     return limeLightTable.getEntry("ta").getDouble(0);
   }
 
-  public boolean isNote(){
+  public boolean  isNote(){
     return (limeLightTable.getEntry("tv").getDouble(0) == 1);
   }
 
