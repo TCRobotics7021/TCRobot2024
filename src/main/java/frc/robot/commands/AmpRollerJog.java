@@ -5,38 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 
-public class PitchJog extends Command {
-  /** Creates a new PitchJog. */
-  double setSpeed;
-  public PitchJog(double setSpeed) {
+public class AmpRollerJog extends Command {
+  /** Creates a new AmpRollerJog. */
+  public AmpRollerJog() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.setSpeed = setSpeed;
-     addRequirements(RobotContainer.s_Shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-    RobotContainer.s_Shooter.setPitchPercent(setSpeed);
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    RobotContainer.s_Shooter.setPitchBrake();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

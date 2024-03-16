@@ -321,6 +321,14 @@ public class Swerve extends SubsystemBase {
         System.out.println("Auto Rotate D Set to " +  autoRotatePID.getD());
     }
 
+    public boolean atRotation(double targetRot){
+        if (Math.abs(targetRot - getHeading().getDegrees()) < Constants.AUTOROTATE_TOL) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
     public boolean aimedAtSpeaker(){

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -45,6 +45,7 @@ public class RobotContainer {
     public final static Intake s_Intake = new Intake();
     public final static Limelight s_Limelight = new Limelight();
     public final static Climber s_Climber = new Climber();
+    public final static AmpLift s_AmpLift = new AmpLift();
     
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -58,7 +59,7 @@ public class RobotContainer {
                         () -> -leftJoystick.getRawAxis(1),
                         () -> -leftJoystick.getRawAxis(0),
                         () -> -rightJoystick.getRawAxis(0),
-                        () -> false,
+                        () -> OP_Panel.getRawButton(1),
                         () -> rightJoystick.getRawButton(3)
                         ));
 
@@ -68,9 +69,13 @@ public class RobotContainer {
 
 
         NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
-        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(  () -> false));   
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(() -> false, () -> false, () -> false, () -> false));   
         NamedCommands.registerCommand("c_ShooterMotorsOn", new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed))); 
         NamedCommands.registerCommand("c_AutoNotePickUpStrafe", new AutoNotePickUpStrafe()); 
+        NamedCommands.registerCommand("c_AmpLiftToAmpPosition", new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
+        NamedCommands.registerCommand("c_NoteHandOff", new NoteHandOff());
+        NamedCommands.registerCommand("c_RetractAmpLift", new AmpLiftSetPOS(Constants.AmpLiftPOS_Retracted));
+        NamedCommands.registerCommand("c_AmpRollerShot", new AmpRollerJog(Constants.AmpRollerShootPercent).withTimeout(Constants.AmpRollerShootTimout));
         
         
 
@@ -102,47 +107,84 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        new JoystickButton(leftJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+
+
         //new JoystickButton(rightJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.setFieldPosition(0,0)));
+         new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker(() -> OP_Panel.getRawButton(4), 
+                                                                                () -> OP_Panel.getRawButton(3),
+                                                                                () -> OP_Panel.getRawButton(2),
+                                                                                () -> OP_Panel.getRawButton(1))); //for match
+        new JoystickButton(rightJoystick, 3).whileTrue(new ShootNotePreset(Constants.LobShotPitch, Constants.LobShotRPM, 
+                                                                                        Constants.LobShotredRot, Constants.LobShotblueRot));
+        new JoystickButton(rightJoystick, 4).whileTrue(new ShootNotePreset(Constants.PostShotPitch, Constants.PostShotRPM, 
+                                                                                        Constants.PostShotredRot, Constants.PostShotblueRot));        
         new JoystickButton(rightJoystick, 5).onTrue(new InstantCommand(() -> s_Swerve.setAutoRotateConstants()));
         new JoystickButton(rightJoystick, 6).onTrue(new InstantCommand(() -> s_Shooter.setAutoPitchConstants()));
         new JoystickButton(rightJoystick, 7).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
+        new JoystickButton(rightJoystick, 8).whileTrue(new PitchJog(Constants.pitchJogSpeed));
+        new JoystickButton(rightJoystick, 9).whileTrue(new PitchJog(-Constants.pitchJogSpeed));
+        new JoystickButton(rightJoystick,13).whileTrue(new ShooterCalibration());
+        new POVButton(rightJoystick, 0).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
+        new POVButton(rightJoystick, 45).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
+        new POVButton(rightJoystick, 315).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
+        new POVButton(rightJoystick, 180).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
+        new POVButton(rightJoystick, 225).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
+        new POVButton(rightJoystick, 135).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
+
+  
         //new JoystickButton(OP_Panel, 14).whileTrue(new ShootSpeed());
 
-        new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
+
         //new JoystickButton(leftJoystick,1).whileTrue(new EjectIntake());
 
-         new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker(() -> OP_Panel.getRawButton(4))); //for match
+
         //new JoystickButton(rightJoystick, 1).whileTrue(new ShooterCalibration()); //for calibration
 
-        new JoystickButton(rightJoystick,13).whileTrue(new ShooterCalibration());
+        
         //use for finding pitch constants
  
-        //Auto Rotate Calibration
+
+        new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
+        new JoystickButton(leftJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        new JoystickButton(leftJoystick, 3).whileTrue(new AmpLiftJog(Constants.AmpRollerShootPercent));
         new JoystickButton(leftJoystick, 7).whileTrue(new RotateToAngle(0));
         new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
         new JoystickButton(leftJoystick, 9).whileTrue(new RotateToAngle(180));
         new JoystickButton(leftJoystick, 10).whileTrue(new RotateToAngle((-90)));
-
-        //Auto Pitch Calibration
-        
         new JoystickButton(leftJoystick,11).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
         new JoystickButton(leftJoystick,12).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
         new JoystickButton(leftJoystick,13).onTrue(new InstantCommand(() -> s_Shooter.setPitch(55)));
 
+
+        //Auto Pitch Calibration
         
-        // new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
+
+
+        
+        //new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
         // new JoystickButton(OP_Panel,2).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed)));
         // new JoystickButton(OP_Panel,3).onTrue(new InstantCommand(() -> s_Shooter.setRPM(0,0)));
-        
-        new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
-        new JoystickButton(OP_Panel,2).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed)));
-        new JoystickButton(OP_Panel,3).onTrue(new InstantCommand(() -> s_Shooter.setRPM(0,0)));
-        //turn back on
-        //  new JoystickButton(OP_Panel, 5).onTrue(new AutoNotePickUpStrafe());
-        //  new JoystickButton(OP_Panel, 6).onTrue(new AutoIntakeAndShoot());
-        new JoystickButton(OP_Panel, 14).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
-        new JoystickButton(OP_Panel, 15).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
+
+        //toggles
+      //  new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));
+        new JoystickButton(OP_Panel,2).onTrue(new InstantCommand(() -> s_Shooter.setPitchManualMode(true)));
+        new JoystickButton(OP_Panel,2).onFalse(new InstantCommand(() -> s_Shooter.setPitchManualMode(false)));
+      //  new JoystickButton(OP_Panel,3).onTrue(new InstantCommand(() -> s_Shooter.setRPM(0,0)));
+
+        //climber stuff
+          new JoystickButton(OP_Panel, 5).onTrue(new ClimberSetPos(500));//Constants.
+          new JoystickButton(OP_Panel, 6).onTrue(new ClimberSetPos(600));
+          new JoystickButton(OP_Panel, 7).onTrue(new ClimberSetPos(700));
+          new JoystickButton(OP_Panel,8).onFalse(new InstantCommand(() -> s_Climber.calibratePos(336)));
+
+        new JoystickButton(OP_Panel, 11).whileTrue(new AmpLiftJog(Constants.AmpLiftJogPercent));
+        new JoystickButton(OP_Panel, 12).whileTrue(new AmpLiftJog(-Constants.AmpLiftJogPercent));
+        new JoystickButton(OP_Panel, 15).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
+        new JoystickButton(OP_Panel, 16).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
+
+        //new JoystickButton(OP_Panel, 14).onTrue(new NoteHandOff());
+
+
 
     }   
 

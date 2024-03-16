@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -23,10 +22,15 @@ public class Climber extends SubsystemBase {
   private final StaticBrake brake = new StaticBrake();
   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
   
-  DigitalInput upperLimit = new DigitalInput(0);
-  DigitalInput lowerLimit = new DigitalInput(0);
+  DigitalInput upperLimit = new DigitalInput(2);
+  DigitalInput lowerLimit = new DigitalInput(3);
 
   public Climber() {
+    SmartDashboard.putNumber("Climberconfigs_P", Constants.Climberconfigs_P); // An error of 0.5 rotations results in 1.2 volts output
+    SmartDashboard.putNumber("Climberconfigs_I", Constants.Climberconfigs_I);
+    SmartDashboard.putNumber("Climberconfigs_D", Constants.Climberconfigs_D); // A change of 1 rotation per second results in 0.1 volts output
+    SmartDashboard.putNumber("Climberconfigs_kG", Constants.Climberconfigs_kG);
+    SmartDashboard.putNumber("Climberconfigs_kS", Constants.Climberconfigs_kS);
     m_Climber.setInverted(false);
     TalonFXConfiguration configsClimber = new TalonFXConfiguration();
     configsClimber.Slot0.kP = Constants.Climberconfigs_P; // An error of 1 rotation per second results in 2V output
@@ -34,6 +38,8 @@ public class Climber extends SubsystemBase {
     configsClimber.Slot0.kD = Constants.Climberconfigs_D; // A change of 1 rotation per second squared results in 0.01 volts output
     configsClimber.Slot0.kG = Constants.Climberconfigs_kG;
     configsClimber.Slot0.kS = Constants.Climberconfigs_kS;
+    configsClimber.Voltage.PeakForwardVoltage = 2;
+    configsClimber.Voltage.PeakReverseVoltage = -2;
     
     applyConfigs(m_Climber, configsClimber, " m_Climber");
   }
@@ -64,8 +70,13 @@ public void reapplyConfigs() {
   } 
 
   public void setPercent(double setPercent) {
-    m_Climber.set(setPercent);
-    System.out.println("Climber Percent Set to " +  setPercent);
+    if (setPercent < 0 && (atLowerLimit()||getPosition()<Constants.ClimberMINPos)) {
+      setBrake();
+    } else if (setPercent > 0 && (atUpperLimit()||getPosition()>Constants.ClimberMAXPos)){
+      setBrake();
+    } else {
+      m_Climber.set(setPercent);
+    }
   }
 
   public void setPosition(double setPosition){
@@ -89,11 +100,11 @@ public void reapplyConfigs() {
 
   public boolean atUpperLimit(){
     
-    return upperLimit.get();
+    return !upperLimit.get();
   }
 
   public boolean atLowerLimit(){
-    return lowerLimit.get();
+    return !lowerLimit.get();
   }
 
   public void stayAtPosition(double ClimberKg) {
@@ -114,6 +125,10 @@ public void reapplyConfigs() {
     if (atLowerLimit()) {
       calibratePos(Constants.ClimberLowerLimitPos);
   }
+  SmartDashboard.putNumber("Climber Current Rotations", getRotations());
+  SmartDashboard.putNumber("Climber Current POS", getPosition());
+  SmartDashboard.putBoolean("Climber Upper Limit", atUpperLimit());
+  SmartDashboard.putBoolean("Climber Lower Limit ", atLowerLimit());
 }
 
 }

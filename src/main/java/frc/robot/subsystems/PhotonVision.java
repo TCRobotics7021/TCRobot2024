@@ -37,6 +37,7 @@ public class PhotonVision extends SubsystemBase {
   private final PhotonCamera camera;
   private final PhotonPoseEstimator photonEstimator;
   private double lastEstTimestamp = 0;
+  private boolean AprilTagVisible = false;
 
  // public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
    public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
@@ -99,6 +100,9 @@ public class PhotonVision extends SubsystemBase {
             avgDist +=
                     tagPose.get().toPose2d().getTranslation().getDistance(estimatedPose.getTranslation());
         }
+
+        AprilTagVisible = (numTags > 0);
+
         //if (numTags == 0) return estStdDevs;
         avgDist /= numTags;
         // Decrease std devs if multiple targets are visible
@@ -110,13 +114,17 @@ public class PhotonVision extends SubsystemBase {
 
         return estStdDevs;
     }
+     
+    public boolean isAprilTagVisible(){
+     return AprilTagVisible;
+    }
 
     
 
 
   @Override
   public void periodic() {
-    
+    SmartDashboard.putBoolean("April Tag Visible", isAprilTagVisible());
     // This method will be called once per scheduler run
   }
 }

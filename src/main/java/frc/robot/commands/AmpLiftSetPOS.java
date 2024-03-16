@@ -8,15 +8,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class ClimberSetPos extends Command {
-  /** Creates a new ClimberSetPos. */
+public class AmpLiftSetPOS extends Command {
+  /** Creates a new AmpLiftSetPOS. */
   double setPosition;
   boolean finished;
-  
-  public ClimberSetPos(double setPosition) {
+
+  public AmpLiftSetPOS() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.s_AmpLift);
     this.setPosition = setPosition;
-    addRequirements(RobotContainer.s_Climber);
   }
 
   // Called when the command is initially scheduled.
@@ -28,9 +28,9 @@ public class ClimberSetPos extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.s_Climber.setPosition(setPosition);
+    RobotContainer.s_AmpLift.setPosition(setPosition);
 
-  if (Math.abs(setPosition - RobotContainer.s_Climber.getPosition()) < Constants.ClimberTolerance){
+    if (Math.abs(setPosition - RobotContainer.s_AmpLift.getPosition()) < Constants.AmpLiftTolerance){
     finished = true;
   }
   }

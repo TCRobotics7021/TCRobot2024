@@ -39,11 +39,12 @@ public class Shooter extends SubsystemBase {
    private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
    private final NeutralOut coast = new NeutralOut();
       private final StaticBrake brake = new StaticBrake();
-   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
+   
     private PIDController autoPitchPID;
-  private BooleanSupplier ManualPitch;
+  private Boolean ManualPitch;
 
-  public Shooter( ){
+  public Shooter(){
+    ManualPitch =false;
     SmartDashboard.putNumber("Set Top RPM", 3000);
     SmartDashboard.putNumber("Set Bottom RPM", 3000);
     SmartDashboard.putNumber("target pitch", 20); //test
@@ -122,6 +123,14 @@ public class Shooter extends SubsystemBase {
     //  SmartDashboard.putNumber("Pitch Cal Rot",Constants.shooterPitchCancoderCal.getRotations());
     //  SmartDashboard.putNumber("Pitch Total Target Rot",rot_pos);
    }
+
+   public void setPitchPercent(double setSpeed){
+    m_ShooterPitch.set(setSpeed);
+   }
+   public void setPitchBrake(){
+     m_ShooterPitch.setControl(brake);
+   }
+
    public void pitchPcontroller(){
         if(temp_target > Constants.pitchMaxAngle){
           temp_target = Constants.pitchMaxAngle;
@@ -141,8 +150,9 @@ public class Shooter extends SubsystemBase {
         }
 
         //output = SmartDashboard.getNumber("Pitch ks test",0); //comment out when done with test
+        if(ManualPitch){
 
-        if(Math.abs(error)<= Constants.robotAngle_tol || ManualPitch.getAsBoolean()){
+        } else if(Math.abs(error)<= Constants.robotAngle_tol){
           m_ShooterPitch.setControl(brake);
           output = 0;
         }else{
@@ -152,8 +162,6 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Auto Pitch Output", output);
         SmartDashboard.putNumber("Auto Pitch Error", error);
-
-        
       
    }
  
@@ -186,6 +194,11 @@ public void setAutoPitchConstants(){
     // }
     
     //CancoderPitch.setPosition(Constants.shooterPitchCancoderCal.getRotations());
+  }
+
+  public void setPitchManualMode(boolean Manual){
+    ManualPitch = Manual;
+     m_ShooterPitch.setControl(brake);
   }
  
   public void coastPitch(){

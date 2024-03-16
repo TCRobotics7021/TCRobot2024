@@ -14,6 +14,8 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
 
+
+
     //Moving Target Calcs
     public static final double shotVelocity = 12.7;
 
@@ -34,6 +36,8 @@ public final class Constants {
     public static final double AUTOROTATE_TOL = 3;
 
     //Auto Pitch PID Values
+    public static final double defaultPitch = 50; //toggle if Pitch aint workin
+    public static final double pitchJogSpeed = .2;
     public static final double pitch_tol = .5;
     public static final double autoPitch_P = 0.045;
     public static final double autoPitch_I = 0;
@@ -74,10 +78,34 @@ public final class Constants {
     //Climber
     public static final double ClimberKg = 0;
     public static final double ClimberJogPercent = .1;
+    public static final double Climberconfigs_P = .1;
+    public static final double Climberconfigs_I = 0;
+    public static final double Climberconfigs_D = 0;
+    public static final double Climberconfigs_kG = 0;
+    public static final double Climberconfigs_kS = 0;
+    
+    public static final double ClimberConversionFactor = .6726;
+    public static final double ClimberMAXPos = 850;
+    public static final double ClimberMINPos = 336;
+    public static final double ClimberUpperLimitPos = 849;
+    public static final double ClimberLowerLimitPos = 337;
+    public static final double ClimberTolerance = 3;
 
     //AmpLift
     public static final double AmpLiftKg = 0;
     public static final double AmpLiftJogPercent = .1;
+    public static final double AmpLiftconfigs_P = .1;
+    public static final double AmpLiftconfigs_I = 0;
+    public static final double AmpLiftconfigs_D = 0;
+    public static final double AmpLiftconfigs_kG = 0;
+    public static final double AmpLiftconfigs_kS = 0;
+
+    public static final double AmpLiftConversionFactor = .6726;
+    public static final double AmpLiftMAXPos = 850;
+    public static final double AmpLiftMINPos = 336;
+    public static final double AmpLiftUpperLimitPos = 849;
+    public static final double AmpLiftLowerLimitPos = 337;
+    public static final double AmpLiftTolerance = 3;
 
     //pitch tolerace/adjuster //was at 3 now at .5
     public static final double robotAngle_tol = .5;
