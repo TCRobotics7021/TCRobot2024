@@ -181,11 +181,11 @@ public class RobotContainer {
 
         //testing
           new JoystickButton(OP_Panel, 5).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Retracted));//Constants.
-          new JoystickButton(OP_Panel, 6).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
+         // new JoystickButton(OP_Panel, 6).onTrue(new AmpLiftSetPOS(500));
           new JoystickButton(OP_Panel, 7).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap));
         new JoystickButton(OP_Panel, 8).onTrue(new NoteHandOff());
         new JoystickButton(OP_Panel, 9).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
-        new JoystickButton(OP_Panel, 10).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Retracted));
+        new JoystickButton(OP_Panel, 10).onTrue(new RetractAmpLift());
         new JoystickButton(OP_Panel, 11).onTrue(new ClimberSetPOS_Climb(Constants.ClimberExtend));
         new JoystickButton(OP_Panel, 12).onTrue(new Climb());
         new JoystickButton(OP_Panel, 13).whileTrue(new AmpLiftJog(Constants.AmpLiftJogPercent));

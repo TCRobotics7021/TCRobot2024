@@ -37,7 +37,7 @@ public class ClimberSetPOS_Climb extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.s_Climber.setBrake();
+    //RobotContainer.s_Climber.setBrake();
   }
 
   // Returns true when the command should end.

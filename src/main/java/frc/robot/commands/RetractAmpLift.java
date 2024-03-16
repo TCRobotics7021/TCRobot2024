@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -14,6 +15,9 @@ public class RetractAmpLift extends SequentialCommandGroup {
   public RetractAmpLift() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(
+      new AmpLiftSetPOS(Constants.AmpLiftPOS_Retracted),
+      new AmpLiftHome()
+    );
   }
 }

@@ -98,11 +98,11 @@ public final class Constants {
     //AmpLift
     public static final double AmpLiftKg = 0;
     public static final double AmpLiftJogPercent = .1;
-    public static final double AmpLiftconfigs_P = .4;
+    public static final double AmpLiftconfigs_P = 5;
     public static final double AmpLiftconfigs_I = 0;
     public static final double AmpLiftconfigs_D = 0;
     public static final double AmpLiftconfigs_kG = 0;
-    public static final double AmpLiftconfigs_kS = .2;
+    public static final double AmpLiftconfigs_kS = .4;
 
     public static final double AmpLiftRotPerDist = .08733;
     public static final double AmpLiftMAXPos = 870;
@@ -124,14 +124,14 @@ public final class Constants {
 
     //Lob Shot
     public static final double LobShotPitch = 50;
-    public static final double LobShotRPM = 4500;
-    public static final double LobShotblueRot = -135;
+    public static final double LobShotRPM = 4000;
+    public static final double LobShotblueRot = 165;
     public static final double LobShotredRot = 45;
 
     //Post Shot
-    public static final double PostShotPitch = 35;
+    public static final double PostShotPitch = 27;
     public static final double PostShotRPM = 4500;
-    public static final double PostShotblueRot = -170;
+    public static final double PostShotblueRot = -173.8;
     public static final double PostShotredRot = 10;
 
 
@@ -139,9 +139,9 @@ public final class Constants {
 
     //Amp Lift POS Sequentials
     public static final double AmpLiftPOS_HandOff = 257;
-    public static final double AmpLiftPOS_Amp = 500;
+    public static final double AmpLiftPOS_Amp = 715;
     public static final double AmpLiftPOS_Trap = 860;
-    public static final double AmpLiftPOS_Retracted = 246;
+    public static final double AmpLiftPOS_Retracted = 295;
 
     //pitch tolerace/adjuster //was at 3 now at .5
     public static final double robotAngle_tol = .5;

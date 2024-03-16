@@ -294,7 +294,7 @@ public class Swerve extends SubsystemBase {
         if (error>180) {
             error = error - 360;
         }
-        SmartDashboard.putNumber("Heading", currentAngle);
+        
         output = autoRotatePID.calculate(-error,0);
         if(error > 1){
             output = output + Constants.autoRotate_ks;
@@ -400,7 +400,7 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
             
         }
-
+        SmartDashboard.putNumber("Heading", getHeading().getDegrees());
         m_field.setRobotPose(swerveOdometry.getEstimatedPosition()); 
         SmartDashboard.putData("Field", m_field);
         

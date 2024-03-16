@@ -78,6 +78,11 @@ public class PhotonVision extends SubsystemBase {
         boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
        
         if (newResult) lastEstTimestamp = latestTimestamp;
+         if(visionEst.isPresent()){
+          AprilTagVisible = true;
+        }else{
+          AprilTagVisible = false;
+        }
         return visionEst;
     }
 
@@ -100,8 +105,8 @@ public class PhotonVision extends SubsystemBase {
             avgDist +=
                     tagPose.get().toPose2d().getTranslation().getDistance(estimatedPose.getTranslation());
         }
-
-        AprilTagVisible = (numTags > 0);
+       
+        
 
         //if (numTags == 0) return estStdDevs;
         avgDist /= numTags;
