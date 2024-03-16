@@ -86,7 +86,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean isHandOffSensorBlocked() {
-    return !di_HandoffSensor.get();
+    return di_HandoffSensor.get();
   }
 
 
@@ -233,7 +233,7 @@ public void setAutoPitchConstants(){
 
   public void setPercent(double shooterPercent) {
     m_ShooterTop.set(shooterPercent);
-    m_ShooterBottom.set(-shooterPercent);
+    m_ShooterBottom.set(shooterPercent);
   }
     //insert quadratic formula here
   public double shooterPitchFromDistance(double DistanceToSpeaker) {

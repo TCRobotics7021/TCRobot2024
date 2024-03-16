@@ -77,38 +77,38 @@ public final class Constants {
 
     //Climber
     public static final double ClimberKg = 0;
-    public static final double ClimberJogPercent = .1;
-    public static final double Climberconfigs_P = .1;
+    public static final double ClimberJogPercent = .2;
+    public static final double Climberconfigs_P = .6;
     public static final double Climberconfigs_I = 0;
     public static final double Climberconfigs_D = 0;
     public static final double Climberconfigs_kG = 0;
-    public static final double Climberconfigs_kS = 0;
+    public static final double Climberconfigs_kS = 0.05;
     public static final double Climberconfigs_kG_Climb = 0;
     public static final double Climberconfigs_kS_Climb = 0;
     
     public static final double ClimberRotPerDist = .6726;
-    public static final double ClimberMAXPos = 850;
-    public static final double ClimberMINPos = 336;
-    public static final double ClimberUpperLimitPos = 850;
-    public static final double ClimberLowerLimitPos = 336;
+    public static final double ClimberMAXPos = 845;
+    public static final double ClimberMINPos = 339;
+    public static final double ClimberUpperLimitPos = 845;
+    public static final double ClimberLowerLimitPos = 339;
     public static final double ClimberTolerance = 3;
-    public static final double ClimberExtend = 700;
-    public static final double ClimberRetracted = 400;
+    public static final double ClimberExtend = 844;
+    public static final double ClimberRetracted = 340;
 
     //AmpLift
     public static final double AmpLiftKg = 0;
     public static final double AmpLiftJogPercent = .1;
-    public static final double AmpLiftconfigs_P = .1;
+    public static final double AmpLiftconfigs_P = .4;
     public static final double AmpLiftconfigs_I = 0;
     public static final double AmpLiftconfigs_D = 0;
     public static final double AmpLiftconfigs_kG = 0;
-    public static final double AmpLiftconfigs_kS = 0;
+    public static final double AmpLiftconfigs_kS = .2;
 
-    public static final double AmpLiftRotPerDist = 1;
-    public static final double AmpLiftMAXPos = 1000;
-    public static final double AmpLiftMINPos = 0;
-    public static final double AmpLiftUpperLimitPos = 1000;
-    public static final double AmpLiftLowerLimitPos = 0;
+    public static final double AmpLiftRotPerDist = .08733;
+    public static final double AmpLiftMAXPos = 870;
+    public static final double AmpLiftMINPos = 245;
+    public static final double AmpLiftUpperLimitPos = 870;
+    public static final double AmpLiftLowerLimitPos = 245;
     public static final double AmpLiftTolerance = 3;
 
     //AmpShoot
@@ -117,10 +117,10 @@ public final class Constants {
 
 
     //Hand Off
-    public static final double IntakeHandOffPercent = .1;
-    public static final double ShooterHandOffPercent = .1;
-    public static final double AmpLiftHandOffPercent = .1;
-    public static final double PitchPOS_Handoff = 10;
+    public static final double IntakeHandOffPercent = .5;
+    public static final double ShooterHandOffPercent = .2;
+    public static final double AmpLiftHandOffPercent = 1;
+    public static final double PitchPOS_Handoff = 5;
 
     //Lob Shot
     public static final double LobShotPitch = 50;
@@ -138,10 +138,10 @@ public final class Constants {
 
 
     //Amp Lift POS Sequentials
-    public static final double AmpLiftPOS_HandOff = 450;
-    public static final double AmpLiftPOS_Amp = 600;
-    public static final double AmpLiftPOS_Trap = 850;
-    public static final double AmpLiftPOS_Retracted = 337;
+    public static final double AmpLiftPOS_HandOff = 257;
+    public static final double AmpLiftPOS_Amp = 500;
+    public static final double AmpLiftPOS_Trap = 860;
+    public static final double AmpLiftPOS_Retracted = 246;
 
     //pitch tolerace/adjuster //was at 3 now at .5
     public static final double robotAngle_tol = .5;

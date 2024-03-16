@@ -48,15 +48,16 @@ public class AmpLift extends SubsystemBase {
     configsAmpLift.Slot0.kD = Constants.AmpLiftconfigs_D; // A change of 1 rotation per second squared results in 0.01 volts output
     configsAmpLift.Slot0.kG = Constants.AmpLiftconfigs_kG;
     configsAmpLift.Slot0.kS = Constants.AmpLiftconfigs_kS;
-    configsAmpLift.Voltage.PeakForwardVoltage = 2;
-    configsAmpLift.Voltage.PeakReverseVoltage = -2;
+    configsAmpLift.Voltage.PeakForwardVoltage = 4;
+    configsAmpLift.Voltage.PeakReverseVoltage = -4;
+    
     
     
     applyConfigs(m_AmpLift, configsAmpLift, " m_AmpLift");
 
-    m_AmpLift.setInverted(false);
+    m_AmpLift.setInverted(true);
  
-    m_AmpRoller.setInverted(false);
+    m_AmpRoller.setInverted(true);
   }
 
 
@@ -64,7 +65,7 @@ public class AmpLift extends SubsystemBase {
     if(setPercent == 0){
       m_AmpRoller.setControl(AmpLiftbrake);
     } else {
-      m_AmpLift.set(setPercent);
+      m_AmpRoller.set(setPercent);
     } 
   }
 
@@ -77,6 +78,7 @@ public class AmpLift extends SubsystemBase {
     configsAmpLift.Slot0.kS = SmartDashboard.getNumber("AmpLiftconfigs_kS", Constants.AmpLiftconfigs_kS);
    
     applyConfigs(m_AmpLift, configsAmpLift, "m_AmpLiftconfigs");
+        m_AmpLift.setInverted(true);
 
   }
   public void applyConfigs(TalonFX motor, TalonFXConfiguration configs, String motorName) {
