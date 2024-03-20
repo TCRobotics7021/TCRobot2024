@@ -51,7 +51,7 @@ public final class Constants {
     public static final Rotation2d shooterPitchCancoderCal = Rotation2d.fromDegrees(133.59375);
 
     //Shooter PID 
-    public static final double AutoShooter_P = .5;
+    public static final double AutoShooter_P = .5; // changed from .5 to 1
     public static final double AutoShooter_I = 1.5;
     public static final double AutoShooter_D = 0.0;
    
@@ -149,10 +149,10 @@ public final class Constants {
 
     //pitch tolerace/adjuster //was at 3 now at .5
     public static final double robotAngle_tol = .5;
-    public static final double ShooterPitchCalc_A = -0.514;
-    public static final double ShooterPitchCalc_B = 6.73;    
-    public static final double ShooterPitchCalc_C = -31;    
-    public static final double ShooterPitchCalc_D = 77.4;
+    public static final double ShooterPitchCalc_A = .217;
+    public static final double ShooterPitchCalc_B = -.322;    
+    public static final double ShooterPitchCalc_C = -11.3;    
+    public static final double ShooterPitchCalc_D = 67.1;
 
 
 

@@ -103,7 +103,7 @@ public class ShootNoteIntoSpeaker extends Command {
       stopdelay.reset();
    }
 
-   if(stopdelay.get() > .5){
+   if(stopdelay.get() > .25){
     finished = true;
    }
 

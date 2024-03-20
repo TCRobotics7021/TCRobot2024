@@ -115,11 +115,11 @@ public class RobotContainer {
                                                                                 () -> OP_Panel.getRawButton(2),
                                                                                 () -> OP_Panel.getRawButton(1))); //for match
         new JoystickButton(rightJoystick,2).whileTrue(new AmpRollerJog(Constants.AmpRollerShootPercent));
-        new JoystickButton(rightJoystick, 3).whileTrue(new ShootNotePreset(Constants.LobShotPitch, Constants.LobShotRPM, 
+       new JoystickButton(rightJoystick, 3).whileTrue(new ShootNotePreset(Constants.PostShotPitch, Constants.PostShotRPM, 
+                                                                                        Constants.PostShotredRot, Constants.PostShotblueRot)); 
+        new JoystickButton(rightJoystick, 4).whileTrue(new ShootNotePreset(Constants.LobShotPitch, Constants.LobShotRPM, 
                                                                                         Constants.LobShotredRot, Constants.LobShotblueRot));
-        new JoystickButton(rightJoystick, 4).whileTrue(new ShootNotePreset(Constants.PostShotPitch, Constants.PostShotRPM, 
-                                                                                        Constants.PostShotredRot, Constants.PostShotblueRot));        
-        new JoystickButton(rightJoystick, 5).onTrue(new InstantCommand(() -> s_Swerve.setAutoRotateConstants()));
+       new JoystickButton(rightJoystick, 5).onTrue(new InstantCommand(() -> s_Swerve.setAutoRotateConstants()));
         new JoystickButton(rightJoystick, 6).onTrue(new InstantCommand(() -> s_Shooter.setAutoPitchConstants()));
         new JoystickButton(rightJoystick, 7).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
          new JoystickButton(rightJoystick, 9).onTrue(new InstantCommand(() -> s_Climber.reapplyConfigs()));
@@ -143,7 +143,7 @@ public class RobotContainer {
         //new JoystickButton(OP_Panel, 14).whileTrue(new ShootSpeed());
 
 
-        //new JoystickButton(leftJoystick,1).whileTrue(new EjectIntake());
+        new JoystickButton(leftJoystick,2).whileTrue(new EjectIntake());
 
 
         //new JoystickButton(rightJoystick, 1).whileTrue(new ShooterCalibration()); //for calibration
@@ -153,8 +153,9 @@ public class RobotContainer {
  
 
         new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
-        new JoystickButton(leftJoystick, 2).whileTrue(new unlatchBalancer());
-       
+        new JoystickButton(leftJoystick,2).whileTrue(new EjectIntake());
+        // new JoystickButton(leftJoystick, 2).whileTrue(new unlatchBalancer());
+        
         // Programming testing buttons
         new JoystickButton(leftJoystick, 7).whileTrue(new RotateToAngle(0));
         new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
@@ -183,19 +184,27 @@ public class RobotContainer {
         //testing
     
          // new JoystickButton(OP_Panel, 6).onTrue(new AmpLiftSetPOS(500));
-         new JoystickButton(OP_Panel, 5).onTrue(new AutoTrap());
-          new JoystickButton(OP_Panel, 6).onTrue(new ClimberSetPOS_Climb(Constants.ClimberMiddlePos));
-          new JoystickButton(OP_Panel, 7).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap));
+      
+        //new JoystickButton(OP_Panel, 6).onTrue(new ClimberSetPOS_Climb(Constants.ClimberMiddlePos));
+          //new JoystickButton(OP_Panel, 7).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap));
+        
+        // Auto Climb
+        new JoystickButton(OP_Panel, 5).onTrue(new AutoTrap());
+
+        //Amp
         new JoystickButton(OP_Panel, 8).onTrue(new NoteHandOff());
-        new JoystickButton(OP_Panel, 9).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
-        new JoystickButton(OP_Panel, 10).onTrue(new RetractAmpLift());
-        // Auto climb and trap add
-        new JoystickButton(OP_Panel, 11).onTrue(new ClimberSetPOS_Climb(Constants.ClimberExtend));
-        new JoystickButton(OP_Panel, 12).onTrue(new Climb());
-        new JoystickButton(OP_Panel, 13).whileTrue(new AmpLiftJog(Constants.AmpLiftJogPercent));
-        new JoystickButton(OP_Panel, 14).whileTrue(new AmpLiftJog(-Constants.AmpLiftJogPercent));
-        new JoystickButton(OP_Panel, 15).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
-        new JoystickButton(OP_Panel, 16).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
+        new JoystickButton(OP_Panel, 11).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
+        new JoystickButton(OP_Panel, 12).onTrue(new RetractAmpLift());
+
+        //Manual climb and amp jog
+        new JoystickButton(OP_Panel, 13).onTrue(new ClimberSetPOS_Climb(Constants.ClimberExtend));
+        new JoystickButton(OP_Panel, 14).onTrue(new Climb());
+        new JoystickButton(OP_Panel, 15).whileTrue(new AmpLiftJog(Constants.AmpLiftJogPercent));
+        new JoystickButton(OP_Panel, 16).whileTrue(new AmpLiftJog(-Constants.AmpLiftJogPercent));
+      
+      
+        // new JoystickButton(OP_Panel, 15).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
+        // new JoystickButton(OP_Panel, 16).whileTrue(new ClimberJog(-Constants.ClimberJogPercent));
 
         //new JoystickButton(OP_Panel, 14).onTrue(new NoteHandOff());
 
