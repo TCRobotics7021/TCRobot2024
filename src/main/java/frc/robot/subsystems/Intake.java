@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
  private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
    private final NeutralOut brake = new NeutralOut();
    private final PositionVoltage VoltageIntake = new PositionVoltage(0, 0, true, 0, 0, false, false, false);
-
+   public static boolean intakeSensor = false; 
   /** Creates a new Intake. */
 
   public Intake() {
@@ -39,7 +39,10 @@ public class Intake extends SubsystemBase {
     }
 
     public void setPercent(double shooterPercent) {
-      m_Intake.set(shooterPercent);
+      if (!AmpLift.ampLiftAboveHandOff){
+          m_Intake.set(shooterPercent);
+      }
+    
     }
 
     public boolean sensorIsBlocked() {
@@ -49,9 +52,14 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (AmpLift.ampLiftAboveHandOff){
+      coast();
+    }
+    
+    intakeSensor = sensorIsBlocked();
 
     SmartDashboard.putNumber("Intake Actual RPM", m_Intake.getVelocity().getValueAsDouble()*60);
-    SmartDashboard.putBoolean("Intake Sensor Is Blocked", sensorIsBlocked());
+    SmartDashboard.putBoolean("Intake Sensor Is Blocked",intakeSensor);
     // This method will be called once per scheduler run
   }
 }

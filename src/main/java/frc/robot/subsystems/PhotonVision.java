@@ -28,6 +28,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,15 +38,15 @@ public class PhotonVision extends SubsystemBase {
   private final PhotonCamera camera;
   private final PhotonPoseEstimator photonEstimator;
   private double lastEstTimestamp = 0;
-  private boolean AprilTagVisible = false;
-
+  public static boolean AprilTagVisible = false;
+  private Timer AprilTagTimer = new Timer(); // might need this
  // public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
    public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
  
    Transform3d robotToCam = new Transform3d(new Translation3d(0, 0, .66), new Rotation3d(0,Math.toRadians(-20),0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
   
   private static final Vector<N3> kSingleTagStdDevs = VecBuilder.fill(1,1,Double.MAX_VALUE);
-  private static final Vector<N3> kMultiTagStdDevs = VecBuilder.fill(.5,.5,Double.MAX_VALUE);
+  private static final Vector<N3> kMultiTagStdDevs = VecBuilder.fill(.7,.7,Double.MAX_VALUE);
   
   
   /** Creates a new PhotonVision. */
@@ -78,11 +79,6 @@ public class PhotonVision extends SubsystemBase {
         boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
        
         if (newResult) lastEstTimestamp = latestTimestamp;
-         if(visionEst.isPresent()){
-          AprilTagVisible = true;
-        }else{
-          AprilTagVisible = false;
-        }
         return visionEst;
     }
 
@@ -113,15 +109,29 @@ public class PhotonVision extends SubsystemBase {
         // Decrease std devs if multiple targets are visible
         if (numTags > 1) estStdDevs = kMultiTagStdDevs;
         // Increase std devs based on (average) distance
-        if (numTags == 1 && avgDist > 8 || avgDist > 8 || numTags == 0)
+        if (numTags == 1 && avgDist > 6 || avgDist > 6 || numTags == 0)
             estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
-        else estStdDevs = estStdDevs.times(1+(avgDist * avgDist / 10));
+        else estStdDevs = estStdDevs.times(1.5+(avgDist * avgDist / 10));
 
         return estStdDevs;
     }
      
     public boolean isAprilTagVisible(){
-     return AprilTagVisible;
+    var targets = getLatestResult().getTargets();
+    int numTags = 0;
+    for (var tgt : targets) {
+            var tagPose = photonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
+            if (tagPose.isEmpty()) continue;
+            numTags++;
+
+        }
+        if (numTags > 0){
+          return true;
+        }else{
+          return false;
+        }
+
+
     }
 
     
@@ -129,7 +139,10 @@ public class PhotonVision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("April Tag Visible", isAprilTagVisible());
+
+    AprilTagVisible = isAprilTagVisible();
+
+    SmartDashboard.putBoolean("April Tag Visible", AprilTagVisible);
     // This method will be called once per scheduler run
   }
 }

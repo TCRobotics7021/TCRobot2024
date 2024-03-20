@@ -232,8 +232,11 @@ public void setAutoPitchConstants(){
   }
 
   public void setPercent(double shooterPercent) {
-    m_ShooterTop.set(shooterPercent);
-    m_ShooterBottom.set(shooterPercent);
+   if (!AmpLift.ampLiftAboveHandOff){
+     m_ShooterTop.set(shooterPercent);
+     m_ShooterBottom.set(shooterPercent);
+   }
+    
   }
     //insert quadratic formula here
   public double shooterPitchFromDistance(double DistanceToSpeaker) {
@@ -266,6 +269,10 @@ public void setAutoPitchConstants(){
     //   temp_target = shooterPitchFromDistance(distanceToTarget);
     // }
     pitchPcontroller();   
+
+    if (AmpLift.ampLiftAboveHandOff){
+      coast();
+    }
 
     SmartDashboard.putBoolean("shooter at RPM", atSpeed(Constants.ShooterSpeed, Constants.ShooterSpeed));
     SmartDashboard.putBoolean("Pitch at Pos", pitchAtTarget(temp_target));

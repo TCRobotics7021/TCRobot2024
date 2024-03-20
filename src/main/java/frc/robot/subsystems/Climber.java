@@ -11,6 +11,9 @@ import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,7 +25,9 @@ public class Climber extends SubsystemBase {
   private final StaticBrake brake = new StaticBrake();
   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
   private final PositionVoltage VoltagePositionClimb = new PositionVoltage(0, 10, false, 0, 1, false, false, false);
-  
+  private final Solenoid latch = new Solenoid(PneumaticsModuleType.CTREPCM,0);
+
+
   //DigitalInput upperLimit = new DigitalInput(2);
   DigitalInput lowerLimit = new DigitalInput(2);
 
@@ -87,14 +92,14 @@ public void reapplyConfigs() {
 
   public void setPositionClimb(double setPosition){
     
-    if (Constants.ClimberMAXPos > setPosition && setPosition > Constants.ClimberMINPos) {
+    if (Constants.ClimberMAXPos >= setPosition && setPosition >= Constants.ClimberMINPos) {
       m_Climber.setControl(VoltagePositionClimb.withPosition(setPosition * Constants.ClimberRotPerDist));
     }
   }
 
   public void setPosition(double setPosition){
     
-    if (Constants.ClimberMAXPos > setPosition && setPosition > Constants.ClimberMINPos) {
+    if (Constants.ClimberMAXPos >= setPosition && setPosition >= Constants.ClimberMINPos) {
       m_Climber.setControl(VoltagePosition.withPosition(setPosition * Constants.ClimberRotPerDist));
     }
   }
@@ -128,7 +133,11 @@ public void reapplyConfigs() {
     m_Climber.setControl(brake);
   }
 
-
+  public void balanceLatch(boolean latched){
+   
+      latch.set(latched);
+    
+}
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -138,6 +147,7 @@ public void reapplyConfigs() {
     if (atLowerLimit()) {
       calibratePos(Constants.ClimberLowerLimitPos);
   }
+  SmartDashboard.putBoolean("Latch",latch.get());
   SmartDashboard.putNumber("Climber Current Rotations", getRotations());
   SmartDashboard.putNumber("Climber Current POS", getPosition());
   SmartDashboard.putBoolean("Climber Upper Limit", atUpperLimit());

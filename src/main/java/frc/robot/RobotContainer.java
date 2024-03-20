@@ -46,7 +46,7 @@ public class RobotContainer {
     public final static Limelight s_Limelight = new Limelight();
     public final static Climber s_Climber = new Climber();
     public final static AmpLift s_AmpLift = new AmpLift();
-    
+    public final static Candle s_Candle = new Candle(); 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -122,16 +122,16 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 5).onTrue(new InstantCommand(() -> s_Swerve.setAutoRotateConstants()));
         new JoystickButton(rightJoystick, 6).onTrue(new InstantCommand(() -> s_Shooter.setAutoPitchConstants()));
         new JoystickButton(rightJoystick, 7).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
-
-        new JoystickButton(rightJoystick, 9).onTrue(new InstantCommand(() -> s_Climber.reapplyConfigs()));
+         new JoystickButton(rightJoystick, 9).onTrue(new InstantCommand(() -> s_Climber.reapplyConfigs()));
         new JoystickButton(rightJoystick, 10).onTrue(new InstantCommand(() -> s_AmpLift.reapplyConfigs()));
         //new JoystickButton(rightJoystick, 8).whileTrue(new PitchJog(Constants.pitchJogSpeed));
        //new JoystickButton(rightJoystick, 9).whileTrue(new PitchJog(-Constants.pitchJogSpeed));
-        
+         new JoystickButton(rightJoystick,11).onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         new JoystickButton(rightJoystick,13).whileTrue(new ShooterCalibration());
         new JoystickButton(rightJoystick,15).onTrue(new ClimberHome());
         new JoystickButton(rightJoystick,16).onTrue(new AmpLiftHome());
 
+      //Jog
         new POVButton(rightJoystick, 0).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
         new POVButton(rightJoystick, 45).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
         new POVButton(rightJoystick, 315).whileTrue(new ClimberJog(Constants.ClimberJogPercent));
@@ -153,8 +153,9 @@ public class RobotContainer {
  
 
         new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
-        new JoystickButton(leftJoystick,2).onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        new JoystickButton(leftJoystick, 3).whileTrue(new AmpLiftJog(Constants.AmpRollerShootPercent));
+        new JoystickButton(leftJoystick, 2).whileTrue(new unlatchBalancer());
+       
+        // Programming testing buttons
         new JoystickButton(leftJoystick, 7).whileTrue(new RotateToAngle(0));
         new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
         new JoystickButton(leftJoystick, 9).whileTrue(new RotateToAngle(180));
@@ -180,12 +181,15 @@ public class RobotContainer {
       //  new JoystickButton(OP_Panel,3).onTrue(new InstantCommand(() -> s_Shooter.setRPM(0,0)));
 
         //testing
-          new JoystickButton(OP_Panel, 5).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Retracted));//Constants.
+    
          // new JoystickButton(OP_Panel, 6).onTrue(new AmpLiftSetPOS(500));
+         new JoystickButton(OP_Panel, 5).onTrue(new AutoTrap());
+          new JoystickButton(OP_Panel, 6).onTrue(new ClimberSetPOS_Climb(Constants.ClimberMiddlePos));
           new JoystickButton(OP_Panel, 7).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap));
         new JoystickButton(OP_Panel, 8).onTrue(new NoteHandOff());
         new JoystickButton(OP_Panel, 9).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
         new JoystickButton(OP_Panel, 10).onTrue(new RetractAmpLift());
+        // Auto climb and trap add
         new JoystickButton(OP_Panel, 11).onTrue(new ClimberSetPOS_Climb(Constants.ClimberExtend));
         new JoystickButton(OP_Panel, 12).onTrue(new Climb());
         new JoystickButton(OP_Panel, 13).whileTrue(new AmpLiftJog(Constants.AmpLiftJogPercent));

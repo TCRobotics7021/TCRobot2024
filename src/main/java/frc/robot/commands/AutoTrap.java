@@ -10,14 +10,23 @@ import frc.robot.Constants;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Climb extends SequentialCommandGroup {
-  /** Creates a new Climb. */
-  public Climb() {
+public class AutoTrap extends SequentialCommandGroup {
+  /** Creates a new AutoTrap. */
+  public AutoTrap() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new PitchSetPOS(0), 
-      new ClimberSetPOS_Climb(Constants.ClimberRetracted)
+    new ClimberSetPOS_Climb(Constants.ClimberStage1Pos),
+    new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp),
+    new unlatchBalancer().withTimeout(2),
+    new ClimberSetPOS_Climb(Constants.ClimberStage2Pos),
+    new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap),
+    new ClimberSetPOS_Climb(Constants.ClimberRetracted),
+    new AmpRollerJog(Constants.AmpRollerShootPercent).withTimeout(3),
+    new ClimberJog(0).withTimeout(.1),
+    new AmpLiftSetPOS(Constants.AmpLiftPOS_HandOff)
+
+
     );
   }
 }

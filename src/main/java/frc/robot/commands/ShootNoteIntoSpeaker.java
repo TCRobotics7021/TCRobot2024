@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.PhotonVision;
 
 public class ShootNoteIntoSpeaker extends Command {
   /** Creates a new ShootNoteIntoSpeaker. */
@@ -85,7 +86,7 @@ public class ShootNoteIntoSpeaker extends Command {
     if ((RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed) 
           && (RobotContainer.s_Swerve.aimedAtSpeaker() || ManualAim.getAsBoolean() || RobotCentric.getAsBoolean())
           && (RobotContainer.s_Shooter.pitchAtTarget(targetPitch) || ManualPitch.getAsBoolean()))
-          && ((RobotContainer.s_PhotonVision.isAprilTagVisible() && AprilTagToggle.getAsBoolean()) || !AprilTagToggle.getAsBoolean())){
+          && ((PhotonVision.AprilTagVisible && AprilTagToggle.getAsBoolean()) || !AprilTagToggle.getAsBoolean())){
             
         startdelay.start();
    }else{
