@@ -45,7 +45,7 @@ public class Climber extends SubsystemBase {
     configsClimber.Slot0.kG = Constants.Climberconfigs_kG;
     configsClimber.Slot0.kS = Constants.Climberconfigs_kS;
     configsClimber.Voltage.PeakForwardVoltage = 10;
-    configsClimber.Voltage.PeakReverseVoltage = -6;
+    configsClimber.Voltage.PeakReverseVoltage = -8;
      configsClimber.Slot1.kP = Constants.Climberconfigs_P; // An error of 1 rotation per second results in 2V output
     configsClimber.Slot1.kI = Constants.Climberconfigs_I; // An error of 1 rotation per second increases output by 0.5V every second
     configsClimber.Slot1.kD = Constants.Climberconfigs_D; 
