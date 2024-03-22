@@ -12,7 +12,7 @@ public class EjectIntake extends Command {
   /** Creates a new EjectIntake. */
   public EjectIntake() {
     // Use addRequirements() here to declare subsystem dependencies.
-     addRequirements(RobotContainer.s_Intake);
+     addRequirements(RobotContainer.s_Intake, RobotContainer.s_Shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -23,12 +23,14 @@ public class EjectIntake extends Command {
   @Override
   public void execute() {
     RobotContainer.s_Intake.setPercent(-Constants.intakePercent);
+    RobotContainer.s_Shooter.setPercent(-.3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotContainer.s_Intake.coast();
+    RobotContainer.s_Shooter.coast();
   }
 
   // Returns true when the command should end.

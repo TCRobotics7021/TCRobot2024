@@ -220,6 +220,14 @@ public void setAutoPitchConstants(){
      && bottomCurrentSpeed > bottomTargetSpeed - Constants.targetSpeedTolerance);
   }
 
+  public boolean atSpeedLob(double bottomTargetSpeed, double topTargetSpeed) {
+   double topCurrentSpeed = m_ShooterTop.getVelocity().getValueAsDouble()*60;
+   double bottomCurrentSpeed = m_ShooterBottom.getVelocity().getValueAsDouble()*60;
+   
+    return(topCurrentSpeed > topTargetSpeed - 200
+     && bottomCurrentSpeed > bottomTargetSpeed - 200);
+  }
+
 
   public void setRPM(double Top_RPM, double Bottom_RPM) {
     m_ShooterTop.setControl(VoltageVelocity.withVelocity(Top_RPM/60));
@@ -256,6 +264,14 @@ public void setAutoPitchConstants(){
 
       return(Math.abs(error)< Constants.pitch_tol);
   }
+
+    public boolean pitchAtTargetLob(double targetPitch){
+      double currentPitch = getPitch().getDegrees();
+      double error = currentPitch - targetPitch; 
+
+      return(Math.abs(error)< 2);
+  }
+
 
 
 

@@ -68,7 +68,7 @@ public class RobotContainer {
                         // removed the (-) symbols in front of leftJoystick.getRawAxis(1),() -> leftJoystick.getRawAxis(0),() -> rightJoystick.getRawAxis(2),
 
 
-        NamedCommands.registerCommand("c_IntakeNote", new IntakeNote().withTimeout(3));
+        NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
         NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(() -> false, () -> false, () -> false, () -> false));   
         NamedCommands.registerCommand("c_ShooterMotorsOn", new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed))); 
         NamedCommands.registerCommand("c_AutoNotePickUpStrafe", new AutoNotePickUpStrafe()); 
@@ -92,6 +92,7 @@ public class RobotContainer {
       autoChooser.addOption("E_S2_2_56_67", new PathPlannerAuto("E_S2_2_56_67"));
       autoChooser.addOption("F_S3_3_2_56", new PathPlannerAuto("F_S3_3_2_56"));
       autoChooser.addOption("G_S4", new PathPlannerAuto("G_S4"));
+      autoChooser.addOption("H_S3_3_2_1_45", new PathPlannerAuto("H_S3_3_2_1_45"));
       SmartDashboard.putData("Autonomous Program", autoChooser);
       //not sure if this right or work
       // some weird ask brett or walker bouts it
@@ -118,7 +119,7 @@ public class RobotContainer {
         new JoystickButton(rightJoystick,2).whileTrue(new AmpRollerJog(Constants.AmpRollerShootPercent));
        new JoystickButton(rightJoystick, 3).whileTrue(new ShootNotePreset(Constants.PostShotPitch, Constants.PostShotRPM, 
                                                                                         Constants.PostShotredRot, Constants.PostShotblueRot)); 
-        new JoystickButton(rightJoystick, 4).whileTrue(new ShootNotePreset(Constants.LobShotPitch, Constants.LobShotRPM, 
+        new JoystickButton(rightJoystick, 4).whileTrue(new PreSetLobShot(Constants.LobShotPitch, Constants.LobShotRPM, 
                                                                                         Constants.LobShotredRot, Constants.LobShotblueRot));
        new JoystickButton(rightJoystick, 5).onTrue(new InstantCommand(() -> s_Swerve.setAutoRotateConstants()));
         new JoystickButton(rightJoystick, 6).onTrue(new InstantCommand(() -> s_Shooter.setAutoPitchConstants()));

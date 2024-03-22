@@ -142,7 +142,7 @@ public final class Constants {
 
 
     //Amp Lift POS Sequentials
-    public static final double AmpLiftPOS_HandOff = 267;
+    public static final double AmpLiftPOS_HandOff = 262;
     public static final double AmpLiftPOS_Amp = 665;
     public static final double AmpLiftPOS_Trap = 889;
     public static final double AmpLiftPOS_Retracted = 295;

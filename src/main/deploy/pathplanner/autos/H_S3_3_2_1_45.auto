@@ -1,0 +1,103 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.39,
+      "y": 4.116342363738859
+    },
+    "rotation": 178.5295045046467
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H_1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_IntakeNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H_2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H_3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H_4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H_5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

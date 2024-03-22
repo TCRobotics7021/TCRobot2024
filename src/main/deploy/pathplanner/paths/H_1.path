@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4291761916857164,
+        "x": 1.3929974013794195,
         "y": 4.116342363738859
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7074970674157872,
-        "y": 4.10464820929642
+        "x": 1.6877201211149198,
+        "y": 4.145636137206654
       },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.3459978999730087,
-        "y": 4.116342363738859
-      },
-      "prevControl": {
-        "x": 1.9577519724840027,
-        "y": 4.10464820929642
-      },
-      "nextControl": {
-        "x": 2.7342438274620156,
-        "y": 4.128036518181298
-      },
-      "isLocked": false,
-      "linkedName": null
+      "isLocked": true,
+      "linkedName": "Starting_3"
     },
     {
       "anchor": {
@@ -36,12 +20,28 @@
         "y": 4.116342363738859
       },
       "prevControl": {
-        "x": 3.0997592422535285,
-        "y": 4.097631716630955
+        "x": 2.3376293023463623,
+        "y": 4.084392420438297
+      },
+      "nextControl": {
+        "x": 3.080244622027707,
+        "y": 4.144115980539654
+      },
+      "isLocked": false,
+      "linkedName": "F_End1"
+    },
+    {
+      "anchor": {
+        "x": 2.3698247396494807,
+        "y": 4.116342363738859
+      },
+      "prevControl": {
+        "x": 2.616498309919698,
+        "y": 4.075047380863993
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "F_End1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -49,7 +49,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.15,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -77,7 +77,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "F",
+  "folder": "H",
   "previewStartingState": {
     "rotation": -179.28384005452963,
     "velocity": 0

@@ -329,6 +329,14 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public boolean atRotationLob(double targetRot){
+        if (Math.abs(targetRot - getHeading().getDegrees()) < 5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
     public boolean aimedAtSpeaker(){
