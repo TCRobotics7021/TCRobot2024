@@ -68,7 +68,7 @@ public class RobotContainer {
                         // removed the (-) symbols in front of leftJoystick.getRawAxis(1),() -> leftJoystick.getRawAxis(0),() -> rightJoystick.getRawAxis(2),
 
 
-        NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
+        NamedCommands.registerCommand("c_IntakeNote", new IntakeNote().withTimeout(3));
         NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(() -> false, () -> false, () -> false, () -> false));   
         NamedCommands.registerCommand("c_ShooterMotorsOn", new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed))); 
         NamedCommands.registerCommand("c_AutoNotePickUpStrafe", new AutoNotePickUpStrafe()); 

@@ -42,6 +42,8 @@ public class IntakeNote extends Command {
     if(delay.get()>.01){
       finished = true;
     }
+
+    
   }
 
   // Called once the command ends or is interrupted.
