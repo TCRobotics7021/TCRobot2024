@@ -36,7 +36,7 @@ public final class Constants {
     public static final double AUTOROTATE_TOL = 3;
 
     //Auto Pitch PID Values
-    public static final double defaultPitch = 50; //toggle if Pitch aint workin
+    public static final double defaultPitch = 55; //toggle if Pitch aint workin
     public static final double pitchJogSpeed = .2;
     public static final double pitch_tol = .5;
     public static final double autoPitch_P = 0.045;
@@ -133,10 +133,10 @@ public final class Constants {
     public static final double LobShotredRot = 45;
 
     //Post Shot
-    public static final double PostShotPitch = 27;
+    public static final double PostShotPitch = 33;
     public static final double PostShotRPM = 4500;
-    public static final double PostShotblueRot = -173.8;
-    public static final double PostShotredRot = 10;
+    public static final double PostShotblueRot = -178.68;
+    public static final double PostShotredRot = 17.4;
 
 
 
@@ -152,7 +152,7 @@ public final class Constants {
     public static final double ShooterPitchCalc_A = .217;
     public static final double ShooterPitchCalc_B = -.322;    
     public static final double ShooterPitchCalc_C = -11.3;    
-    public static final double ShooterPitchCalc_D = 67.1;
+    public static final double ShooterPitchCalc_D = 68.1;
 
 
 

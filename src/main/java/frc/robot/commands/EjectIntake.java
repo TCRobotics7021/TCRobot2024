@@ -22,7 +22,7 @@ public class EjectIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.s_Intake.setPercent(Constants.intakePercent);
+    RobotContainer.s_Intake.setPercent(-Constants.intakePercent);
   }
 
   // Called once the command ends or is interrupted.

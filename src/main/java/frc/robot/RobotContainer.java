@@ -91,6 +91,7 @@ public class RobotContainer {
       autoChooser.addOption("D_S4_87_76", new PathPlannerAuto("D_S4_87_76"));
       autoChooser.addOption("E_S2_2_56_67", new PathPlannerAuto("E_S2_2_56_67"));
       autoChooser.addOption("F_S3_3_2_56", new PathPlannerAuto("F_S3_3_2_56"));
+      autoChooser.addOption("G_S4", new PathPlannerAuto("G_S4"));
       SmartDashboard.putData("Autonomous Program", autoChooser);
       //not sure if this right or work
       // some weird ask brett or walker bouts it
@@ -141,9 +142,6 @@ public class RobotContainer {
 
   
         //new JoystickButton(OP_Panel, 14).whileTrue(new ShootSpeed());
-
-
-        new JoystickButton(leftJoystick,2).whileTrue(new EjectIntake());
 
 
         //new JoystickButton(rightJoystick, 1).whileTrue(new ShooterCalibration()); //for calibration

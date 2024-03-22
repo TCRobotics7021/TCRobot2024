@@ -36,7 +36,7 @@ public class ShootNoteIntoSpeaker extends Command {
     this.ManualAim = ManualAim;  
     this.ManualPitch = ManualPitch;
     this.RobotCentric = RobotCentric;
-    addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_PhotonVision);
+    addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_PhotonVision, RobotContainer.s_AmpLift);
   }
 
   // Called when the command is initially scheduled.
@@ -54,6 +54,8 @@ public class ShootNoteIntoSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    RobotContainer.s_AmpLift.setPercentLift(-Constants.AmpLiftJogPercent);
 
    //Aiming
     if (!ManualAim.getAsBoolean() && !RobotCentric.getAsBoolean()){
@@ -93,7 +95,7 @@ public class ShootNoteIntoSpeaker extends Command {
     startdelay.reset();
    }
 
-   if(startdelay.get() > .5){
+   if(startdelay.get() > .25){
     RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }
 
@@ -122,6 +124,7 @@ public class ShootNoteIntoSpeaker extends Command {
            RobotContainer.s_Intake.coast();
            //RobotContainer.s_Shooter.coast();
            RobotContainer.s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed);
+           RobotContainer.s_AmpLift.setBrakeLift();
   }
 
   // Returns true when the command should end.
