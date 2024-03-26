@@ -76,8 +76,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("c_NoteHandOff", new NoteHandOff());
         NamedCommands.registerCommand("c_RetractAmpLift", new AmpLiftSetPOS(Constants.AmpLiftPOS_Retracted));
         NamedCommands.registerCommand("c_AmpRollerShot", new AmpRollerJog(Constants.AmpRollerShootPercent).withTimeout(Constants.AmpRollerShootTimout));
-        
-        
+        NamedCommands.registerCommand("c_TurnOnAprilTag", new InstantCommand(() -> s_Swerve.turnOnAprilTag()));
+        NamedCommands.registerCommand("c_TurnOffAprilTag", new InstantCommand(() -> s_Swerve.turnOffAprilTag()));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -160,10 +160,10 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
         new JoystickButton(leftJoystick, 9).whileTrue(new RotateToAngle(180));
         new JoystickButton(leftJoystick, 10).whileTrue(new RotateToAngle((-90)));
-        new JoystickButton(leftJoystick,11).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
-        new JoystickButton(leftJoystick,12).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
-        new JoystickButton(leftJoystick,13).onTrue(new InstantCommand(() -> s_Shooter.setPitch(55)));
-
+        // new JoystickButton(leftJoystick,11).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
+        // new JoystickButton(leftJoystick,12).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
+        // new JoystickButton(leftJoystick,13).onTrue(new InstantCommand(() -> s_Shooter.setPitch(55)));
+        new JoystickButton(leftJoystick,13).onTrue(new AutoIntakeAndShoot());
 
         //Auto Pitch Calibration
         
@@ -189,9 +189,12 @@ public class RobotContainer {
         
         // Auto Climb
         new JoystickButton(OP_Panel, 5).onTrue(new AutoTrap());
+        new JoystickButton(OP_Panel, 6).onTrue(new FinishAutoTrap());
 
         //Amp
         new JoystickButton(OP_Panel, 8).onTrue(new NoteHandOff());
+        new JoystickButton(OP_Panel, 9).whileTrue(new AmpRollerJog(-.075));
+        new JoystickButton(OP_Panel, 10).whileTrue(new AmpRollerJog(Constants.AmpRollerShootPercent));
         new JoystickButton(OP_Panel, 11).onTrue(new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
         new JoystickButton(OP_Panel, 12).onTrue(new RetractAmpLift());
 

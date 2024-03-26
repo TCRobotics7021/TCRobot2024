@@ -108,8 +108,10 @@ public class AutoIntakeAndShoot extends Command {
     targetPitch = RobotContainer.s_Shooter.shooterPitchFromDistance(DistanceToSpeaker);
     RobotContainer.s_Shooter.setPitch(targetPitch);   
 
-   if(noteHasBeenIntaked==false &&  RobotContainer.s_Limelight.isNote()){
+   if(noteHasBeenIntaked==false){
+    if(RobotContainer.s_Limelight.isNote()){
     RobotContainer.s_Intake.setPercent(Constants.intakePercent);
+    }
    }else if (noteHasBeenIntaked==true 
           && RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed ) 
           && RobotContainer.s_Swerve.aimedAtSpeaker() 
@@ -117,7 +119,7 @@ public class AutoIntakeAndShoot extends Command {
      RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }else if(aimingTimeout.get()>2){
       RobotContainer.s_Intake.setPercent(Constants.feedPercent);
-   }else{
+   }else {
      RobotContainer.s_Intake.coast();
    }
 

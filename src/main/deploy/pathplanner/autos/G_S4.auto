@@ -2,28 +2,15 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.41,
-      "y": 2.75
+      "x": 1.39,
+      "y": 4.12
     },
-    "rotation": -179.11235431798457
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
-      "commands": [
-        {
-          "type": "path",
-          "data": {
-            "pathName": "G_1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        }
-      ]
+      "commands": []
     }
   },
   "folder": null,

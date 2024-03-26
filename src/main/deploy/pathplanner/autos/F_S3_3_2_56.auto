@@ -66,6 +66,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "F_4"
@@ -74,7 +80,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_AutoNotePickUpStrafe"
           }
         }
       ]

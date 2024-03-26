@@ -5,12 +5,18 @@
       "x": 1.39,
       "y": 4.116342363738859
     },
-    "rotation": 178.5295045046467
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "c_turnOffAprilTag"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -69,6 +75,12 @@
           "type": "named",
           "data": {
             "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_turnOnAprilTag"
           }
         },
         {

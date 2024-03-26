@@ -147,7 +147,7 @@ public void reapplyConfigs() {
     if (atLowerLimit()) {
       calibratePos(Constants.ClimberLowerLimitPos);
   }
-  SmartDashboard.putBoolean("Latch",latch.get());
+  SmartDashboard.putBoolean("Latch", latch.get());
   SmartDashboard.putNumber("Climber Current Rotations", getRotations());
   SmartDashboard.putNumber("Climber Current POS", getPosition());
   SmartDashboard.putBoolean("Climber Upper Limit", atUpperLimit());

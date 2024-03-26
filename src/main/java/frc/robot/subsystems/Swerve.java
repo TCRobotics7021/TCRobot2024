@@ -1,13 +1,5 @@
 package frc.robot.subsystems;
 
-import frc.robot.SwerveModule;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -18,22 +10,25 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.SwerveModule;
 
 public class Swerve extends SubsystemBase {
    // public SwerveDriveOdometry swerveOdometry;
@@ -43,6 +38,7 @@ public class Swerve extends SubsystemBase {
     private final Field2d m_field = new Field2d();
     private PhotonVision s_PhotonVision;
     private PIDController autoRotatePID;
+    private boolean aprilTagDisable = false;
 
     public Swerve(PhotonVision pv) {
 
@@ -171,14 +167,15 @@ public class Swerve extends SubsystemBase {
         }
         return positions;
     }
-    public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds) {
-        swerveOdometry.addVisionMeasurement(visionMeasurement, timestampSeconds);
-    }
+    // public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds) {
+    //     swerveOdometry.addVisionMeasurement(visionMeasurement, timestampSeconds);
+    // }
 
     /** See {@link SwerveDrivePoseEstimator#addVisionMeasurement(Pose2d, double, Matrix)}. */
-    public void addVisionMeasurement(
-            Pose2d visionMeasurement, double timestampSeconds, Matrix<N3, N1> stdDevs) {
-        swerveOdometry.addVisionMeasurement(visionMeasurement, timestampSeconds, stdDevs);
+    public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds, Matrix<N3, N1> stdDevs) {
+        if (!aprilTagDisable) {
+            swerveOdometry.addVisionMeasurement(visionMeasurement, timestampSeconds, stdDevs);
+        }
     }
 
     public Pose2d getPose() {
@@ -319,6 +316,13 @@ public class Swerve extends SubsystemBase {
         System.out.println("Auto Rotate P Set to " +  autoRotatePID.getP());
         System.out.println("Auto Rotate I Set to " +  autoRotatePID.getI());
         System.out.println("Auto Rotate D Set to " +  autoRotatePID.getD());
+    }
+
+     public void turnOnAprilTag(){
+      aprilTagDisable = false;
+    }
+    public void turnOffAprilTag(){
+      aprilTagDisable = true;
     }
 
     public boolean atRotation(double targetRot){
