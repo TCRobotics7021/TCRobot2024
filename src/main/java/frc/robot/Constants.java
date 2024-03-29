@@ -46,7 +46,7 @@ public final class Constants {
 
     public static final double pitchMaxOutput = .75;
     public static final double pitchMinOutput = -.75;   
-    public static final double pitchMaxAngle = 60;
+    public static final double pitchMaxAngle = 57;
     public static final double pitchMinAngle = 0;
     public static final Rotation2d shooterPitchCancoderCal = Rotation2d.fromDegrees(133.59375);
 
@@ -58,9 +58,9 @@ public final class Constants {
 
     //Auto Note Pickup
     public static final double rotateP = 0.01;
-    public static final double strafeP = 0.01;
+    public static final double strafeP = 0.01; //0.01 to 0.02
     public static final double translatePRotateStrat = 0.0178;
-    public static final double translatePStrafeStrat = 0.005;
+    public static final double translatePStrafeStrat = 0.008; // changed fro 0.005 to 0.008
 
 
     //Intake
@@ -102,16 +102,16 @@ public final class Constants {
     //AmpLift
     public static final double AmpLiftKg = 0;
     public static final double AmpLiftJogPercent = .1;
-    public static final double AmpLiftconfigs_P = 7;
+    public static final double AmpLiftconfigs_P = 5;
     public static final double AmpLiftconfigs_I = 0;
     public static final double AmpLiftconfigs_D = 0;
     public static final double AmpLiftconfigs_kG = 0;
-    public static final double AmpLiftconfigs_kS = .4;
+    public static final double AmpLiftconfigs_kS = 0;
 
-    public static final double AmpLiftRotPerDist = .08733;
-    public static final double AmpLiftMAXPos = 889;
+    public static final double AmpLiftRotPerDist = .15873;
+    public static final double AmpLiftMAXPos = 899;
     public static final double AmpLiftMINPos = 245;
-    public static final double AmpLiftUpperLimitPos = 890;
+    public static final double AmpLiftUpperLimitPos = 900;
     public static final double AmpLiftLowerLimitPos = 245;
     public static final double AmpLiftTolerance = 3;
 
@@ -124,7 +124,7 @@ public final class Constants {
     public static final double IntakeHandOffPercent = .5;
     public static final double ShooterHandOffPercent = .2;
     public static final double AmpLiftHandOffPercent = 1;
-    public static final double PitchPOS_Handoff = 5;
+    public static final double PitchPOS_Handoff = 20;
 
     //Lob Shot
     public static final double LobShotPitch = 50;
@@ -138,13 +138,13 @@ public final class Constants {
     public static final double PostShotblueRot = -178.68;
     public static final double PostShotredRot = 17.4;
 
-
+    public static final double ampLiftPeakVvoltage = 8;
 
 
     //Amp Lift POS Sequentials
-    public static final double AmpLiftPOS_HandOff = 262;
+    public static final double AmpLiftPOS_HandOff = 280;
     public static final double AmpLiftPOS_Amp = 665;
-    public static final double AmpLiftPOS_Trap = 889;
+    public static final double AmpLiftPOS_Trap = 897;
     public static final double AmpLiftPOS_Retracted = 295;
 
     //pitch tolerace/adjuster //was at 3 now at .5
@@ -152,7 +152,7 @@ public final class Constants {
     public static final double ShooterPitchCalc_A = .217;
     public static final double ShooterPitchCalc_B = -.322;    
     public static final double ShooterPitchCalc_C = -11.3;    
-    public static final double ShooterPitchCalc_D = 68.1;
+    public static final double ShooterPitchCalc_D = 67.6;
 
 
 
@@ -219,15 +219,15 @@ public final class Constants {
         public static final double angleKD = chosenModule.angleKD;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.12; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.12; //.12 //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
 
         /* Drive Motor Characterization Values From SYSID */
-        public static final double driveKS = 0.32; //TODO: This must be tuned to specific robot
-        public static final double driveKV = 1.51;
-        public static final double driveKA = 0.27;
+        public static final double driveKS = 0.1117; //TODO: This must be tuned to specific robot
+        public static final double driveKV = 2.1577;
+        public static final double driveKA = 0.26293;
 
         /* Swerve Profiling Values */
         /** Meters per Second */

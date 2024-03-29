@@ -45,7 +45,7 @@ public class TeleopSwerve extends Command {
         if (!AutoRotate_AIM.getAsBoolean()) {
             rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
         } else {
-            targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker();
+            targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker(false);
             rotationVal = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
         }
         /* Drive */

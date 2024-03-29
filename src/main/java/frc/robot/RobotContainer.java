@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -69,7 +70,13 @@ public class RobotContainer {
 
 
         NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
-        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(() -> false, () -> false, () -> false, () -> false));   
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(() -> false, 
+                                                                                              () -> false, 
+                                                                                              () -> false, 
+                                                                                              () -> false,
+                                                                                              false, 
+                                                                                              () -> 0,
+                                                                                              () -> 0));   
         NamedCommands.registerCommand("c_ShooterMotorsOn", new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed))); 
         NamedCommands.registerCommand("c_AutoNotePickUpStrafe", new AutoNotePickUpStrafe()); 
         NamedCommands.registerCommand("c_AmpLiftToAmpPosition", new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
@@ -78,6 +85,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("c_AmpRollerShot", new AmpRollerJog(Constants.AmpRollerShootPercent).withTimeout(Constants.AmpRollerShootTimout));
         NamedCommands.registerCommand("c_TurnOnAprilTag", new InstantCommand(() -> s_Swerve.turnOnAprilTag()));
         NamedCommands.registerCommand("c_TurnOffAprilTag", new InstantCommand(() -> s_Swerve.turnOffAprilTag()));
+        NamedCommands.registerCommand("c_AutoIntakeAndShoot", new AutoIntakeAndShoot());
+          
+        
 
         // Configure the button bindings
         configureButtonBindings();
@@ -115,7 +125,10 @@ public class RobotContainer {
          new JoystickButton(rightJoystick,1).whileTrue(new ShootNoteIntoSpeaker(() -> OP_Panel.getRawButton(4), 
                                                                                 () -> OP_Panel.getRawButton(3),
                                                                                 () -> OP_Panel.getRawButton(2),
-                                                                                () -> OP_Panel.getRawButton(1))); //for match
+                                                                                () -> OP_Panel.getRawButton(1),
+                                                                                true,
+                                                                                () -> -leftJoystick.getRawAxis(1),
+                                                                                () -> -leftJoystick.getRawAxis(0))); //for match
         new JoystickButton(rightJoystick,2).whileTrue(new AmpRollerJog(Constants.AmpRollerShootPercent));
        new JoystickButton(rightJoystick, 3).whileTrue(new ShootNotePreset(Constants.PostShotPitch, Constants.PostShotRPM, 
                                                                                         Constants.PostShotredRot, Constants.PostShotblueRot)); 
@@ -156,15 +169,18 @@ public class RobotContainer {
         // new JoystickButton(leftJoystick, 2).whileTrue(new unlatchBalancer());
         
         // Programming testing buttons
-        new JoystickButton(leftJoystick, 7).whileTrue(new RotateToAngle(0));
-        new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
-        new JoystickButton(leftJoystick, 9).whileTrue(new RotateToAngle(180));
-        new JoystickButton(leftJoystick, 10).whileTrue(new RotateToAngle((-90)));
+        // new JoystickButton(leftJoystick, 7).whileTrue(new RotateToAngle(0));
+        // new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
+        // new JoystickButton(leftJoystick, 9).whileTrue(new RotateToAngle(180));
+        // new JoystickButton(leftJoystick, 10).whileTrue(new RotateToAngle((-90)));
         // new JoystickButton(leftJoystick,11).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
         // new JoystickButton(leftJoystick,12).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
         // new JoystickButton(leftJoystick,13).onTrue(new InstantCommand(() -> s_Shooter.setPitch(55)));
         new JoystickButton(leftJoystick,13).onTrue(new AutoIntakeAndShoot());
-
+        new JoystickButton(leftJoystick, 7).whileTrue(s_Swerve.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        new JoystickButton(leftJoystick, 8).whileTrue(s_Swerve.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(leftJoystick, 9).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        new JoystickButton(leftJoystick, 10).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         //Auto Pitch Calibration
         
 

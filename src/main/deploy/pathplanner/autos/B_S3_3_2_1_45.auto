@@ -74,13 +74,13 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_turnOnAprilTag"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_turnOnAprilTag"
+            "name": "c_ShootNoteIntoSpeaker"
           }
         },
         {

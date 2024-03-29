@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class AmpLift extends SubsystemBase {
   /** Creates a new AmpLift. */
@@ -48,8 +49,8 @@ public class AmpLift extends SubsystemBase {
     configsAmpLift.Slot0.kD = Constants.AmpLiftconfigs_D; // A change of 1 rotation per second squared results in 0.01 volts output
     configsAmpLift.Slot0.kG = Constants.AmpLiftconfigs_kG;
     configsAmpLift.Slot0.kS = Constants.AmpLiftconfigs_kS;
-    configsAmpLift.Voltage.PeakForwardVoltage = 4;
-    configsAmpLift.Voltage.PeakReverseVoltage = -4;
+    configsAmpLift.Voltage.PeakForwardVoltage = Constants.ampLiftPeakVvoltage;
+    configsAmpLift.Voltage.PeakReverseVoltage = -Constants.ampLiftPeakVvoltage;
     
     
     
@@ -76,8 +77,8 @@ public class AmpLift extends SubsystemBase {
     configsAmpLift.Slot0.kD = SmartDashboard.getNumber("AmpLiftconfigs_D", Constants.AmpLiftconfigs_D); // A change of 1 rotation per second results in 0.1 volts output
     configsAmpLift.Slot0.kG = SmartDashboard.getNumber("AmpLiftconfigs_kG", Constants.AmpLiftconfigs_kG);
     configsAmpLift.Slot0.kS = SmartDashboard.getNumber("AmpLiftconfigs_kS", Constants.AmpLiftconfigs_kS);
-    configsAmpLift.Voltage.PeakForwardVoltage = 4;
-    configsAmpLift.Voltage.PeakReverseVoltage = -4;
+    configsAmpLift.Voltage.PeakForwardVoltage = Constants.ampLiftPeakVvoltage;
+    configsAmpLift.Voltage.PeakReverseVoltage = -Constants.ampLiftPeakVvoltage;
     applyConfigs(m_AmpLift, configsAmpLift, "m_AmpLiftconfigs");
         m_AmpLift.setInverted(true);
 
@@ -156,7 +157,7 @@ public class AmpLift extends SubsystemBase {
       calibratePos(Constants.AmpLiftLowerLimitPos);
   }
 
-    if (getPosition() > 270){
+    if (getPosition() > 300){
       ampLiftAboveHandOff = true;
     }else{
       ampLiftAboveHandOff = false;

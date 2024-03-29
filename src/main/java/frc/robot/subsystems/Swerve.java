@@ -1,6 +1,11 @@
 package frc.robot.subsystems;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.VoltsPerMeterPerSecond;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -21,11 +26,15 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.SwerveModule;
@@ -40,8 +49,25 @@ public class Swerve extends SubsystemBase {
     private PIDController autoRotatePID;
     private boolean aprilTagDisable = false;
 
-    public Swerve(PhotonVision pv) {
+    private SysIdRoutine m_SysIdRoutine =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                null,         // Default ramp rate is acceptable
+                Volts.of(4), // Reduce dynamic voltage to 4 to prevent motor brownout
+                null),
+            new SysIdRoutine.Mechanism(
+                (Measure<Voltage> volts)-> driveTuning(volts.in(Volts)),
+                log -> {
+                    // Record a frame for the left motors.  Since these share an encoder, we consider
+                    // the entire group to be one motor.
+                    log.motor("Drive")
+                        .voltage(Volts.of(mSwerveMods[1].getVoltage()))
+                        .linearPosition(Meters.of(mSwerveMods[1].getPosition().distanceMeters))
+                        .linearVelocity(MetersPerSecond.of(mSwerveMods[1].getState().speedMetersPerSecond));
+                },
+                this));
 
+    public Swerve(PhotonVision pv) {
 
         autoRotatePID = new PIDController(Constants.autoRotate_P, Constants.autoRotate_I, Constants.autoRotate_D);
         SmartDashboard.putNumber("Auto Rotate P", Constants.autoRotate_P);
@@ -127,6 +153,11 @@ public class Swerve extends SubsystemBase {
         }
     }    
 
+    public void driveTuning(double voltage){
+        for(SwerveModule mod : mSwerveMods){
+            mod.setDesiredStateTuning(voltage);
+        }
+    }
 
     public void driveRobotRelative(ChassisSpeeds chassisCSpeeds){
         SwerveModuleState[] swerveModuleStates =
@@ -134,7 +165,7 @@ public class Swerve extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], true);
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], false); //used to be true, auto ks values changed to test ones
         }
     }
 
@@ -214,7 +245,7 @@ public class Swerve extends SubsystemBase {
         swerveOdometry.resetPosition(getGyroYaw(),getModulePositions(), new Pose2d(xsetpoint,ysetpoint,getGyroYaw()) );
     }
 
-    public double getDistanceToSpeaker(){
+    public double getDistanceToSpeaker(boolean leadTarget){
       var alliance = DriverStation.getAlliance();
       double targetX;
       double targetY;
@@ -233,6 +264,11 @@ public class Swerve extends SubsystemBase {
         targetY = Constants.blueSpeakerLocationY;
         // targetY same as red
       }
+      if (leadTarget) {
+        Pose2d targetPose = calculatingMovingTarget(targetX, targetY);
+        targetX = targetPose.getX();
+        targetY = targetPose.getY();
+      }
       currentX = getPose().getX();
       currentY = getPose().getY();
       
@@ -241,18 +277,26 @@ public class Swerve extends SubsystemBase {
       return distance;
     }
 
-    public double getAngleToSpeaker(){
+    public double getAngleToSpeaker(boolean leadTarget){
         var alliance = DriverStation.getAlliance();
         double targetX;
         double targetY;
         double currentX;
         double currentY;
         double targetAngle;
+        
         currentX = getPose().getX();
         currentY = getPose().getY();
          if (alliance.isPresent() && alliance.get() == Alliance.Red){
             targetX = Constants.redSpeakerLocationX;
             targetY = Constants.redSpeakerLocationY;
+
+            if (leadTarget) {
+                Pose2d targetPose = calculatingMovingTarget(targetX, targetY);
+                targetX = targetPose.getX();
+                targetY = targetPose.getY();
+            }
+
             if(targetY-currentY>0){
                 targetAngle = 90-Math.toDegrees(Math.atan((targetX-currentX)/(targetY-currentY)));
             } else if(targetY-currentY<0){
@@ -264,6 +308,13 @@ public class Swerve extends SubsystemBase {
       } else {
             targetX = Constants.blueSpeakerLocationX;
             targetY = Constants.blueSpeakerLocationY;
+
+            if (leadTarget) {
+                Pose2d targetPose = calculatingMovingTarget(targetX, targetY);
+                targetX = targetPose.getX();
+                targetY = targetPose.getY();
+            }
+            
              if(targetY-currentY>0){
                 targetAngle = 90+Math.toDegrees(Math.atan((currentX-targetX)/(targetY-currentY)));
             } else if(targetY-currentY<0){
@@ -343,9 +394,8 @@ public class Swerve extends SubsystemBase {
 
 
 
-    public boolean aimedAtSpeaker(){
+    public boolean aimedAtSpeaker(double targetAngle){
         double currentAngle = swerveOdometry.getEstimatedPosition().getRotation().getDegrees();
-        double targetAngle = getAngleToSpeaker();
         double error;
 
         error = targetAngle - currentAngle; 
@@ -366,28 +416,42 @@ public class Swerve extends SubsystemBase {
         double shotVelocity = Constants.shotVelocity;
         double robotVelocityX = chassis.vxMetersPerSecond * getHeading().getCos() - chassis.vyMetersPerSecond * getHeading().getSin();
         double robotVelocityY = chassis.vyMetersPerSecond * getHeading().getCos() + chassis.vxMetersPerSecond * getHeading().getSin();
-        double targetXPOS = 0;
-        double targetYPOS = 0;
+        
+      
         double targetHeight = 0;
-        double targetMinusRobotX = targetXPOS - robotX;
-        double targetMinusRobotY = targetYPOS - robotY;
+        double targetMinusRobotX = targetX - robotX;
+        double targetMinusRobotY = targetY - robotY;
         double targetDistance = Math.sqrt(Math.pow(targetMinusRobotX, 2) + Math.pow(targetMinusRobotY, 2));
         double flightDistance = Math.sqrt(Math.pow(targetHeight, 2) + Math.pow(targetDistance, 2));
         double time = flightDistance/shotVelocity;
-        double aimXPos = targetXPOS - robotVelocityX * time;
-        double aimYPos = targetXPOS - robotVelocityY * time;
+        double aimXPos = targetX - robotVelocityX * time;
+        double aimYPos = targetY - robotVelocityY * time;
         Pose2d aimPos = new Pose2d(aimXPos, aimYPos, new Rotation2d(0));
+
+            SmartDashboard.putNumber("aimX POS", aimXPos);
+            SmartDashboard.putNumber("aimY POS", aimYPos);
+            SmartDashboard.putNumber("target x", targetX);
+            SmartDashboard.putNumber("target y", targetY);
+            SmartDashboard.putNumber("Robot Velocity X", robotVelocityX);
+            SmartDashboard.putNumber("Robot Velocity Y", robotVelocityY);
+
 
         return aimPos;
 
+    }
+
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return m_SysIdRoutine.quasistatic(direction);
+    }
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return m_SysIdRoutine.dynamic(direction);
     }
   
 
     @Override
     public void periodic(){
-        SmartDashboard.putBoolean("Aimed at Speaker", aimedAtSpeaker());
 
-        RobotContainer.s_Shooter.distanceToTarget = getDistanceToSpeaker();
+        RobotContainer.s_Shooter.distanceToTarget = getDistanceToSpeaker(false);
 
         swerveOdometry.update(getGyroYaw(), getModulePositions());
         
@@ -416,8 +480,8 @@ public class Swerve extends SubsystemBase {
         m_field.setRobotPose(swerveOdometry.getEstimatedPosition()); 
         SmartDashboard.putData("Field", m_field);
         
-        SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker());
-        SmartDashboard.putNumber("AngleToSpeaker", getAngleToSpeaker());
+        SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker(false));
+        SmartDashboard.putNumber("AngleToSpeaker", getAngleToSpeaker(false));
         
         
     }

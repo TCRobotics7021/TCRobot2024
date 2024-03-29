@@ -31,7 +31,7 @@ public class RotateToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker();
+    targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker(false);
     rotationVal = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
     
      RobotContainer.s_Swerve.drive(

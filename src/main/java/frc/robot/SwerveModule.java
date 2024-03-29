@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -55,6 +56,11 @@ public class SwerveModule {
         setSpeed(desiredState, isOpenLoop);
     }
 
+     public void setDesiredStateTuning(double voltage){
+        mAngleMotor.setControl(anglePosition.withPosition(0));
+        setVoltage(voltage);
+    }
+
     private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
         if(isOpenLoop){
             driveDutyCycle.Output = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
@@ -66,7 +72,12 @@ public class SwerveModule {
             mDriveMotor.setControl(driveVelocity);
         }
     }
-
+    private void setVoltage(double voltage){
+        mDriveMotor.setVoltage(voltage);
+    }
+    public double getVoltage(){
+        return mDriveMotor.getMotorVoltage().getValueAsDouble();
+    }
     public Rotation2d getCANcoder(){
         return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());
     }

@@ -14,12 +14,6 @@
         {
           "type": "named",
           "data": {
-            "name": "c_turnOffAprilTag"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "c_ShootNoteIntoSpeaker"
           }
         },
@@ -32,13 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_IntakeNote"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_AutoIntakeAndShoot"
           }
         },
         {
@@ -50,13 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_AutoNotePickUpStrafe"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_AutoIntakeAndShoot"
           }
         },
         {
@@ -68,13 +50,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_AutoNotePickUpStrafe"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_AutoIntakeAndShoot"
           }
         },
         {
