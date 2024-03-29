@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_turnOffAprilTag"
+            "name": "c_TurnOffAprilTag"
           }
         },
         {
@@ -74,7 +74,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_turnOnAprilTag"
+            "name": "c_TurnOnAprilTag"
           }
         },
         {
