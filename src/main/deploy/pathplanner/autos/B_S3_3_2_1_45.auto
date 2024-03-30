@@ -74,12 +74,6 @@
         {
           "type": "named",
           "data": {
-            "name": "c_TurnOnAprilTag"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "c_ShootNoteIntoSpeaker"
           }
         },

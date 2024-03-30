@@ -76,16 +76,24 @@ public class RobotContainer {
                                                                                               () -> false,
                                                                                               false, 
                                                                                               () -> 0,
-                                                                                              () -> 0));   
+                                                                                              () -> 0, 
+                                                                                              false)); 
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeakerIdle", new ShootNoteIntoSpeaker(() -> false, 
+                                                                                              () -> false, 
+                                                                                              () -> false, 
+                                                                                              () -> false,
+                                                                                              false, 
+                                                                                              () -> 0,
+                                                                                              () -> 0, 
+                                                                                              true));   
         NamedCommands.registerCommand("c_ShooterMotorsOn", new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed))); 
+        NamedCommands.registerCommand("c_ShooterMotorsIdle", new InstantCommand(() -> s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed))); 
         NamedCommands.registerCommand("c_AutoNotePickUpStrafe", new AutoNotePickUpStrafe()); 
-        NamedCommands.registerCommand("c_AmpLiftToAmpPosition", new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp));
-        NamedCommands.registerCommand("c_NoteHandOff", new NoteHandOff());
-        NamedCommands.registerCommand("c_RetractAmpLift", new AmpLiftSetPOS(Constants.AmpLiftPOS_Retracted));
-        NamedCommands.registerCommand("c_AmpRollerShot", new AmpRollerJog(Constants.AmpRollerShootPercent).withTimeout(Constants.AmpRollerShootTimout));
         NamedCommands.registerCommand("c_TurnOnAprilTag", new InstantCommand(() -> s_Swerve.turnOnAprilTag()));
         NamedCommands.registerCommand("c_TurnOffAprilTag", new InstantCommand(() -> s_Swerve.turnOffAprilTag()));
         NamedCommands.registerCommand("c_AutoIntakeAndShoot", new AutoIntakeAndShoot());
+        
+        
           
         
 
@@ -95,13 +103,12 @@ public class RobotContainer {
         
 
       //Chooser Options for Path Planner  
-      autoChooser.setDefaultOption("A_S1_1_2_3_67", new PathPlannerAuto("A_S1_1_2_3_67")); //A_1_45_2_3(add middle grab early)
+      autoChooser.setDefaultOption("G_S1", new PathPlannerAuto("G_S1"));      
+      autoChooser.addOption("A_S1_1_2_3_67", new PathPlannerAuto("A_S1_1_2_3_67")); //A_1_45_2_3(add middle grab early)
       autoChooser.addOption("B_S3_3_2_1_45", new PathPlannerAuto("B_S3_3_2_1_45"));
       autoChooser.addOption("C_S1_1_4_56", new PathPlannerAuto("C_S1_1_4_56")); //C_3_2_45_1(add middle grab early)
       autoChooser.addOption("D_S4_87_76", new PathPlannerAuto("D_S4_87_76"));
       autoChooser.addOption("E_S2_2_56_67", new PathPlannerAuto("E_S2_2_56_67"));
-      autoChooser.addOption("F_S3_3_2_56", new PathPlannerAuto("F_S3_3_2_56"));
-      autoChooser.addOption("G_S4", new PathPlannerAuto("G_S4"));
       autoChooser.addOption("H_S3_3_2_1_45", new PathPlannerAuto("H_S3_3_2_1_45"));
       SmartDashboard.putData("Autonomous Program", autoChooser);
       //not sure if this right or work
@@ -128,7 +135,8 @@ public class RobotContainer {
                                                                                 () -> OP_Panel.getRawButton(1),
                                                                                 true,
                                                                                 () -> -leftJoystick.getRawAxis(1),
-                                                                                () -> -leftJoystick.getRawAxis(0))); //for match
+                                                                                () -> -leftJoystick.getRawAxis(0),
+                                                                                true)); //for match
         new JoystickButton(rightJoystick,2).whileTrue(new AmpRollerJog(Constants.AmpRollerShootPercent));
        new JoystickButton(rightJoystick, 3).whileTrue(new ShootNotePreset(Constants.PostShotPitch, Constants.PostShotRPM, 
                                                                                         Constants.PostShotredRot, Constants.PostShotblueRot)); 
@@ -181,6 +189,7 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 8).whileTrue(s_Swerve.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         new JoystickButton(leftJoystick, 9).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kForward));
         new JoystickButton(leftJoystick, 10).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(leftJoystick,11).whileTrue(new DriveForward());
         //Auto Pitch Calibration
         
 
