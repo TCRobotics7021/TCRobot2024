@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4020270099201342,
-      "y": 4.611714735346898
+      "x": 1.3784449501037408,
+      "y": 6.521812022694959
     },
     "rotation": 180.0
   },
@@ -26,37 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShooterMotorsOn"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B_1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_IntakeNote"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "B_2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_IntakeNote"
+            "pathName": "F_1"
           }
         },
         {
@@ -68,25 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B_3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_IntakeNote"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeakerIdle"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "B_4"
+            "pathName": "F_2"
           }
         },
         {
@@ -96,15 +54,33 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "F_3"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "c_ShooterMotorsOn"
+            "name": "c_ShootNoteIntoSpeaker"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B_5"
+            "pathName": "F_4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_AutoNotePickUpStrafe"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F_5"
           }
         },
         {

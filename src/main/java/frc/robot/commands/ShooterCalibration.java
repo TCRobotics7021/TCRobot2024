@@ -31,7 +31,7 @@ public class ShooterCalibration extends Command {
   public void initialize() {
     delay.reset();
     delay.stop();
-    RobotContainer.s_Shooter.resetAutoPitchPID();
+    RobotContainer.s_Shooter.calibratePitch();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +42,7 @@ public class ShooterCalibration extends Command {
 
     //Pitch test
     targetPitch = SmartDashboard.getNumber("target pitch", 20);
-    RobotContainer.s_Shooter.setPitch(targetPitch);   
+    RobotContainer.s_Shooter.setPitchPosition(targetPitch);   
 
     if (RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed )
           && RobotContainer.s_Shooter.pitchAtTarget(targetPitch)){

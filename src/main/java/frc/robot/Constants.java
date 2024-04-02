@@ -39,22 +39,24 @@ public final class Constants {
     public static final double defaultPitch = 55; //toggle if Pitch aint workin
     public static final double pitchJogSpeed = .2;
     public static final double pitch_tol = .5;
-    public static final double autoPitch_P = 0.045;
+    public static final double autoPitch_P = 0.7;
     public static final double autoPitch_I = 0;
     public static final double autoPitch_D = 0;
     public static final double autoPitch_ks = 0.011;
 
-    public static final double pitchMaxOutput = .75;
-    public static final double pitchMinOutput = -.75;   
+    public static final double pitchMaxOutput = 8; //in volts
+    public static final double pitchMinOutput = -8; //in volts   
     public static final double pitchMaxAngle = 57;
     public static final double pitchMinAngle = 0;
     public static final Rotation2d shooterPitchCancoderCal = Rotation2d.fromDegrees(133.59375);
+    public static final double pitchRotationsPerDegree = .7372;
 
     //Shooter PID 
     public static final double AutoShooter_P = .5; // changed from .5 to 1
     public static final double AutoShooter_I = 1.5;
     public static final double AutoShooter_D = 0.0;
-   
+   //preset pitches in auto
+   public static final double pitchSetAuto = 45;
 
     //Auto Note Pickup
     public static final double rotateP = 0.01;
@@ -127,7 +129,7 @@ public final class Constants {
     public static final double PitchPOS_Handoff = 20;
 
     //Lob Shot
-    public static final double LobShotPitch = 50;
+    public static final double LobShotPitch = 47;
     public static final double LobShotRPM = 4000;
     public static final double LobShotblueRot = 165;
     public static final double LobShotredRot = 45;
@@ -219,15 +221,15 @@ public final class Constants {
         public static final double angleKD = chosenModule.angleKD;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.12; //.12 //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.48; //.12 //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
 
         /* Drive Motor Characterization Values From SYSID */
-        public static final double driveKS = 0.1117; //TODO: This must be tuned to specific robot
-        public static final double driveKV = 2.1577;
-        public static final double driveKA = 0.26293;
+        public static final double driveKS = 0.14219; //TODO: This must be tuned to specific robot
+        public static final double driveKV = 2.1382;
+        public static final double driveKA = 0.27305;
 
         /* Swerve Profiling Values */
         /** Meters per Second */
@@ -245,7 +247,7 @@ public final class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 11; //1 for rio bot 11 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-128.40);// 168.2 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-130.75);// 168.2 rio og
             // changed degree from 
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -256,7 +258,7 @@ public final class Constants {
             public static final int driveMotorID = 3;
             public static final int angleMotorID = 4;
             public static final int canCoderID = 12; //2 for rio bot 12 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(166.38);// 98.17 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(166.99);// 98.17 rio og
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -266,7 +268,7 @@ public final class Constants {
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 6;
             public static final int canCoderID = 13; //3 for rio bot 13 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(97.29);// 43.3 rio og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(100.41);// 43.3 rio og
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -276,7 +278,7 @@ public final class Constants {
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 8;
             public static final int canCoderID = 14; //4 for rio bot 14 for andy bot
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-122.696)   ; // -71.63 og
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-126.59)   ; // -71.63 og
 
             
 

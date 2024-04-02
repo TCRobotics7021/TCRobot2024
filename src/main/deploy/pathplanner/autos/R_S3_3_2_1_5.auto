@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4020270099201342,
-      "y": 4.611714735346898
+      "x": 2,
+      "y": 2
     },
-    "rotation": 180.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -32,7 +32,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B_1"
+            "pathName": "R_1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R_2"
           }
         },
         {
@@ -50,25 +56,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B_2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_IntakeNote"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "B_3"
+            "pathName": "R_3"
           }
         },
         {
@@ -86,7 +74,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B_4"
+            "pathName": "R_4"
           }
         },
         {
@@ -104,7 +92,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B_5"
+            "pathName": "R_5"
           }
         },
         {

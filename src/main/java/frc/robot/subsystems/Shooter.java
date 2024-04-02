@@ -39,10 +39,10 @@ public class Shooter extends SubsystemBase {
   DigitalInput di_HandoffSensor = new DigitalInput(3);
   public double distanceToTarget = 1;
    private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
+   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);
    private final NeutralOut coast = new NeutralOut();
       private final StaticBrake brake = new StaticBrake();
    
-    private PIDController autoPitchPID;
   private Boolean ManualPitch;
 
   public Shooter(){
@@ -53,12 +53,11 @@ public class Shooter extends SubsystemBase {
    
         TalonFXConfiguration configsShooter = new TalonFXConfiguration();
         
-    autoPitchPID = new PIDController(Constants.autoPitch_P, Constants.autoPitch_I, Constants.autoPitch_D);
     SmartDashboard.putNumber("Auto Pitch P", Constants.autoPitch_P);
     SmartDashboard.putNumber("Auto Pitch I", Constants.autoPitch_I);
     SmartDashboard.putNumber("Auto Pitch D", Constants.autoPitch_D);
 
-    SmartDashboard.putNumber("Pitch ks test",0);
+    SmartDashboard.putNumber("Auto Pitch kS",0);
 
     /* Voltage-based velocity requires  feed forward to account for the back-emf of the motor */
     configsShooter.Slot0.kP = Constants.AutoShooter_P; // An error of 1 rotation per second results in 2V output
@@ -73,12 +72,22 @@ public class Shooter extends SubsystemBase {
     configsShooter.Voltage.PeakForwardVoltage = 100;
     configsShooter.Voltage.PeakReverseVoltage = -100;
 
+    TalonFXConfiguration configsPitch = new TalonFXConfiguration();
+    configsPitch.Slot0.kP = Constants.autoPitch_P; // An error of 1 rotation per second results in 2V output
+    configsPitch.Slot0.kI = Constants.autoPitch_I; // An error of 1 rotation per second increases output by 0.5V every second
+    configsPitch.Slot0.kD = Constants.autoPitch_D; // A change of 1 rotation per second squared results in 0.01 volts output
+
+    //configsPitch.Slot0.kS = Constants.autoPitch_ks;
+    configsPitch.Voltage.PeakForwardVoltage = Constants.pitchMaxOutput;
+    configsPitch.Voltage.PeakReverseVoltage = Constants.pitchMinOutput;
+
 
     // Peak output of 8 volts
   
     applyConfigs(m_ShooterTop, configsShooter, "m_ShooterTop");
     applyConfigs(m_ShooterBottom, configsShooter, "m_ShooterBottom");
-    resetToAbsolute();
+    applyConfigs(m_ShooterPitch, configsPitch, "m_ShooterPitch");
+    calibratePitch();
     
     m_ShooterBottom.setInverted(false);
     m_ShooterPitch.setInverted(true);
@@ -114,93 +123,61 @@ public class Shooter extends SubsystemBase {
   } 
 
 
-  public Rotation2d getPitch(){
-    //return (Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValueAsDouble()).getDegrees() + Constants.shooterPitchCancoderCal);
-    return Rotation2d.fromRotations(m_ShooterPitch.getPosition().getValue() + Constants.shooterPitchCancoderCal.getRotations());
-  
+  public double getPitch(){
+    // return Rotation2d.fromRotations(m_ShooterPitch.getPosition().getValue() + Constants.shooterPitchCancoderCal.getRotations());
+    return m_ShooterPitch.getPosition().getValueAsDouble() / Constants.pitchRotationsPerDegree;
+
   }
 
-  
-  public void setPitch(double targetPitch){
-    temp_target = targetPitch;
-    // double rot_pos = Rotation2d.fromDegrees(targetPitch).getRotations() - Constants.shooterPitchCancoderCal.getRotations();
-    //  m_ShooterPitch.setControl(VoltagePosition.withPosition(rot_pos));
-    //  SmartDashboard.putNumber("Pitch T Rot",Rotation2d.fromDegrees(targetPitch).getRotations());
-    //  SmartDashboard.putNumber("Pitch Cal Rot",Constants.shooterPitchCancoderCal.getRotations());
-    //  SmartDashboard.putNumber("Pitch Total Target Rot",rot_pos);
-   }
-
-   public void setPitchPercent(double setSpeed){
-    m_ShooterPitch.set(setSpeed);
-   }
-   public void setPitchBrake(){
-     m_ShooterPitch.setControl(brake);
-   }
-
-   public void pitchPcontroller(){
-        if(temp_target > Constants.pitchMaxAngle){
-          temp_target = Constants.pitchMaxAngle;
-        }
-        if(temp_target < Constants.pitchMinAngle){
-          temp_target = Constants.pitchMinAngle;
-        }        
-        double error = temp_target - getPitch().getDegrees();
-        double output = autoPitchPID.calculate(getPitch().getDegrees(), temp_target);
-        output = MathUtil.clamp(output, Constants.pitchMinOutput, Constants.pitchMaxOutput);
-
-        if(error > Constants.robotAngle_tol){
-          output = output + Constants.autoRotate_ks;
-        }
-       if(error <  -Constants.robotAngle_tol){
-          output = output - Constants.autoRotate_ks;
-        }
-
-        //output = SmartDashboard.getNumber("Pitch ks test",0); //comment out when done with test
-        if(ManualPitch){
-
-        } else if(Math.abs(error)<= Constants.robotAngle_tol){
-          m_ShooterPitch.setControl(brake);
-          output = 0;
-        }else{
-          m_ShooterPitch.set(output);
-        }
-
-
-        SmartDashboard.putNumber("Auto Pitch Output", output);
-        SmartDashboard.putNumber("Auto Pitch Error", error);
-      
-   }
- 
-   public void resetAutoPitchPID(){
-    autoPitchPID.reset();
-}
-
-public void setAutoPitchConstants(){
-  autoPitchPID.setP(SmartDashboard.getNumber("Auto Pitch P", Constants.autoPitch_P));
-  autoPitchPID.setI(SmartDashboard.getNumber("Auto Pitch I", Constants.autoPitch_I));
-  autoPitchPID.setD(SmartDashboard.getNumber("Auto Pitch D", Constants.autoPitch_D));
-  System.out.println("Pitch P Set to " +  autoPitchPID.getP());
-  System.out.println("Pitch I Set to " +  autoPitchPID.getI());
-  System.out.println("Pitch D Set to " +  autoPitchPID.getD());
-}
-
   public Rotation2d getCANcoder(){
+    return Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValue() + Constants.shooterPitchCancoderCal.getRotations());
+  }
+
+  public Rotation2d getAbsoluteCANcoder(){
     return Rotation2d.fromRotations(CancoderPitch.getAbsolutePosition().getValue());
     
     
   }
-  public void resetToAbsolute(){
-    // StatusCode status1 = StatusCode.StatusCodeNotInitialized;
-    // double absolutePosition = getCANcoder().getRotations() - Constants.shooterPitchCancoderCal.getRotations();
-    // status1 = m_ShooterPitch.setPosition(absolutePosition);
-    // if(!status1.isOK()) {
-    //   System.out.println("Could not apply pitch position " + ":" + status1.toString());
-    // } else {
-    //   System.out.println("Configs successfully applied pitch position ");
-    // }
-    
-    //CancoderPitch.setPosition(Constants.shooterPitchCancoderCal.getRotations());
+
+  public void calibratePitch(){
+    m_ShooterPitch.setPosition(getCANcoder().getDegrees()*Constants.pitchRotationsPerDegree);  
   }
+
+  public void setPitchPosition(double setAngle){ 
+    if (Constants.pitchMaxAngle >= setAngle && setAngle >= Constants.pitchMinAngle) {
+      m_ShooterPitch.setControl(VoltagePosition.withPosition(setAngle * Constants.pitchRotationsPerDegree));
+    }
+  }
+
+   public void setPitchPercent(double setSpeed){
+  // if(setSpeed < 0 && getPitch() < Constants.pitchMaxAngle){
+  //   m_ShooterPitch.set(setSpeed);
+  // }else if(setSpeed > 0 && getPitch() > Constants.pitchMinAngle){
+    
+  // }else{
+  //   setPitchBrake();
+  // }
+  m_ShooterPitch.set(setSpeed);
+    
+   }
+   public void setPitchBrake(){
+     m_ShooterPitch.setControl(brake);
+   }
+ 
+
+public void setAutoPitchConstants(){
+TalonFXConfiguration configsPitch = new TalonFXConfiguration();
+    configsPitch.Slot0.kP = SmartDashboard.getNumber("Auto Pitch P", 0); // An error of 0.5 rotations results in 1.2 volts output
+    configsPitch.Slot0.kI = SmartDashboard.getNumber("Auto Pitch I", 0);
+    configsPitch.Slot0.kD = SmartDashboard.getNumber("Auto Pitch D", 0); // A change of 1 rotation per second results in 0.1 volts output
+    configsPitch.Slot0.kS = SmartDashboard.getNumber("Auto Pitch kS", 0);
+    configsPitch.Voltage.PeakForwardVoltage = Constants.pitchMaxOutput;
+    configsPitch.Voltage.PeakReverseVoltage = Constants.pitchMinOutput;
+    applyConfigs(m_ShooterPitch, configsPitch, "m_ShooerPitch");
+}
+
+
+ 
 
   public void setPitchManualMode(boolean Manual){
     ManualPitch = Manual;
@@ -259,14 +236,14 @@ public void setAutoPitchConstants(){
 
  
     public boolean pitchAtTarget(double targetPitch){
-      double currentPitch = getPitch().getDegrees();
+      double currentPitch = getPitch();
       double error = currentPitch - targetPitch; 
 
       return(Math.abs(error)< Constants.pitch_tol);
   }
 
     public boolean pitchAtTargetLob(double targetPitch){
-      double currentPitch = getPitch().getDegrees();
+      double currentPitch = getPitch();
       double error = currentPitch - targetPitch; 
 
       return(Math.abs(error)< 2);
@@ -281,10 +258,14 @@ public void setAutoPitchConstants(){
   @Override
   public void periodic() {
 
+    if (getCANcoder().getDegrees() > Constants.pitchMaxAngle || getCANcoder().getDegrees() < Constants.pitchMinAngle){
+      calibratePitch();
+    }
+
     // if (distanceToTarget < 6) {
     //   temp_target = shooterPitchFromDistance(distanceToTarget);
     // }
-    pitchPcontroller();   
+   
 
     if (AmpLift.ampLiftAboveHandOff){
       coast();
@@ -297,9 +278,12 @@ public void setAutoPitchConstants(){
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Bottom Actual RPM", m_ShooterBottom.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putNumber("Shooter Top Actual RPM", m_ShooterTop.getVelocity().getValueAsDouble()*60);
-    SmartDashboard.putNumber("Shooter Pitch Angle", getPitch().getDegrees());
-    SmartDashboard.putNumber("Shooter Absolute Pitch Angle", getCANcoder().getDegrees());
+    SmartDashboard.putNumber("Shooter Pitch Angle", getPitch());
+    SmartDashboard.putNumber("CANcoder Absolute Pitch Angle", getAbsoluteCANcoder().getDegrees());
+    SmartDashboard.putNumber("Shooter Pitch Rotations", m_ShooterPitch.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("CANcoder Pitch Angle", getCANcoder().getDegrees());
     SmartDashboard.putBoolean("Hand-Off Sensor", isHandOffSensorBlocked());
+    
        //resetToAbsolute();
   }
 }

@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 
@@ -20,8 +21,8 @@ public class AutoTrap extends SequentialCommandGroup {
     new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp),
     new unlatchBalancer().withTimeout(1),
     new ClimberSetPOS_Climb(Constants.ClimberStage2Pos),
-    new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap),
-    new ClimberSetPOS_Climb(Constants.ClimberRetracted)
+    Commands.parallel(new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap),
+    new ClimberSetPOS_Climb(Constants.ClimberRetracted))
     // new AmpRollerJog(Constants.AmpRollerShootPercent).withTimeout(3),
     // new ClimberJog(0).withTimeout(.1),
     // new AmpLiftSetPOS(Constants.AmpLiftPOS_HandOff)

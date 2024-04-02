@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6766385148680416,
-        "y": 4.219618725625105
+        "x": 3.960668691665485,
+        "y": 6.323851734722014
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.597004826356729,
-        "y": 4.6060763316358955
+        "x": 3.80195844615496,
+        "y": 6.250176429805268
       },
       "isLocked": false,
-      "linkedName": "B_1_END"
+      "linkedName": "C_1 END"
     },
     {
       "anchor": {
-        "x": 2.813006710178897,
-        "y": 5.562647359246215
+        "x": 2.667792337011206,
+        "y": 6.862550215827963
       },
       "prevControl": {
-        "x": 2.78160667620896,
-        "y": 5.342847121456662
-      },
-      "nextControl": {
-        "x": 2.8328739680128527,
-        "y": 5.7017181640839
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.356284084893418,
-        "y": 6.499514282908736
-      },
-      "prevControl": {
-        "x": 2.348434076400934,
-        "y": 6.499514282908736
+        "x": 2.6566386319775286,
+        "y": 6.835718257094344
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "B_2_END"
+      "linkedName": "C_1.5 END"
     }
   ],
   "rotationTargets": [],
@@ -49,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -67,20 +51,20 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.5,
+    "velocity": 0,
     "rotation": -143.62,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "B",
+  "folder": "C",
   "previewStartingState": {
-    "rotation": 173.99099404250538,
+    "rotation": -143.39292518739248,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

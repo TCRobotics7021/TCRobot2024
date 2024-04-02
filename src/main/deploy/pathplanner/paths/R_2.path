@@ -12,7 +12,7 @@
         "y": 4.6060763316358955
       },
       "isLocked": false,
-      "linkedName": "B_1_END"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "B_2_END"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -77,7 +77,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "B",
+  "folder": "R",
   "previewStartingState": {
     "rotation": 173.99099404250538,
     "velocity": 0

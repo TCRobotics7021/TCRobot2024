@@ -159,6 +159,11 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+
+    public double getLinearVelocity(){
+        return mSwerveMods[1].getState().speedMetersPerSecond;
+    }
+
     public void driveRobotRelative(ChassisSpeeds chassisCSpeeds){
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(chassisCSpeeds);
@@ -206,6 +211,9 @@ public class Swerve extends SubsystemBase {
     public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds, Matrix<N3, N1> stdDevs) {
         if (!aprilTagDisable) {
             swerveOdometry.addVisionMeasurement(visionMeasurement, timestampSeconds, stdDevs);
+            SmartDashboard.putBoolean("AprilTagApply", true);
+        }else{
+            SmartDashboard.putBoolean("AprilTagApply", false);
         }
     }
 
@@ -482,6 +490,8 @@ public class Swerve extends SubsystemBase {
         
         SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker(false));
         SmartDashboard.putNumber("AngleToSpeaker", getAngleToSpeaker(false));
+
+        SmartDashboard.putNumber("Linear Velocity", getLinearVelocity());
         
         
     }

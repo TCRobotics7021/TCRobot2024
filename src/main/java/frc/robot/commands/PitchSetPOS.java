@@ -23,7 +23,9 @@ public class PitchSetPOS extends Command {
   @Override
   public void initialize() {
     finished = false;
-    RobotContainer.s_Shooter.setPitch(setPitch);
+    RobotContainer.s_Shooter.calibratePitch();
+    RobotContainer.s_Shooter.setPitchPosition(setPitch);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

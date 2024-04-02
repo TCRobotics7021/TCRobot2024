@@ -48,6 +48,7 @@ public class ShootNotePreset extends Command {
     stopdelay.reset();
     stopdelay.stop();
     finished = false;
+    RobotContainer.s_Shooter.calibratePitch();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -75,7 +76,7 @@ public class ShootNotePreset extends Command {
 
     //Pitch
 
-    RobotContainer.s_Shooter.setPitch(pitch);
+    RobotContainer.s_Shooter.setPitchPosition(pitch);
     RobotContainer.s_Shooter.setRPM(RPM, RPM);
 
     if ((RobotContainer.s_Shooter.atSpeed(RPM, RPM) 

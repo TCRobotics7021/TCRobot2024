@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.45,
-      "y": 6.98
+      "x": 1.3784449501037408,
+      "y": 6.521812022694959
     },
     "rotation": 179.21496052559047
   },
@@ -14,13 +14,37 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_SetPitch"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_TurnOffAprilTag"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "C_1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C_1.5"
           }
         },
         {

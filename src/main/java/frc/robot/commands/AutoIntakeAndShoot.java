@@ -50,7 +50,7 @@ public class AutoIntakeAndShoot extends Command {
     stopdelay.reset();
     stopdelay.stop();
     RobotContainer.s_Swerve.resetAutoRotatePID();
-    RobotContainer.s_Shooter.resetAutoPitchPID();
+    RobotContainer.s_Shooter.calibratePitch();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -112,7 +112,7 @@ public class AutoIntakeAndShoot extends Command {
     //Pitch
     DistanceToSpeaker =RobotContainer.s_Swerve.getDistanceToSpeaker(false);
     targetPitch = RobotContainer.s_Shooter.shooterPitchFromDistance(DistanceToSpeaker);
-    RobotContainer.s_Shooter.setPitch(targetPitch);   
+    RobotContainer.s_Shooter.setPitchPosition(targetPitch);   
 
    if(noteHasBeenIntaked==false){
     if(RobotContainer.s_Limelight.isNote()){

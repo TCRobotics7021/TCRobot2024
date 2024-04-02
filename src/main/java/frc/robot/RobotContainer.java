@@ -92,6 +92,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("c_TurnOnAprilTag", new InstantCommand(() -> s_Swerve.turnOnAprilTag()));
         NamedCommands.registerCommand("c_TurnOffAprilTag", new InstantCommand(() -> s_Swerve.turnOffAprilTag()));
         NamedCommands.registerCommand("c_AutoIntakeAndShoot", new AutoIntakeAndShoot());
+        NamedCommands.registerCommand("c_SetPitch", new InstantCommand(() -> s_Shooter.setPitchPosition(45)));
+       // NamedCommands.registerCommand("c_SetPitch", new PitchSetPOS(Constants.pitchSetAuto));
         
         
           
@@ -110,6 +112,8 @@ public class RobotContainer {
       autoChooser.addOption("D_S4_87_76", new PathPlannerAuto("D_S4_87_76"));
       autoChooser.addOption("E_S2_2_56_67", new PathPlannerAuto("E_S2_2_56_67"));
       autoChooser.addOption("H_S3_3_2_1_45", new PathPlannerAuto("H_S3_3_2_1_45"));
+      autoChooser.addOption("F_S1_4_56", new PathPlannerAuto("F_S1_4_56"));
+      autoChooser.addOption("R_S3_3_2_1_5", new PathPlannerAuto("R_S3_3_2_1_5"));
       SmartDashboard.putData("Autonomous Program", autoChooser);
       //not sure if this right or work
       // some weird ask brett or walker bouts it
@@ -141,7 +145,9 @@ public class RobotContainer {
        new JoystickButton(rightJoystick, 3).whileTrue(new ShootNotePreset(Constants.PostShotPitch, Constants.PostShotRPM, 
                                                                                         Constants.PostShotredRot, Constants.PostShotblueRot)); 
         new JoystickButton(rightJoystick, 4).whileTrue(new PreSetLobShot(Constants.LobShotPitch, Constants.LobShotRPM, 
-                                                                                        Constants.LobShotredRot, Constants.LobShotblueRot));
+                                                                                        Constants.LobShotredRot, Constants.LobShotblueRot,
+                                                                                        () -> -leftJoystick.getRawAxis(1),
+                                                                                        () -> -leftJoystick.getRawAxis(0)));
        new JoystickButton(rightJoystick, 5).onTrue(new InstantCommand(() -> s_Swerve.setAutoRotateConstants()));
         new JoystickButton(rightJoystick, 6).onTrue(new InstantCommand(() -> s_Shooter.setAutoPitchConstants()));
         new JoystickButton(rightJoystick, 7).onTrue(new InstantCommand(() -> s_Shooter.reapplyConfigs()));
@@ -181,15 +187,19 @@ public class RobotContainer {
         // new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
         // new JoystickButton(leftJoystick, 9).whileTrue(new RotateToAngle(180));
         // new JoystickButton(leftJoystick, 10).whileTrue(new RotateToAngle((-90)));
-        // new JoystickButton(leftJoystick,11).onTrue(new InstantCommand(() -> s_Shooter.setPitch(5)));
-        // new JoystickButton(leftJoystick,12).onTrue(new InstantCommand(() -> s_Shooter.setPitch(30)));
-        // new JoystickButton(leftJoystick,13).onTrue(new InstantCommand(() -> s_Shooter.setPitch(55)));
-        new JoystickButton(leftJoystick,13).onTrue(new AutoIntakeAndShoot());
-        new JoystickButton(leftJoystick, 7).whileTrue(s_Swerve.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(leftJoystick, 8).whileTrue(s_Swerve.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        new JoystickButton(leftJoystick, 9).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(leftJoystick, 10).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-        new JoystickButton(leftJoystick,11).whileTrue(new DriveForward());
+        new JoystickButton(leftJoystick,8).onTrue(new InstantCommand(() -> s_Shooter.calibratePitch()));
+         new JoystickButton(leftJoystick, 9).whileTrue(new PitchJog(.1));
+         new JoystickButton(leftJoystick, 10).whileTrue(new PitchJog(-.1));
+        new JoystickButton(leftJoystick,11).onTrue(new InstantCommand(() -> s_Shooter.setPitchPosition(5)));
+        new JoystickButton(leftJoystick,12).onTrue(new InstantCommand(() -> s_Shooter.setPitchPosition(30)));
+        new JoystickButton(leftJoystick,13).onTrue(new InstantCommand(() -> s_Shooter.setPitchPosition(55)));
+
+        // new JoystickButton(leftJoystick, 7).whileTrue(s_Swerve.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        // new JoystickButton(leftJoystick, 8).whileTrue(s_Swerve.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        // new JoystickButton(leftJoystick, 9).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        // new JoystickButton(leftJoystick, 10).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        // new JoystickButton(leftJoystick,11).whileTrue(new DriveForward());
+        // new JoystickButton(leftJoystick,13).onTrue(new AutoIntakeAndShoot());
         //Auto Pitch Calibration
         
 

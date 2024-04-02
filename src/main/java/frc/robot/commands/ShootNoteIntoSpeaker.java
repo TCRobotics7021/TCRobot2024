@@ -22,6 +22,7 @@ public class ShootNoteIntoSpeaker extends Command {
   /** Creates a new ShootNoteIntoSpeaker. */
   boolean leadTarget;
   boolean finished;
+  boolean idleAfter;
   double targetAngle;
   double rotationVal;
   double targetPitch;
@@ -36,7 +37,7 @@ public class ShootNoteIntoSpeaker extends Command {
   private DoubleSupplier strafeSup;
 
   public ShootNoteIntoSpeaker(BooleanSupplier AprilTagToggle, BooleanSupplier ManualAim, BooleanSupplier ManualPitch, 
-  BooleanSupplier RobotCentric, boolean leadTarget, DoubleSupplier translationSup, DoubleSupplier strafeSup) {
+  BooleanSupplier RobotCentric, boolean leadTarget, DoubleSupplier translationSup, DoubleSupplier strafeSup, boolean idleAfter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.AprilTagToggle = AprilTagToggle;
     this.ManualAim = ManualAim;  
@@ -45,6 +46,7 @@ public class ShootNoteIntoSpeaker extends Command {
     this.leadTarget = leadTarget;
     this.translationSup = translationSup;
     this.strafeSup = strafeSup;
+    this.idleAfter = idleAfter;
     addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_PhotonVision, RobotContainer.s_AmpLift);
   }
 
@@ -57,7 +59,7 @@ public class ShootNoteIntoSpeaker extends Command {
     stopdelay.stop();
     finished = false;
     RobotContainer.s_Swerve.resetAutoRotatePID();
-    RobotContainer.s_Shooter.resetAutoPitchPID();
+    RobotContainer.s_Shooter.calibratePitch();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -109,7 +111,7 @@ public class ShootNoteIntoSpeaker extends Command {
     } else {
       targetPitch = Constants.defaultPitch;
     }
-    RobotContainer.s_Shooter.setPitch(targetPitch);   
+    RobotContainer.s_Shooter.setPitchPosition(targetPitch);   
 //SmartDashboard.putBoolean("Aimed at Speaker", aimedAtSpeaker());
     if ((RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed) 
           && (RobotContainer.s_Swerve.aimedAtSpeaker(targetAngle) || ManualAim.getAsBoolean() || RobotCentric.getAsBoolean())
@@ -149,8 +151,11 @@ public class ShootNoteIntoSpeaker extends Command {
         );
            RobotContainer.s_Intake.coast();
            //RobotContainer.s_Shooter.coast();
-           RobotContainer.s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed);
+           if (idleAfter == true){
+              RobotContainer.s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed);
+           } 
            RobotContainer.s_AmpLift.setBrakeLift();
+           
   }
 
   // Returns true when the command should end.
