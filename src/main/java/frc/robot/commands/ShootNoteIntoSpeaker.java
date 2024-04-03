@@ -78,10 +78,10 @@ public class ShootNoteIntoSpeaker extends Command {
 
     double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
     double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
-    if (leadTarget == false) {
-      strafeVal = 0;
-      translationVal = 0;
-    }
+    // if (leadTarget == false) {
+    //   strafeVal = 0;
+    //   translationVal = 0;
+    // }
     /* Drive */
          var alliance = DriverStation.getAlliance();
          //SmartDashboard.putNumber("Swerve Rotation Value", rotationVal);

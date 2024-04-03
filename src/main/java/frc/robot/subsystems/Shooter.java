@@ -283,6 +283,7 @@ TalonFXConfiguration configsPitch = new TalonFXConfiguration();
     SmartDashboard.putNumber("Shooter Pitch Rotations", m_ShooterPitch.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("CANcoder Pitch Angle", getCANcoder().getDegrees());
     SmartDashboard.putBoolean("Hand-Off Sensor", isHandOffSensorBlocked());
+    SmartDashboard.putNumber("Calculated Target Pitch", shooterPitchFromDistance(distanceToTarget));
     
        //resetToAbsolute();
   }

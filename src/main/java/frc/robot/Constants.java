@@ -134,8 +134,14 @@ public final class Constants {
     public static final double LobShotblueRot = 165;
     public static final double LobShotredRot = 45;
 
+    //Sub Shot
+    public static final double SubShotPitch = 44;
+    public static final double SubShotRPM = 4500;
+    public static final double SubShotblueRot = -178.68;
+    public static final double SubShotredRot = 17.4;
+
     //Post Shot
-    public static final double PostShotPitch = 33;
+    public static final double PostShotPitch = 34.7;
     public static final double PostShotRPM = 4500;
     public static final double PostShotblueRot = -178.68;
     public static final double PostShotredRot = 17.4;
@@ -151,10 +157,10 @@ public final class Constants {
 
     //pitch tolerace/adjuster //was at 3 now at .5
     public static final double robotAngle_tol = .5;
-    public static final double ShooterPitchCalc_A = .217;
-    public static final double ShooterPitchCalc_B = -.322;    
-    public static final double ShooterPitchCalc_C = -11.3;    
-    public static final double ShooterPitchCalc_D = 67.6;
+    public static final double ShooterPitchCalc_A = -0.00477;
+    public static final double ShooterPitchCalc_B = 1.5;    
+    public static final double ShooterPitchCalc_C = -15.8;    
+    public static final double ShooterPitchCalc_D = 71.3;
 
 
 

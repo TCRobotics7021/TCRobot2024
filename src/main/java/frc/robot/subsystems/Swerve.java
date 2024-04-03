@@ -489,6 +489,7 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putData("Field", m_field);
         
         SmartDashboard.putNumber("DistanceToSpeaker", getDistanceToSpeaker(false));
+        
         SmartDashboard.putNumber("AngleToSpeaker", getAngleToSpeaker(false));
 
         SmartDashboard.putNumber("Linear Velocity", getLinearVelocity());

@@ -32,15 +32,16 @@ public class IntakeNote extends Command {
   @Override
   public void execute() {
     if (RobotContainer.s_Intake.sensorIsBlocked() == true){
-      delay.start();
+      finished = true;
+      //delay.start();
       
     } else {
-      delay.reset();
+      //delay.reset();
       RobotContainer.s_Intake.setPercent(Constants.intakePercent);
     }
 
     if(delay.get()>.01){
-      finished = true;
+      //finished = true;
     }
 
     

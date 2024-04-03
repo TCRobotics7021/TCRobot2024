@@ -8,6 +8,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -19,7 +20,7 @@ public class Intake extends SubsystemBase {
  TalonFX m_Intake = new TalonFX(19, "canivore");
  DigitalInput di_Intake = new DigitalInput(1);
  private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
-   private final NeutralOut brake = new NeutralOut();
+   private final StaticBrake brake = new StaticBrake();
    private final PositionVoltage VoltageIntake = new PositionVoltage(0, 0, true, 0, 0, false, false, false);
    public static boolean intakeSensor = false; 
   /** Creates a new Intake. */

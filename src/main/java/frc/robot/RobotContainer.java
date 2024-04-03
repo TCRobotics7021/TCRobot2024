@@ -137,13 +137,15 @@ public class RobotContainer {
                                                                                 () -> OP_Panel.getRawButton(3),
                                                                                 () -> OP_Panel.getRawButton(2),
                                                                                 () -> OP_Panel.getRawButton(1),
-                                                                                true,
+                                                                                false,
                                                                                 () -> -leftJoystick.getRawAxis(1),
                                                                                 () -> -leftJoystick.getRawAxis(0),
                                                                                 true)); //for match
         new JoystickButton(rightJoystick,2).whileTrue(new AmpRollerJog(Constants.AmpRollerShootPercent));
        new JoystickButton(rightJoystick, 3).whileTrue(new ShootNotePreset(Constants.PostShotPitch, Constants.PostShotRPM, 
-                                                                                        Constants.PostShotredRot, Constants.PostShotblueRot)); 
+                                                                                        Constants.PostShotredRot, Constants.PostShotblueRot,
+                                                                                        () -> -leftJoystick.getRawAxis(1),
+                                                                                        () -> -leftJoystick.getRawAxis(0))); 
         new JoystickButton(rightJoystick, 4).whileTrue(new PreSetLobShot(Constants.LobShotPitch, Constants.LobShotRPM, 
                                                                                         Constants.LobShotredRot, Constants.LobShotblueRot,
                                                                                         () -> -leftJoystick.getRawAxis(1),
@@ -180,6 +182,10 @@ public class RobotContainer {
 
         new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
         new JoystickButton(leftJoystick,2).whileTrue(new EjectIntake());
+        new JoystickButton(leftJoystick, 3).whileTrue(new ShootNotePreset(Constants.SubShotPitch, Constants.SubShotRPM, 
+                                                                                        Constants.SubShotredRot, Constants.SubShotblueRot,
+                                                                                        () -> -leftJoystick.getRawAxis(1),
+                                                                                        () -> -leftJoystick.getRawAxis(0)));
         // new JoystickButton(leftJoystick, 2).whileTrue(new unlatchBalancer());
         
         // Programming testing buttons
