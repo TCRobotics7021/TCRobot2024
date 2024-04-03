@@ -20,7 +20,19 @@
         {
           "type": "named",
           "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "c_TurnOffAprilTag"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R_1"
           }
         },
         {
@@ -32,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R_1"
+            "pathName": "R_1.5"
           }
         },
         {
