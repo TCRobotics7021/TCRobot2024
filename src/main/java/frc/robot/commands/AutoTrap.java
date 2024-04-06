@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 
@@ -17,6 +18,7 @@ public class AutoTrap extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+    new SetCandle(2),
     new ClimberSetPOS_Climb(Constants.ClimberStage1Pos),
     new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp),
     new unlatchBalancer().withTimeout(1),

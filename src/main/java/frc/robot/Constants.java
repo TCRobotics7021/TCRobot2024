@@ -111,9 +111,9 @@ public final class Constants {
     public static final double AmpLiftconfigs_kS = 0;
 
     public static final double AmpLiftRotPerDist = .15873;
-    public static final double AmpLiftMAXPos = 899;
+    public static final double AmpLiftMAXPos = 914;
     public static final double AmpLiftMINPos = 245;
-    public static final double AmpLiftUpperLimitPos = 900;
+    public static final double AmpLiftUpperLimitPos = 915;
     public static final double AmpLiftLowerLimitPos = 245;
     public static final double AmpLiftTolerance = 3;
 
@@ -130,7 +130,7 @@ public final class Constants {
 
     //Lob Shot
     public static final double LobShotPitch = 47;
-    public static final double LobShotRPM = 4000;
+    public static final double LobShotRPM = 3500;
     public static final double LobShotblueRot = 165;
     public static final double LobShotredRot = 45;
 
@@ -152,7 +152,7 @@ public final class Constants {
     //Amp Lift POS Sequentials
     public static final double AmpLiftPOS_HandOff = 280;
     public static final double AmpLiftPOS_Amp = 665;
-    public static final double AmpLiftPOS_Trap = 897;
+    public static final double AmpLiftPOS_Trap = 912;
     public static final double AmpLiftPOS_Retracted = 295;
 
     //pitch tolerace/adjuster //was at 3 now at .5

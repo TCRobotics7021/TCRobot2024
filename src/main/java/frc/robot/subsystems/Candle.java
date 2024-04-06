@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
 public class Candle extends SubsystemBase {
+  private int CurrentMode = 0;
   /** Creates a new Candle. */
   private final CANdle candle = new CANdle(24,"canivore");
   private int LedCount = 37;
@@ -39,6 +40,7 @@ public class Candle extends SubsystemBase {
 
   }
   public void setMode(int mode){
+    CurrentMode = mode;
     switch(mode){
       case 0: candle.animate(mode0); break;
       case 1: candle.animate(mode1); break;
@@ -60,7 +62,10 @@ public class Candle extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (Intake.intakeSensor && PhotonVision.AprilTagVisible){
+    if (CurrentMode == 2){
+      //setMode(2);
+    }
+    else if (Intake.intakeSensor && PhotonVision.AprilTagVisible){
       setMode(8);
   } else if (Intake.intakeSensor){
     setMode(7);

@@ -186,6 +186,7 @@ public class RobotContainer {
                                                                                         Constants.SubShotredRot, Constants.SubShotblueRot,
                                                                                         () -> -leftJoystick.getRawAxis(1),
                                                                                         () -> -leftJoystick.getRawAxis(0)));
+        new JoystickButton(leftJoystick,4).whileTrue(new AutoNotePickUpStrafe());                                                        
         // new JoystickButton(leftJoystick, 2).whileTrue(new unlatchBalancer());
         
         // Programming testing buttons
@@ -231,7 +232,7 @@ public class RobotContainer {
         // Auto Climb
         new JoystickButton(OP_Panel, 5).onTrue(new AutoTrap());
         new JoystickButton(OP_Panel, 6).onTrue(new FinishAutoTrap());
-
+        new JoystickButton(OP_Panel, 7).onTrue(new HomeClimbAndAmp());
         //Amp
         new JoystickButton(OP_Panel, 8).onTrue(new NoteHandOff());
         new JoystickButton(OP_Panel, 9).whileTrue(new AmpRollerJog(-.075));

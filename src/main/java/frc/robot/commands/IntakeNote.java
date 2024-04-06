@@ -17,12 +17,13 @@ public class IntakeNote extends Command {
   boolean finished;
   public IntakeNote() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.s_Intake, RobotContainer.s_Shooter);
+    addRequirements(RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_Candle);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.s_Candle.setMode(0);
     delay.reset();
     delay.stop();
     finished = false;
