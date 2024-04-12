@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -13,10 +12,40 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.autos.*;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.AmpLiftHome;
+import frc.robot.commands.AmpLiftJog;
+import frc.robot.commands.AmpLiftSetPOS;
+import frc.robot.commands.AmpRollerJog;
+import frc.robot.commands.AutoIntakeAndShoot;
+import frc.robot.commands.AutoNotePickUpStrafe;
+import frc.robot.commands.AutoTrap;
+import frc.robot.commands.CheckIntake;
+import frc.robot.commands.Climb;
+import frc.robot.commands.ClimberHome;
+import frc.robot.commands.ClimberJog;
+import frc.robot.commands.ClimberSetPOS_Climb;
+import frc.robot.commands.EjectIntake;
+import frc.robot.commands.FIRE;
+import frc.robot.commands.FinishAutoTrap;
+import frc.robot.commands.HomeClimbAndAmp;
+import frc.robot.commands.IntakeNote;
+import frc.robot.commands.NoteHandOff;
+import frc.robot.commands.PitchJog;
+import frc.robot.commands.PreSetLobShot;
+import frc.robot.commands.ReadyAim;
+import frc.robot.commands.RetractAmpLift;
+import frc.robot.commands.ShootNoteIntoSpeaker;
+import frc.robot.commands.ShootNotePreset;
+import frc.robot.commands.ShooterCalibration;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.AmpLift;
+import frc.robot.subsystems.Candle;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Swerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -69,7 +98,7 @@ public class RobotContainer {
                         // removed the (-) symbols in front of leftJoystick.getRawAxis(1),() -> leftJoystick.getRawAxis(0),() -> rightJoystick.getRawAxis(2),
 
 
-        NamedCommands.registerCommand("c_IntakeNote", new IntakeNote());
+        NamedCommands.registerCommand("c_IntakeNote", new IntakeNote(() -> false));
         NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(() -> false, 
                                                                                               () -> false, 
                                                                                               () -> false, 
@@ -94,6 +123,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("c_AutoIntakeAndShoot", new AutoIntakeAndShoot());
         NamedCommands.registerCommand("c_SetPitch", new InstantCommand(() -> s_Shooter.setPitchPosition(45)));
        // NamedCommands.registerCommand("c_SetPitch", new PitchSetPOS(Constants.pitchSetAuto));
+        NamedCommands.registerCommand("c_ReadyAim", new ReadyAim((false)));
+        NamedCommands.registerCommand("c_FIRE", new FIRE().withTimeout(1.5));
+        NamedCommands.registerCommand("c_CheckIntake", new CheckIntake());
         
         
           
@@ -114,6 +146,7 @@ public class RobotContainer {
       autoChooser.addOption("H_S3_3_2_1_45", new PathPlannerAuto("H_S3_3_2_1_45"));
       autoChooser.addOption("F_S1_4_56", new PathPlannerAuto("F_S1_4_56"));
       autoChooser.addOption("R_S3_3_2_1_5", new PathPlannerAuto("R_S3_3_2_1_5"));
+      autoChooser.addOption("J_S1_45_567", new PathPlannerAuto("J_S1_45_567"));
       SmartDashboard.putData("Autonomous Program", autoChooser);
       //not sure if this right or work
       // some weird ask brett or walker bouts it
@@ -180,7 +213,7 @@ public class RobotContainer {
         //use for finding pitch constants
  
 
-        new JoystickButton(leftJoystick,1).onTrue(new IntakeNote().withTimeout(3));
+        new JoystickButton(leftJoystick,1).onTrue(new IntakeNote(() -> leftJoystick.getRawButton(1)));
         new JoystickButton(leftJoystick,2).whileTrue(new EjectIntake());
         new JoystickButton(leftJoystick, 3).whileTrue(new ShootNotePreset(Constants.SubShotPitch, Constants.SubShotRPM, 
                                                                                         Constants.SubShotredRot, Constants.SubShotblueRot,
@@ -207,9 +240,11 @@ public class RobotContainer {
         // new JoystickButton(leftJoystick, 10).whileTrue(s_Swerve.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         // new JoystickButton(leftJoystick,11).whileTrue(new DriveForward());
         // new JoystickButton(leftJoystick,13).onTrue(new AutoIntakeAndShoot());
+        
         //Auto Pitch Calibration
         
-
+      new JoystickButton(leftJoystick,14).onTrue(new ReadyAim(false));
+      new JoystickButton(leftJoystick,15).onTrue(new FIRE().withTimeout(1));
 
         
         //new JoystickButton(OP_Panel,1).onTrue(new InstantCommand(() -> s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed)));

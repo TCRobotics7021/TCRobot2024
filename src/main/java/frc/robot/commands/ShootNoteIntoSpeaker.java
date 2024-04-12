@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.Swerve;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.Shooter;
 
 public class ShootNoteIntoSpeaker extends Command {
   /** Creates a new ShootNoteIntoSpeaker. */
@@ -60,6 +62,8 @@ public class ShootNoteIntoSpeaker extends Command {
     finished = false;
     RobotContainer.s_Swerve.resetAutoRotatePID();
     RobotContainer.s_Shooter.calibratePitch();
+    Shooter.autoPitchEnable = false;
+    RobotContainer.s_Swerve.overrideRotation = false; 
   }
 
   // Called every time the scheduler runs while the command is scheduled.

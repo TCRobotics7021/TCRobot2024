@@ -11,12 +11,14 @@
     "F",
     "G",
     "H",
+    "J",
+    "K",
     "R"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 3.0,
-  "defaultMaxAngVel": 540.0,
-  "defaultMaxAngAccel": 720.0,
+  "defaultMaxAngVel": 400.0,
+  "defaultMaxAngAccel": 600.0,
   "maxModuleSpeed": 6.0
 }

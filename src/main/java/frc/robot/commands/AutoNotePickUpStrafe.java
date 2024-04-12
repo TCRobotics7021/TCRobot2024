@@ -39,7 +39,7 @@ public class AutoNotePickUpStrafe extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if (RobotContainer.s_Intake.sensorIsBlocked() || t_delay.get() > 3) {
+      if (RobotContainer.s_Intake.sensorIsBlocked() || t_delay.get() > .25) {
       finished = true;
     }
     xError = RobotContainer.s_Limelight.targetX();
@@ -57,11 +57,12 @@ public class AutoNotePickUpStrafe extends Command {
       calcTranslation = Constants.translatePStrafeStrat * Math.abs(xError) - .5;
       t_delay.reset();
       t_delay.stop();
-    } else if(RobotContainer.s_Limelight.isNote()) {
+    } else if(RobotContainer.s_Limelight.isNote() || RobotContainer.s_Intake.bottomSensorIsBlocked() == true) {
       calcStrafe = 0;
       calcTranslation = -.25;
-      t_delay.start();
-    } else{
+      t_delay.reset();
+      t_delay.stop();
+    } else {
       calcStrafe = 0;
       calcTranslation = 0;
       t_delay.start();

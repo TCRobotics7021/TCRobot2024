@@ -2,12 +2,13 @@ package frc.robot.subsystems;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
-import static edu.wpi.first.units.Units.VoltsPerMeterPerSecond;
+
+import java.util.Optional;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -48,6 +49,7 @@ public class Swerve extends SubsystemBase {
     private PhotonVision s_PhotonVision;
     private PIDController autoRotatePID;
     private boolean aprilTagDisable = false;
+    public static boolean overrideRotation = false;
 
     private SysIdRoutine m_SysIdRoutine =
         new SysIdRoutine(
@@ -69,6 +71,9 @@ public class Swerve extends SubsystemBase {
 
     public Swerve(PhotonVision pv) {
 
+        PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetOverride);
+
+        
         autoRotatePID = new PIDController(Constants.autoRotate_P, Constants.autoRotate_I, Constants.autoRotate_D);
         SmartDashboard.putNumber("Auto Rotate P", Constants.autoRotate_P);
         SmartDashboard.putNumber("Auto Rotate I", Constants.autoRotate_I);
@@ -453,6 +458,18 @@ public class Swerve extends SubsystemBase {
     }
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
         return m_SysIdRoutine.dynamic(direction);
+    }
+
+    
+    public Optional<Rotation2d> getRotationTargetOverride(){
+        // Some condition that should decide if we want to override rotation
+        if(overrideRotation == true) {
+            // Return an optional containing the rotation override (this should be a field relative rotation)
+            return Optional.of(Rotation2d.fromDegrees(getAngleToSpeaker(false)));
+        } else {
+            // return an empty optional when we don't want to override the path's rotation
+            return Optional.empty();
+        }
     }
   
 

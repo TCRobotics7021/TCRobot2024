@@ -45,6 +45,8 @@ public class Shooter extends SubsystemBase {
    
   private Boolean ManualPitch;
 
+  public static boolean autoPitchEnable = false;
+
   public Shooter(){
     ManualPitch =false;
     SmartDashboard.putNumber("Set Top RPM", 3000);
@@ -269,6 +271,9 @@ TalonFXConfiguration configsPitch = new TalonFXConfiguration();
 
     if (AmpLift.ampLiftAboveHandOff){
       coast();
+    }
+    if (autoPitchEnable) {
+      setPitchPosition(shooterPitchFromDistance(RobotContainer.s_Swerve.getDistanceToSpeaker(false)));
     }
 
     SmartDashboard.putBoolean("shooter at RPM", atSpeed(Constants.ShooterSpeed, Constants.ShooterSpeed));

@@ -5,7 +5,7 @@
       "x": 1.3784449501037408,
       "y": 6.521812022694959
     },
-    "rotation": 179.21496052559047
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_SetPitch"
+            "name": "c_ReadyAim"
           }
         },
         {
@@ -24,45 +24,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "c_ShooterMotorsOn"
+            "pathName": "J_1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C_1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C_1.5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_IntakeNote"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C_2"
+            "pathName": "J_2"
           }
         },
         {
@@ -88,7 +58,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "C_2b"
+                        "pathName": "J_3b"
                       }
                     },
                     {
@@ -106,7 +76,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C_3"
+            "pathName": "J_3a"
           }
         },
         {
@@ -118,7 +88,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C_4"
+            "pathName": "J_4"
           }
         },
         {
@@ -144,7 +114,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "C_4b"
+                        "pathName": "J_5b"
                       }
                     },
                     {
@@ -162,7 +132,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C_5"
+            "pathName": "J_5a"
           }
         },
         {

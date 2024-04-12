@@ -44,13 +44,45 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F_2"
+            "pathName": "F_2a"
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "c_AutoNotePickUpStrafe"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "c_CheckIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "F_2b"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -72,9 +104,41 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "c_AutoNotePickUpStrafe"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "c_CheckIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "F_4b"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {

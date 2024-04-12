@@ -19,10 +19,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
  TalonFX m_Intake = new TalonFX(19, "canivore");
  DigitalInput di_Intake = new DigitalInput(1);
+ DigitalInput di_IntakeBottom = new DigitalInput(5);
  private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
    private final StaticBrake brake = new StaticBrake();
    private final PositionVoltage VoltageIntake = new PositionVoltage(0, 0, true, 0, 0, false, false, false);
    public static boolean intakeSensor = false; 
+   public static boolean intakeBottomSensor = false; 
   /** Creates a new Intake. */
 
   public Intake() {
@@ -49,7 +51,9 @@ public class Intake extends SubsystemBase {
     public boolean sensorIsBlocked() {
       return(!di_Intake.get());
     }
-
+    public boolean bottomSensorIsBlocked() {
+      return(!di_IntakeBottom.get());
+    }
 
   @Override
   public void periodic() {
@@ -58,9 +62,11 @@ public class Intake extends SubsystemBase {
     }
     
     intakeSensor = sensorIsBlocked();
+    intakeBottomSensor = bottomSensorIsBlocked();
 
     SmartDashboard.putNumber("Intake Actual RPM", m_Intake.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putBoolean("Intake Sensor Is Blocked",intakeSensor);
+    SmartDashboard.putBoolean("Bottom Intake Sensor Is Blocked",intakeBottomSensor);
     // This method will be called once per scheduler run
   }
 }
