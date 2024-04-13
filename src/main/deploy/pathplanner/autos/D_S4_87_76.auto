@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3784449501037408,
-      "y": 6.521812022694959
+      "x": 0.5411044202972841,
+      "y": 2.88
     },
     "rotation": 180.0
   },
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ReadyAim"
+            "name": "c_SetPitch"
           }
         },
         {
@@ -24,15 +24,27 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "J_1"
+            "name": "c_ShooterMotorsOn"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "J_2"
+            "pathName": "D_1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D_2"
           }
         },
         {
@@ -58,7 +70,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "J_3b"
+                        "pathName": "D_2b"
                       }
                     },
                     {
@@ -74,21 +86,27 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "J_3a"
+            "pathName": "D_3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker 0"
+            "name": "c_ShootNoteIntoSpeaker 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "J_4"
+            "pathName": "D_4"
           }
         },
         {
@@ -114,7 +132,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "J_5b"
+                        "pathName": "D_4b"
                       }
                     },
                     {
@@ -130,15 +148,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "J_5a"
+            "pathName": "D_5 "
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker 0"
+            "name": "c_ShootNoteIntoSpeaker 2"
           }
         }
       ]

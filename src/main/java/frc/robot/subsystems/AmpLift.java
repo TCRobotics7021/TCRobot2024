@@ -6,28 +6,22 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.StaticBrake;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+
 
 public class AmpLift extends SubsystemBase {
   /** Creates a new AmpLift. */
 
   //Amp Shoot Things
   TalonFX m_AmpRoller = new TalonFX(23, "canivore");
-  private final NeutralOut coast = new NeutralOut();
-  
-
-  
   TalonFX m_AmpLift = new TalonFX(22, "canivore");
+
   double liftKg = Constants.AmpLiftKg;
   private final StaticBrake AmpLiftbrake = new StaticBrake();
   private final PositionVoltage VoltagePosition = new PositionVoltage(0, 10, false, 0, 0, false, false, false);

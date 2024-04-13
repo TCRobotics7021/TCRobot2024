@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
@@ -17,40 +13,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
-public class ShootNoteIntoSpeaker extends Command {
+public class AutoShootNoteIntoSpeaker extends Command {
   /** Creates a new ShootNoteIntoSpeaker. */
-  boolean leadTarget;
   boolean finished;
   boolean idleAfter;
   double targetAngle;
   double rotationVal;
   double targetPitch;
   double DistanceToSpeaker;
+  double angleAdjust;
   Timer startdelay = new Timer();
   Timer stopdelay = new Timer();
-  private BooleanSupplier AprilTagToggle;
-  private BooleanSupplier ManualAim;
-  private BooleanSupplier ManualPitch;
-  private BooleanSupplier RobotCentric;
-  private DoubleSupplier translationSup;
-  private DoubleSupplier strafeSup;
 
-  public ShootNoteIntoSpeaker(BooleanSupplier AprilTagToggle, BooleanSupplier ManualAim, BooleanSupplier ManualPitch, 
-  BooleanSupplier RobotCentric, boolean leadTarget, DoubleSupplier translationSup, DoubleSupplier strafeSup, boolean idleAfter) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.AprilTagToggle = AprilTagToggle;
-    this.ManualAim = ManualAim;  
-    this.ManualPitch = ManualPitch;
-    this.RobotCentric = RobotCentric;
-    this.leadTarget = leadTarget;
-    this.translationSup = translationSup;
-    this.strafeSup = strafeSup;
+  public AutoShootNoteIntoSpeaker(double angleAdjust, boolean idleAfter) {
+    // Use addRequirements() here to declare subsystem dependencies. 
     this.idleAfter = idleAfter;
-    addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_PhotonVision, RobotContainer.s_AmpLift);
+    this.angleAdjust = angleAdjust;
+    addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_AmpLift);
   }
 
   // Called when the command is initially scheduled.
@@ -74,32 +56,23 @@ public class ShootNoteIntoSpeaker extends Command {
     RobotContainer.s_AmpLift.setPercentLift(-Constants.AmpLiftJogPercent);
 
    //Aiming
-    if (!ManualAim.getAsBoolean() && !RobotCentric.getAsBoolean()){
-      targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker(leadTarget);
-      rotationVal = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
-    } else {
-      rotationVal = 0;
-    }
-
-    double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
-    double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
-    // if (leadTarget == false) {
-    //   strafeVal = 0;
-    //   translationVal = 0;
-    // }
+  
+    targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker(false);
+    rotationVal = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
+    
     /* Drive */
          var alliance = DriverStation.getAlliance();
          //SmartDashboard.putNumber("Swerve Rotation Value", rotationVal);
         if (alliance.isPresent() && alliance.get() == Alliance.Red) {
           RobotContainer.s_Swerve.drive(
-            new Translation2d(-translationVal, -strafeVal).times(Constants.Swerve.maxSpeed), 
+            new Translation2d(0, 0).times(Constants.Swerve.maxSpeed), 
             rotationVal * Constants.Swerve.maxAngularVelocity,
             true,
             true
         );
         } else {
              RobotContainer.s_Swerve.drive(
-            new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
+            new Translation2d(0, 0).times(Constants.Swerve.maxSpeed), 
             rotationVal * Constants.Swerve.maxAngularVelocity, 
             true, 
             true
@@ -110,18 +83,15 @@ public class ShootNoteIntoSpeaker extends Command {
     RobotContainer.s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed); 
 
     //Pitch
-    if (!ManualAim.getAsBoolean() && !RobotCentric.getAsBoolean()){
-    DistanceToSpeaker =RobotContainer.s_Swerve.getDistanceToSpeaker(leadTarget);
-    targetPitch = RobotContainer.s_Shooter.shooterPitchFromDistance(DistanceToSpeaker);
-    } else {
-      targetPitch = Constants.defaultPitch;
-    }
+    
+    DistanceToSpeaker =RobotContainer.s_Swerve.getDistanceToSpeaker(false);
+    targetPitch = RobotContainer.s_Shooter.shooterPitchFromDistance(DistanceToSpeaker) + angleAdjust;
+   
     RobotContainer.s_Shooter.setPitchPosition(targetPitch);   
 //SmartDashboard.putBoolean("Aimed at Speaker", aimedAtSpeaker());
     if ((RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed) 
-          && (RobotContainer.s_Swerve.aimedAtSpeaker(targetAngle) || ManualAim.getAsBoolean() || RobotCentric.getAsBoolean())
-          && (RobotContainer.s_Shooter.pitchAtTarget(targetPitch) || ManualPitch.getAsBoolean()))
-          && ((PhotonVision.AprilTagVisible && AprilTagToggle.getAsBoolean()) || !AprilTagToggle.getAsBoolean())){
+          && RobotContainer.s_Swerve.aimedAtSpeaker(targetAngle)
+          && RobotContainer.s_Shooter.pitchAtTarget(targetPitch))){
           
         startdelay.start();
    }else{

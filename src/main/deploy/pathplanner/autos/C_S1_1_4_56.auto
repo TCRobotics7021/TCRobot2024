@@ -38,7 +38,13 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
           }
         },
         {
@@ -56,7 +62,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -104,6 +110,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "C_3"
@@ -112,7 +124,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -160,6 +172,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "C_5"
@@ -168,7 +186,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         }
       ]

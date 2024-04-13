@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.4783611105683763,
-        "y": 5.555088802485298
+        "x": 2.8481392198162414,
+        "y": 5.562647359246215
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1527519978116896,
-        "y": 5.9892342861608805
+        "x": 2.157199863615132,
+        "y": 5.972526638348569
       },
       "isLocked": false,
       "linkedName": "K_3_END"
     },
     {
       "anchor": {
-        "x": 2.596764424298081,
-        "y": 6.788456653836385
+        "x": 2.976958421819838,
+        "y": 7.06163443710625
       },
       "prevControl": {
-        "x": 1.9455461987847067,
-        "y": 6.670053340106681
+        "x": 2.1220673539777883,
+        "y": 6.569779302183425
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {

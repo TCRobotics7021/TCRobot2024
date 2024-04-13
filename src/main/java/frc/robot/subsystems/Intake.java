@@ -4,28 +4,23 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.NeutralOut;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.StaticBrake;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
 
+import com.ctre.phoenix6.controls.StaticBrake;
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
+
  TalonFX m_Intake = new TalonFX(19, "canivore");
  DigitalInput di_Intake = new DigitalInput(1);
  DigitalInput di_IntakeBottom = new DigitalInput(5);
- private final VelocityVoltage VoltageVelocity = new VelocityVoltage(0,0,true,0,0,false,false,false);
-   private final StaticBrake brake = new StaticBrake();
-   private final PositionVoltage VoltageIntake = new PositionVoltage(0, 0, true, 0, 0, false, false, false);
-   public static boolean intakeSensor = false; 
-   public static boolean intakeBottomSensor = false; 
-  /** Creates a new Intake. */
+
+private final StaticBrake brake = new StaticBrake();
+
+public static boolean intakeSensor = false; 
+public static boolean intakeBottomSensor = false; 
 
   public Intake() {
     SmartDashboard.putNumber("Set Intake RPM", 0);

@@ -38,7 +38,13 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
           }
         },
         {
@@ -56,7 +62,13 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
           }
         },
         {
@@ -74,7 +86,13 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
           }
         },
         {
@@ -92,19 +110,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeakerIdle"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "R_4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_AutoNotePickUpStrafe"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -116,13 +122,57 @@
         {
           "type": "path",
           "data": {
+            "pathName": "R_4"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "c_CheckIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "R_4b"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "R_5"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         }
       ]

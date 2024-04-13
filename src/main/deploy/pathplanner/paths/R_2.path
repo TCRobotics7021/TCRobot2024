@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5225779638435175,
-        "y": 4.672623781766822
+        "x": 2.5260912148072503,
+        "y": 4.414985377759629
       },
       "isLocked": false,
       "linkedName": "R_1.5 END"
     },
     {
       "anchor": {
-        "x": 2.813006710178897,
-        "y": 5.562647359246215
+        "x": 3.158476388279452,
+        "y": 5.644623215066687
       },
       "prevControl": {
-        "x": 2.78160667620896,
-        "y": 5.342847121456662
+        "x": 3.127076354309515,
+        "y": 5.424822977277135
       },
       "nextControl": {
-        "x": 2.8328739680128527,
-        "y": 5.7017181640839
+        "x": 3.1783436461134076,
+        "y": 5.783694019904372
       },
       "isLocked": false,
       "linkedName": null
@@ -44,7 +44,13 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": -110.55378236216917,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -73,8 +79,8 @@
   },
   "goalEndState": {
     "velocity": 0.5,
-    "rotation": -143.62,
-    "rotateFast": true
+    "rotation": -155.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "R",

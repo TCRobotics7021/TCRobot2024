@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.352244876104134,
-        "y": 4.520339352039859
+        "x": 2.2891847394929012,
+        "y": 4.583621424018881
       },
       "isLocked": false,
       "linkedName": "K_1_END"
     },
     {
       "anchor": {
-        "x": 2.592998280687866,
-        "y": 4.323000495823685
+        "x": 2.8200332121063663,
+        "y": 4.222927658408812
       },
       "prevControl": {
-        "x": 2.464908657661461,
-        "y": 4.395322028750981
+        "x": 2.6919435890799615,
+        "y": 4.295249191336109
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "parallel",
         "data": {
@@ -57,7 +57,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 142.76516601842536,
+    "rotation": 161.7237987528128,
     "rotateFast": false
   },
   "reversed": false,

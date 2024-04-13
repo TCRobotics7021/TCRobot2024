@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -62,7 +62,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -110,7 +110,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         }
       ]

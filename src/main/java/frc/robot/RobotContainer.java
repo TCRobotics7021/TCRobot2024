@@ -18,6 +18,7 @@ import frc.robot.commands.AmpLiftSetPOS;
 import frc.robot.commands.AmpRollerJog;
 import frc.robot.commands.AutoIntakeAndShoot;
 import frc.robot.commands.AutoNotePickUpStrafe;
+import frc.robot.commands.AutoShootNoteIntoSpeaker;
 import frc.robot.commands.AutoTrap;
 import frc.robot.commands.CheckIntake;
 import frc.robot.commands.Climb;
@@ -34,6 +35,7 @@ import frc.robot.commands.PitchJog;
 import frc.robot.commands.PreSetLobShot;
 import frc.robot.commands.ReadyAim;
 import frc.robot.commands.RetractAmpLift;
+import frc.robot.commands.RotateToAngle;
 import frc.robot.commands.ShootNoteIntoSpeaker;
 import frc.robot.commands.ShootNotePreset;
 import frc.robot.commands.ShooterCalibration;
@@ -99,14 +101,16 @@ public class RobotContainer {
 
 
         NamedCommands.registerCommand("c_IntakeNote", new IntakeNote(() -> false));
-        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker", new ShootNoteIntoSpeaker(() -> false, 
-                                                                                              () -> false, 
-                                                                                              () -> false, 
-                                                                                              () -> false,
-                                                                                              false, 
-                                                                                              () -> 0,
-                                                                                              () -> 0, 
-                                                                                              false)); 
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker 0", new AutoShootNoteIntoSpeaker(0,true));
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker .5", new AutoShootNoteIntoSpeaker(.5,true));
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker 1", new AutoShootNoteIntoSpeaker(1,true));
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker 1.5", new AutoShootNoteIntoSpeaker(1.5,true));
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker 2", new AutoShootNoteIntoSpeaker(2,true));
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker -.5", new AutoShootNoteIntoSpeaker(-.5,true));
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker -1", new AutoShootNoteIntoSpeaker(-1,true));
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker -1.5", new AutoShootNoteIntoSpeaker(-1.5,true));
+        NamedCommands.registerCommand("c_ShootNoteIntoSpeaker -2", new AutoShootNoteIntoSpeaker(-2,true));
+
         NamedCommands.registerCommand("c_ShootNoteIntoSpeakerIdle", new ShootNoteIntoSpeaker(() -> false, 
                                                                                               () -> false, 
                                                                                               () -> false, 
@@ -138,15 +142,18 @@ public class RobotContainer {
 
       //Chooser Options for Path Planner  
       autoChooser.setDefaultOption("G_S1", new PathPlannerAuto("G_S1"));      
-      autoChooser.addOption("A_S1_1_2_3_67", new PathPlannerAuto("A_S1_1_2_3_67")); //A_1_45_2_3(add middle grab early)
-      autoChooser.addOption("B_S3_3_2_1_45", new PathPlannerAuto("B_S3_3_2_1_45"));
-      autoChooser.addOption("C_S1_1_4_56", new PathPlannerAuto("C_S1_1_4_56")); //C_3_2_45_1(add middle grab early)
-      autoChooser.addOption("D_S4_87_76", new PathPlannerAuto("D_S4_87_76"));
-      autoChooser.addOption("E_S2_2_56_67", new PathPlannerAuto("E_S2_2_56_67"));
-      autoChooser.addOption("H_S3_3_2_1_45", new PathPlannerAuto("H_S3_3_2_1_45"));
+      //autoChooser.addOption("A_S1_1_2_3_67", new PathPlannerAuto("A_S1_1_2_3_67")); //A_1_45_2_3(add middle grab early)
+      autoChooser.addOption("BLUE B_S3_3_2_1_45", new PathPlannerAuto("B_S3_3_2_1_45"));
+      autoChooser.addOption("BLUE C_S1_1_4_56", new PathPlannerAuto("C_S1_1_4_56")); //C_3_2_45_1(add middle grab early)
+      autoChooser.addOption("RED D_S4_87_76", new PathPlannerAuto("D_S4_87_76"));
+      //autoChooser.addOption("E_S2_2_56_67", new PathPlannerAuto("E_S2_2_56_67"));
+      autoChooser.addOption("RED H_S1_1_4_56", new PathPlannerAuto("H_S1_1_4_56"));
       autoChooser.addOption("F_S1_4_56", new PathPlannerAuto("F_S1_4_56"));
-      autoChooser.addOption("R_S3_3_2_1_5", new PathPlannerAuto("R_S3_3_2_1_5"));
-      autoChooser.addOption("J_S1_45_567", new PathPlannerAuto("J_S1_45_567"));
+      autoChooser.addOption("RED R_S3_3_2_1_5", new PathPlannerAuto("R_S3_3_2_1_5"));
+       autoChooser.addOption("BLUE L_S4_87_76", new PathPlannerAuto("L_S4_87_76"));
+      autoChooser.addOption("K_S2_3_2_1", new PathPlannerAuto("K_S2_3_2_1"));
+
+      //autoChooser.addOption("J_S1_45_567", new PathPlannerAuto("J_S1_45_567"));
       SmartDashboard.putData("Autonomous Program", autoChooser);
       //not sure if this right or work
       // some weird ask brett or walker bouts it
@@ -223,13 +230,13 @@ public class RobotContainer {
         // new JoystickButton(leftJoystick, 2).whileTrue(new unlatchBalancer());
         
         // Programming testing buttons
-        // new JoystickButton(leftJoystick, 7).whileTrue(new RotateToAngle(0));
-        // new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
-        // new JoystickButton(leftJoystick, 9).whileTrue(new RotateToAngle(180));
-        // new JoystickButton(leftJoystick, 10).whileTrue(new RotateToAngle((-90)));
-        new JoystickButton(leftJoystick,8).onTrue(new InstantCommand(() -> s_Shooter.calibratePitch()));
-         new JoystickButton(leftJoystick, 9).whileTrue(new PitchJog(.1));
-         new JoystickButton(leftJoystick, 10).whileTrue(new PitchJog(-.1));
+        new JoystickButton(leftJoystick, 7).whileTrue(new RotateToAngle(0));
+        new JoystickButton(leftJoystick, 8).whileTrue(new RotateToAngle(90));
+        new JoystickButton(leftJoystick, 9).whileTrue(new RotateToAngle(180));
+        new JoystickButton(leftJoystick, 10).whileTrue(new RotateToAngle((-90)));
+        // new JoystickButton(leftJoystick,8).onTrue(new InstantCommand(() -> s_Shooter.calibratePitch()));
+        //  new JoystickButton(leftJoystick, 9).whileTrue(new PitchJog(.1));
+        //  new JoystickButton(leftJoystick, 10).whileTrue(new PitchJog(-.1));
         new JoystickButton(leftJoystick,11).onTrue(new InstantCommand(() -> s_Shooter.setPitchPosition(5)));
         new JoystickButton(leftJoystick,12).onTrue(new InstantCommand(() -> s_Shooter.setPitchPosition(30)));
         new JoystickButton(leftJoystick,13).onTrue(new InstantCommand(() -> s_Shooter.setPitchPosition(55)));

@@ -3,8 +3,6 @@ package frc.robot;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -26,9 +24,9 @@ public final class Constants {
     public static final double blueSpeakerLocationY = 5.56;
     
     //Auto Rotate PID Values
-    public static final double autoRotate_P = .01;
+    public static final double autoRotate_P = .009;
     public static final double autoRotate_I = 0;
-    public static final double autoRotate_D = 0.00065;
+    public static final double autoRotate_D = 0.0008;
     public static final double autoRotate_ks = 0.028;
 
     public static final double AUTOROTATE_MAX = .75;
@@ -74,12 +72,12 @@ public final class Constants {
 
     public static final double targetSpeedTolerance = 100;
    
-    public static final double aim_adjust = 13;
+    public static final double aim_adjust = 10;
 
 
     //Climber
     public static final double ClimberKg = 0;
-    public static final double ClimberJogPercent = .2;
+    public static final double ClimberJogPercent = .3;
     public static final double Climberconfigs_P = .6;
     public static final double Climberconfigs_I = 0;
     public static final double Climberconfigs_D = 0;
@@ -103,7 +101,7 @@ public final class Constants {
 
     //AmpLift
     public static final double AmpLiftKg = 0;
-    public static final double AmpLiftJogPercent = .1;
+    public static final double AmpLiftJogPercent = .2;
     public static final double AmpLiftconfigs_P = 5;
     public static final double AmpLiftconfigs_I = 0;
     public static final double AmpLiftconfigs_D = 0;
@@ -146,7 +144,7 @@ public final class Constants {
     public static final double PostShotblueRot = -178.68;
     public static final double PostShotredRot = 17.4;
 
-    public static final double ampLiftPeakVvoltage = 8;
+    public static final double ampLiftPeakVvoltage = 12;
 
 
     //Amp Lift POS Sequentials

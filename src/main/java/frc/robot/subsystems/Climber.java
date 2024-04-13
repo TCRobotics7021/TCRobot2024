@@ -11,7 +11,6 @@ import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,7 +44,7 @@ public class Climber extends SubsystemBase {
     configsClimber.Slot0.kG = Constants.Climberconfigs_kG;
     configsClimber.Slot0.kS = Constants.Climberconfigs_kS;
     configsClimber.Voltage.PeakForwardVoltage = 12;
-    configsClimber.Voltage.PeakReverseVoltage = -8;
+    configsClimber.Voltage.PeakReverseVoltage = -9;
      configsClimber.Slot1.kP = Constants.Climberconfigs_P; // An error of 1 rotation per second results in 2V output
     configsClimber.Slot1.kI = Constants.Climberconfigs_I; // An error of 1 rotation per second increases output by 0.5V every second
     configsClimber.Slot1.kD = Constants.Climberconfigs_D; 

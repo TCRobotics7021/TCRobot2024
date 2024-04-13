@@ -51,23 +51,23 @@ public class Swerve extends SubsystemBase {
     private boolean aprilTagDisable = false;
     public static boolean overrideRotation = false;
 
-    private SysIdRoutine m_SysIdRoutine =
-        new SysIdRoutine(
-            new SysIdRoutine.Config(
-                null,         // Default ramp rate is acceptable
-                Volts.of(4), // Reduce dynamic voltage to 4 to prevent motor brownout
-                null),
-            new SysIdRoutine.Mechanism(
-                (Measure<Voltage> volts)-> driveTuning(volts.in(Volts)),
-                log -> {
-                    // Record a frame for the left motors.  Since these share an encoder, we consider
-                    // the entire group to be one motor.
-                    log.motor("Drive")
-                        .voltage(Volts.of(mSwerveMods[1].getVoltage()))
-                        .linearPosition(Meters.of(mSwerveMods[1].getPosition().distanceMeters))
-                        .linearVelocity(MetersPerSecond.of(mSwerveMods[1].getState().speedMetersPerSecond));
-                },
-                this));
+    // private SysIdRoutine m_SysIdRoutine =
+        // new SysIdRoutine(
+        //     new SysIdRoutine.Config(
+        //         null,         // Default ramp rate is acceptable
+        //         Volts.of(4), // Reduce dynamic voltage to 4 to prevent motor brownout
+        //         null),
+        //     new SysIdRoutine.Mechanism(
+        //         (Measure<Voltage> volts)-> driveTuning(volts.in(Volts)),
+        //         log -> {
+        //             // Record a frame for the left motors.  Since these share an encoder, we consider
+        //             // the entire group to be one motor.
+        //             log.motor("Drive")
+        //                 .voltage(Volts.of(mSwerveMods[1].getVoltage()))
+        //                 .linearPosition(Meters.of(mSwerveMods[1].getPosition().distanceMeters))
+        //                 .linearVelocity(MetersPerSecond.of(mSwerveMods[1].getState().speedMetersPerSecond));
+        //         },
+        //         this));
 
     public Swerve(PhotonVision pv) {
 
@@ -453,12 +453,12 @@ public class Swerve extends SubsystemBase {
 
     }
 
-    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-        return m_SysIdRoutine.quasistatic(direction);
-    }
-    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-        return m_SysIdRoutine.dynamic(direction);
-    }
+    // public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+    //     return m_SysIdRoutine.quasistatic(direction);
+    // }
+    // public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+    //     return m_SysIdRoutine.dynamic(direction);
+    // }
 
     
     public Optional<Rotation2d> getRotationTargetOverride(){
