@@ -4,10 +4,9 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.BooleanSupplier;
+
 
 import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.StaticBrake;
@@ -15,20 +14,14 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+
 
 public class Shooter extends SubsystemBase {
  TalonFX m_ShooterTop = new TalonFX(17,"canivore");
@@ -126,7 +119,6 @@ public class Shooter extends SubsystemBase {
 
 
   public double getPitch(){
-    // return Rotation2d.fromRotations(m_ShooterPitch.getPosition().getValue() + Constants.shooterPitchCancoderCal.getRotations());
     return m_ShooterPitch.getPosition().getValueAsDouble() / Constants.pitchRotationsPerDegree;
 
   }
