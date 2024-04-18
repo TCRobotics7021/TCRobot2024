@@ -22,9 +22,9 @@ public class AutoTrap extends SequentialCommandGroup {
     new ClimberSetPOS_Climb(Constants.ClimberStage1Pos),
     new AmpLiftSetPOS(Constants.AmpLiftPOS_Amp),
     new unlatchBalancer().withTimeout(1),
-    new ClimberSetPOS_Climb(Constants.ClimberStage2Pos),
-    Commands.parallel(new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap),
-    new ClimberSetPOS_Climb(Constants.ClimberRetracted))
+    //new ClimberSetPOS_Climb(Constants.ClimberStage2Pos),
+    new ClimberSetPOS_Climb(Constants.ClimberRetracted),
+    new AmpLiftSetPOS(Constants.AmpLiftPOS_Trap)
     // new AmpRollerJog(Constants.AmpRollerShootPercent).withTimeout(3),
     // new ClimberJog(0).withTimeout(.1),
     // new AmpLiftSetPOS(Constants.AmpLiftPOS_HandOff)

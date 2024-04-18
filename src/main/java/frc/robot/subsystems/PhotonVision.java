@@ -23,6 +23,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -44,6 +45,8 @@ public class PhotonVision extends SubsystemBase {
   /** Creates a new PhotonVision. */
  public PhotonVision() {
     camera = new PhotonCamera("photon");
+    PortForwarder.add(5800, "photonvision.local", 5800);    
+    camera.setDriverMode(false);
 
         photonEstimator =
                 new PhotonPoseEstimator(

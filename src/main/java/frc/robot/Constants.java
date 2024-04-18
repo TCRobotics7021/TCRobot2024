@@ -128,9 +128,9 @@ public final class Constants {
 
     //Lob Shot
     public static final double LobShotPitch = 47;
-    public static final double LobShotRPM = 3500;
+    public static final double LobShotRPM = 3000;
     public static final double LobShotblueRot = 165;
-    public static final double LobShotredRot = 45;
+    public static final double LobShotredRot = 48;
 
     //Sub Shot
     public static final double SubShotPitch = 44;
