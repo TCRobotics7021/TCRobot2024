@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.123151169379263,
+        "y": 4.696664777944941
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2891847394929012,
+        "y": 4.583621424018881
+      },
+      "isLocked": false,
+      "linkedName": "K_1_END"
+    },
+    {
+      "anchor": {
+        "x": 2.8200332121063663,
+        "y": 4.222927658408812
+      },
+      "prevControl": {
+        "x": 2.6919435890799615,
+        "y": 4.295249191336109
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "K_2_END"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "c_IntakeNote"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 400.0,
+    "maxAngularAcceleration": 600.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 161.7237987528128,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "K",
+  "previewStartingState": {
+    "rotation": 143.66060367082974,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

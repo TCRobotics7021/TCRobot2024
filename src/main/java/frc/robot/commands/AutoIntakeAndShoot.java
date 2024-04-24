@@ -14,6 +14,7 @@ import frc.robot.RobotContainer;
 public class AutoIntakeAndShoot extends Command {
   /** Creates a new AutoIntakeAndShoot. */
   boolean finished;
+  boolean shotstarted;
   double xError;
   double yError;
   double calcTranslation;
@@ -43,12 +44,13 @@ public class AutoIntakeAndShoot extends Command {
     aimingTimeout.reset();
     aimingTimeout.stop();
     noteHasBeenIntaked = false;
+    shotstarted = false;
 
   
     stopdelay.reset();
     stopdelay.stop();
     RobotContainer.s_Swerve.resetAutoRotatePID();
-    RobotContainer.s_Shooter.resetAutoPitchPID();
+    RobotContainer.s_Shooter.calibratePitch();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -72,11 +74,11 @@ public class AutoIntakeAndShoot extends Command {
     if (yError >= 5 && RobotContainer.s_Limelight.isNote()) {
 
       calcStrafe = Constants.strafeP * xError;
-      calcTranslation = Constants.translatePStrafeStrat * Math.abs(xError) - .5;
+      calcTranslation = Math.min(Constants.translatePStrafeStrat * Math.abs(xError) - .25,0); // changed .5 to .25
       t_delay.reset();
       t_delay.stop();
     } else if(RobotContainer.s_Limelight.isNote()) {
-      calcStrafe = 0;
+      calcStrafe = 0; 
       calcTranslation = -.25;
       t_delay.start();
     } else{
@@ -90,35 +92,44 @@ public class AutoIntakeAndShoot extends Command {
     SmartDashboard.putNumber("calcStrafe", calcStrafe);
 
     //Aiming
-    targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker();
+    targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker(false);//look at later
     calcRotation = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
     
+    if(RobotContainer.s_Limelight.isNote()){
+     calcRotation = calcRotation*0;
+    }
+
      RobotContainer.s_Swerve.drive(
             new Translation2d(calcTranslation, calcStrafe).times(Constants.Swerve.maxSpeed), 
            calcRotation * Constants.Swerve.maxAngularVelocity, 
            //og is true
-           true,
+           false,
             true
         );
     //Shooting
     RobotContainer.s_Shooter.setRPM(Constants.ShooterSpeed, Constants.ShooterSpeed); 
 
     //Pitch
-    DistanceToSpeaker =RobotContainer.s_Swerve.getDistanceToSpeaker();
+    DistanceToSpeaker =RobotContainer.s_Swerve.getDistanceToSpeaker(false);
     targetPitch = RobotContainer.s_Shooter.shooterPitchFromDistance(DistanceToSpeaker);
-    RobotContainer.s_Shooter.setPitch(targetPitch);   
+    RobotContainer.s_Shooter.setPitchPosition(targetPitch);   
 
-   if(noteHasBeenIntaked==false &&  RobotContainer.s_Limelight.isNote()){
+   if(noteHasBeenIntaked==false){
+    if(RobotContainer.s_Limelight.isNote()){
     RobotContainer.s_Intake.setPercent(Constants.intakePercent);
+    }
    }else if (noteHasBeenIntaked==true 
           && RobotContainer.s_Shooter.atSpeed(Constants.ShooterSpeed,Constants.ShooterSpeed ) 
-          && RobotContainer.s_Swerve.aimedAtSpeaker() 
+          && RobotContainer.s_Swerve.aimedAtSpeaker(targetAngle) 
           && RobotContainer.s_Shooter.pitchAtTarget(targetPitch) ) {
+            shotstarted = true;
      RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }else if(aimingTimeout.get()>2){
       RobotContainer.s_Intake.setPercent(Constants.feedPercent);
-   }else{
+       shotstarted = true;
+   }else if(!shotstarted){
      RobotContainer.s_Intake.coast();
+     //RobotContainer.s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed);
    }
 
    if(RobotContainer.s_Intake.sensorIsBlocked() == false && noteHasBeenIntaked){
@@ -142,6 +153,7 @@ public class AutoIntakeAndShoot extends Command {
       true
   );
      RobotContainer.s_Intake.coast();
+     RobotContainer.s_Shooter.setRPM(Constants.IdleSpeed, Constants.IdleSpeed);
 
   }
 

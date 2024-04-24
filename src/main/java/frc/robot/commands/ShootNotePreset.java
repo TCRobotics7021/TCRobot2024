@@ -4,12 +4,12 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.RobotCentric;
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -27,17 +27,21 @@ public class ShootNotePreset extends Command {
   double blueRot;
   Timer startdelay = new Timer();
   Timer stopdelay = new Timer();
+  private DoubleSupplier translationSup;
+  private DoubleSupplier strafeSup;
 
 
 
 
-  public ShootNotePreset(double pitch, double RPM, double redRot, double blueRot) {
+  public ShootNotePreset(double pitch, double RPM, double redRot, double blueRot, DoubleSupplier translationSup, DoubleSupplier strafeSup) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.s_Swerve, RobotContainer.s_Intake, RobotContainer.s_Shooter);
     this.pitch = pitch;
     this.RPM = RPM;
     this.redRot = redRot;
     this.blueRot = blueRot;
+    this.translationSup = translationSup;
+    this.strafeSup = strafeSup;
   }
 
   // Called when the command is initially scheduled.
@@ -48,12 +52,14 @@ public class ShootNotePreset extends Command {
     stopdelay.reset();
     stopdelay.stop();
     finished = false;
+    RobotContainer.s_Shooter.calibratePitch();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+  double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
+  double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
    //Aiming
       var alliance = DriverStation.getAlliance();
       if (alliance.get() == DriverStation.Alliance.Red) {
@@ -63,19 +69,29 @@ public class ShootNotePreset extends Command {
       }
       rotationVal = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
    
-    
-     RobotContainer.s_Swerve.drive(
-            new Translation2d(0, 0).times(Constants.Swerve.maxSpeed), 
-            rotationVal * Constants.Swerve.maxAngularVelocity, 
-           //og is true
-           true,
+     /* Drive */
+
+         //SmartDashboard.putNumber("Swerve Rotation Value", rotationVal);
+        if (alliance.isPresent() && alliance.get() == Alliance.Red) {
+          RobotContainer.s_Swerve.drive(
+            new Translation2d(-translationVal, -strafeVal).times(Constants.Swerve.maxSpeed), 
+            rotationVal * Constants.Swerve.maxAngularVelocity,
+            true,
             true
         );
+        } else {
+             RobotContainer.s_Swerve.drive(
+            new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
+            rotationVal * Constants.Swerve.maxAngularVelocity, 
+            true, 
+            true
+        );  
+        }
 
 
     //Pitch
 
-    RobotContainer.s_Shooter.setPitch(pitch);
+    RobotContainer.s_Shooter.setPitchPosition(pitch);
     RobotContainer.s_Shooter.setRPM(RPM, RPM);
 
     if ((RobotContainer.s_Shooter.atSpeed(RPM, RPM) 

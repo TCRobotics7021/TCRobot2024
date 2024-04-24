@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -31,7 +31,7 @@ public class RotateToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker();
+    targetAngle = RobotContainer.s_Swerve.getAngleToSpeaker(false);
     rotationVal = RobotContainer.s_Swerve.getRotationOutput(targetAngle);
     
      RobotContainer.s_Swerve.drive(

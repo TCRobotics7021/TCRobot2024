@@ -1,0 +1,149 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3784449501037408,
+      "y": 6.521812022694959
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ReadyAim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_TurnOffAprilTag"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "J_1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "J_2"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "c_CheckIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "J_3b"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "J_3a"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker 0"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "J_4"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "c_CheckIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "J_5b"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "c_AutoNotePickUpStrafe"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "J_5a"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker 0"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

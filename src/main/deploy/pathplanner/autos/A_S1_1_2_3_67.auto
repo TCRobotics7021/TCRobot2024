@@ -14,7 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_SetPitch"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_TurnOffAprilTag"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -32,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -50,7 +62,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -68,7 +80,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -92,7 +104,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         }
       ]

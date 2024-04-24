@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.3784449501037408,
+        "y": 6.521812022694959
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.837009827865811,
+        "y": 6.314843398917567
+      },
+      "isLocked": false,
+      "linkedName": "Starting_1"
+    },
+    {
+      "anchor": {
+        "x": 2.813837166135872,
+        "y": 6.304976456106759
+      },
+      "prevControl": {
+        "x": 2.7941032805142556,
+        "y": 6.304976456106759
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "J_1_END"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "FIRE",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "c_FIRE"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 1.25,
+    "maxAcceleration": 1.0,
+    "maxAngularVelocity": 450.0,
+    "maxAngularAcceleration": 600.0
+  },
+  "goalEndState": {
+    "velocity": 1.1,
+    "rotation": 179.67811698460127,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "J",
+  "previewStartingState": {
+    "rotation": -178.21008939175397,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

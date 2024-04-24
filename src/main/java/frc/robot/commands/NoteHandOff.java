@@ -5,8 +5,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,6 +19,7 @@ public class NoteHandOff extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() -> RobotContainer.s_Shooter.setPercent(Constants.ShooterHandOffPercent)),
       Commands.parallel(new AmpLiftSetPOS(Constants.AmpLiftPOS_HandOff), new PitchSetPOS(Constants.PitchPOS_Handoff)), 
       new FeedNoteFromIntakeToAmpLift()
 

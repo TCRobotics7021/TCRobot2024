@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4291761916857164,
-      "y": 4.116342363738859
+      "x": 1.3940937283583965,
+      "y": 5.56
     },
-    "rotation": 178.65211271980138
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,67 +14,91 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_SetPitch"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_TurnOffAprilTag"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F_1"
+            "pathName": "K_1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_AutoNotePickUpStrafe"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F_2"
+            "pathName": "K_2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_AutoNotePickUpStrafe"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_IntakeNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F_3"
+            "pathName": "K_2.5"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_AutoNotePickUpStrafe"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F_4"
+            "pathName": "K_3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_IntakeNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker 0"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "K_4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_IntakeNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         }
       ]

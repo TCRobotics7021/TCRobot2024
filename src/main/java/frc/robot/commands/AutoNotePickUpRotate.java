@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.Robot;
+
 import frc.robot.RobotContainer;
 
 public class AutoNotePickUpRotate extends Command {
@@ -54,12 +54,12 @@ public class AutoNotePickUpRotate extends Command {
     if (yError >= 5 && RobotContainer.s_Limelight.isNote()) {
 
       calcRotation = -Constants.rotateP * xError;
-      calcTranslation = Constants.translatePRotateStrat * Math.abs(xError) - .5;
+      calcTranslation = Constants.translatePRotateStrat * Math.abs(xError) - .3; // changed -.5 to -.4
       t_delay.reset();
       t_delay.stop();
     } else if(RobotContainer.s_Limelight.isNote()) {
       calcRotation = 0;
-      calcTranslation = -.25;
+      calcTranslation = -.15; // changed from .25 to .15
       t_delay.start();
     } else{
       calcRotation = 0;

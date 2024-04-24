@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.331756761706364,
-      "y": 4.116342363738859
+      "x": 1.4020270099201342,
+      "y": 4.611714735346898
     },
     "rotation": 180.0
   },
@@ -14,7 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_SetPitch"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_TurnOffAprilTag"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -32,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -50,7 +62,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         },
         {
@@ -68,7 +80,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeakerIdle"
           }
         },
         {
@@ -84,6 +96,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "c_ShooterMotorsOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "B_5"
@@ -92,7 +110,7 @@
         {
           "type": "named",
           "data": {
-            "name": "c_ShootNoteIntoSpeaker"
+            "name": "c_ShootNoteIntoSpeaker 0"
           }
         }
       ]

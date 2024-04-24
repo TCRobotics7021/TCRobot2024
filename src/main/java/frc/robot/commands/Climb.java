@@ -17,7 +17,6 @@ public class Climb extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new PitchSetPOS(0), 
-      new AmpLiftSetPOS(Constants.AmpLiftPOS_Retracted),
       new ClimberSetPOS_Climb(Constants.ClimberRetracted)
     );
   }

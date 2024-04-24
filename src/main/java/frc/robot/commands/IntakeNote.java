@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -15,14 +17,17 @@ public class IntakeNote extends Command {
   Timer delay = new Timer();
 
   boolean finished;
-  public IntakeNote() {
+  BooleanSupplier intakeButton;
+  public IntakeNote(BooleanSupplier intakeButton) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.s_Intake, RobotContainer.s_Shooter);
+    addRequirements(RobotContainer.s_Intake, RobotContainer.s_Shooter, RobotContainer.s_Candle);
+    this.intakeButton = intakeButton;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.s_Candle.setMode(0);
     delay.reset();
     delay.stop();
     finished = false;
@@ -31,23 +36,42 @@ public class IntakeNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.s_Intake.sensorIsBlocked() == true){
+
+    if(intakeButton.getAsBoolean() == false){
+
       delay.start();
-      
-    } else {
-      delay.reset();
-      RobotContainer.s_Intake.setPercent(Constants.intakePercent);
+
     }
 
-    if(delay.get()>.01){
+    if (RobotContainer.s_Intake.sensorIsBlocked() == true){
+      finished = true;
+      //delay.start();
+      
+    } else {
+      //delay.reset();
+      RobotContainer.s_Intake.setPercent(Constants.intakePercent);
+
+    }
+
+    if(delay.get() > 6){
+      finished = true;
+    } 
+
+    if(delay.get() > 3 && RobotContainer.s_Intake.bottomSensorIsBlocked() == false){
       finished = true;
     }
+
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotContainer.s_Intake.coast();
+
+    if (RobotContainer.s_Intake.sensorIsBlocked() == true){
+      RobotContainer.s_Shooter.setRPM(Constants.ShooterSpeed,Constants.ShooterSpeed);
+    }
   }
 
   // Returns true when the command should end.
