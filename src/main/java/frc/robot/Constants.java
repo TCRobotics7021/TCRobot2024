@@ -116,7 +116,7 @@ public final class Constants {
     public static final double AmpLiftTolerance = 3;
 
     //AmpShoot
-    public static final double AmpRollerShootPercent = 1;
+    public static final double AmpRollerShootPercent = .8;
     public static final double AmpRollerShootTimout = 1;
 
 
@@ -130,7 +130,7 @@ public final class Constants {
     public static final double LobShotPitch = 47;
     public static final double LobShotRPM = 3000;
     public static final double LobShotblueRot = 165;
-    public static final double LobShotredRot = 48;
+    public static final double LobShotredRot = 55;
 
     //Sub Shot
     public static final double SubShotPitch = 44;
@@ -148,7 +148,7 @@ public final class Constants {
 
 
     //Amp Lift POS Sequentials
-    public static final double AmpLiftPOS_HandOff = 280;
+    public static final double AmpLiftPOS_HandOff = 290;
     public static final double AmpLiftPOS_Amp = 665;
     public static final double AmpLiftPOS_Trap = 912;
     public static final double AmpLiftPOS_Retracted = 295;

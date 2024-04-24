@@ -128,7 +128,7 @@ public class ShootNoteIntoSpeaker extends Command {
     //startdelay.reset();
    }
 
-   if(startdelay.get() > .25){
+   if(startdelay.get() > .1){
     RobotContainer.s_Intake.setPercent(Constants.feedPercent);
    }
 

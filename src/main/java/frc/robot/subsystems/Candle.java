@@ -68,8 +68,8 @@ public class Candle extends SubsystemBase {
       setMode(8);
   } else if (Intake.intakeSensor){
     setMode(7);
-  } else if (PhotonVision.AprilTagVisible){
-    setMode(11);
+ // } else if (PhotonVision.AprilTagVisible){
+   // setMode(11);
   }else{
     setMode(13);
   }

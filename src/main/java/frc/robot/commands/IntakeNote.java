@@ -68,6 +68,10 @@ public class IntakeNote extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.s_Intake.coast();
+
+    if (RobotContainer.s_Intake.sensorIsBlocked() == true){
+      RobotContainer.s_Shooter.setRPM(Constants.ShooterSpeed,Constants.ShooterSpeed);
+    }
   }
 
   // Returns true when the command should end.
