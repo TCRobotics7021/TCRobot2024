@@ -1,5 +1,5 @@
 {
-  "version": 1.0,
+  "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1411470964638895,
-        "y": 4.506657102035851
+        "x": 2.0014622211728894,
+        "y": 4.590588242671989
       },
       "isLocked": false,
       "linkedName": "R_1 END"
@@ -20,8 +20,8 @@
         "y": 4.286166175756032
       },
       "prevControl": {
-        "x": 2.814916155802048,
-        "y": 4.158360416144786
+        "x": 2.8165034775303583,
+        "y": 4.157406657028518
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,10 +30,12 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "New Event Marker",
       "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
       "command": {
         "type": "parallel",
         "data": {
@@ -53,18 +55,19 @@
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 400.0,
-    "maxAngularAcceleration": 600.0
+    "maxAngularAcceleration": 600.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 149.0,
-    "rotateFast": false
+    "rotation": 149.0
   },
   "reversed": false,
   "folder": "R",
-  "previewStartingState": {
-    "rotation": 154.98310652189994,
-    "velocity": 0
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

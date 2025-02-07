@@ -1,5 +1,5 @@
 {
-  "version": 1.0,
+  "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
@@ -20,7 +20,7 @@
         "y": 6.304976456106759
       },
       "prevControl": {
-        "x": 2.7941032805142556,
+        "x": 2.563837166135872,
         "y": 6.304976456106759
       },
       "nextControl": null,
@@ -30,10 +30,12 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "FIRE",
       "waypointRelativePos": 0.4,
+      "endWaypointRelativePos": null,
       "command": {
         "type": "parallel",
         "data": {
@@ -53,18 +55,19 @@
     "maxVelocity": 1.25,
     "maxAcceleration": 1.0,
     "maxAngularVelocity": 450.0,
-    "maxAngularAcceleration": 600.0
+    "maxAngularAcceleration": 600.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
   },
   "goalEndState": {
     "velocity": 1.1,
-    "rotation": 179.67811698460127,
-    "rotateFast": false
+    "rotation": 179.67811698460127
   },
   "reversed": false,
   "folder": "J",
-  "previewStartingState": {
-    "rotation": -178.21008939175397,
-    "velocity": 0
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }
